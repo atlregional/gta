@@ -1,76 +1,448 @@
-<!doctype html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>Leaflet-hash by mlevans</title>
+    <head>
+        <title>Leaflet-hash</title>
+        <meta charset="utf-8">
+            <link rel="stylesheet" href="http://leafletjs.com/dist/leaflet.css" />
+        <!--[if lte IE 8]>
+            <link href="stylesheets/leaflet.ie.css" rel="stylesheet" type="text/css" >
+        <![endif]-->
 
-    <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-  </head>
-  <body>
-    <div class="wrapper">
-      <header>
-        <h1>Leaflet-hash</h1>
-        <p>Add URL hashes to web pages with Leaflet maps</p>
+        <style type="text/css">
+            body {
+            padding: 0;
+            margin: 0;
+            }
+            html, body, #map {
+                height: 100%;
+                width: 100%;
+            }
+            .legend {
+            line-height: 18px;
+            color: #555;
+            }
+            .legend i {
+            width: 18px;
+            height: 18px;
+            float: left;
+            margin-right: 8px;
+            /*opacity: 0.7;*/
+            }
+            .legend-label {
+                /*line-height: 20px;*/
+            }
+            .info {
+                padding: 6px 8px;
+                background: white;
+                background: rgba(255,255,255,1);
+                box-shadow: 0 0 15px rgba(0,0,0,0.2);
+                border-radius: 5px;
+            }
+            .info i {
+                margin:0;
+            }
+            .info h4 {
+                margin: 0 0 5px;
+                color: #000;
+            }
+            body {
+                padding: 0;
+                margin: 0;
+            }
+            html, body, #map {
+                height: 100%;
+                width: 100%;
+            }
+            #panel {
+                /*opacity:.6;*/
+                /*margin: 6px 8px;*/
+                position: fixed;
+                background-color:white;
+                z-index: 1000;
+                box-shadow: 0 0 15px rgba(0,0,0,0.2);
+                border-radius: 5px;
 
-        <p class="view"><a href="https://github.com/mlevans/leaflet-hash">View the Project on GitHub <small>mlevans/leaflet-hash</small></a></p>
+            }
+            .switches {
+                margin-top:15px;
+                text-align: center;
+                width: inherit;
+                display: inline-block;
+                
+            }
+        </style>
+            <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.2.0/css/bootstrap.min.css"/>
+
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+        <script src="http://leafletjs.com/dist/leaflet.js"></script>
+        <script src="/javascripts/leaflet.label.js"></script>
+        <script src="/javascripts/leaflet-hash.js"></script>
+        <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.2.0/js/button.js"></script>
+        <script src='/data/rc.js'></script>
+    </head>
+    <body>
+        <div id="map"></div>
+        <script type="text/javascript">
+        jQuery.unparam = function (value) {
+            if (value.length > 1 && value.charAt(0) == '#'){
+                value = value.substring(1);
+            }
+            var
+            // Object that holds names => values.
+            params = {},
+            // Get query string pieces (separated by &)
+            pieces = value.split('&'),
+            // Temporary variables used in loop.
+            pair, i, l;
+
+            // Loop through query string pieces and assign params.
+            for (i = 0, l = pieces.length; i < l; i++) {
+                pair = pieces[i].split('=', 2);
+                // Repeated parameters with the same name are overwritten. Parameters
+                // with no value get set to boolean true.
+                params[decodeURIComponent(pair[0])] = (pair.length == 2 ?
+                    decodeURIComponent(pair[1].replace(/\+/g, ' ')) : true);
+            }
+            return params;
+        };
+            // restoreFromHash()
+            var geos = [
+                {"id":"county","name":"Counties","color":"#ff0","active":""},
+                {"id":"regional_comm","name":"Regional Commissions","color":"#0ff","active":""},
+                {"id":"house","name":"House Districts","color":"#f0f","active":""},
+                {"id":"congress","name":"Congressional Districts","color":"#f00","active":""},
+                {"id":"senate","name":"State Senate Districts","color":"#0f0","active":""}
+             ]
+            var entity = ""
+            var params = window.location.hash.substring(1).split('/');
+            for (var i = geos.length - 1; i >= 0; i--) {
+                if (params[0] == geos[i].id){
+                    geos[i].active = "active";
+                    if (params[1]){
+                        entity = params[1];
+                    }
+                }
+            };
+
+            
+            console.log(params)
+            var map;
+            var ePrev = null;
+            // $(".alert").alert()
+            var previous = null;
+            var eHov = null;
+            var click = false;
+            var target = null;
+            var zoom = null;
 
 
-        <ul>
-          <li><a href="https://github.com/mlevans/leaflet-hash/zipball/master">Download <strong>ZIP File</strong></a></li>
-          <li><a href="https://github.com/mlevans/leaflet-hash/tarball/master">Download <strong>TAR Ball</strong></a></li>
-          <li><a href="https://github.com/mlevans/leaflet-hash">View On <strong>GitHub</strong></a></li>
-        </ul>
-      </header>
-      <section>
-        <p>Leaflet-hash lets you to add dynamic URL hashes to web pages with Leaflet maps. You can easily
-link users to specific map views.</p>
+            var state = {"type":"Feature","id":"13","properties":{"name":"Georgia","density":169.5},"geometry":{"type":"Polygon","coordinates":[[[-83.109191,35.00118],[-83.322791,34.787579],[-83.339222,34.683517],[-83.005129,34.469916],[-82.901067,34.486347],[-82.747713,34.26727],[-82.714851,34.152254],[-82.55602,33.94413],[-82.325988,33.81816],[-82.194542,33.631944],[-81.926172,33.462159],[-81.937125,33.347144],[-81.761863,33.160928],[-81.493493,33.007573],[-81.42777,32.843265],[-81.416816,32.629664],[-81.279893,32.558464],[-81.121061,32.290094],[-81.115584,32.120309],[-80.885553,32.032678],[-81.132015,31.693108],[-81.175831,31.517845],[-81.279893,31.364491],[-81.290846,31.20566],[-81.400385,31.13446],[-81.444201,30.707258],[-81.718048,30.745597],[-81.948079,30.827751],[-82.041187,30.751074],[-82.002849,30.564858],[-82.046664,30.362211],[-82.167157,30.356734],[-82.216449,30.570335],[-83.498053,30.647012],[-84.867289,30.712735],[-85.004212,31.003013],[-85.113751,31.27686],[-85.042551,31.539753],[-85.141136,31.840985],[-85.053504,32.01077],[-85.058981,32.13674],[-84.889196,32.262709],[-85.004212,32.322956],[-84.960397,32.421541],[-85.069935,32.580372],[-85.184951,32.859696],[-85.431413,34.124869],[-85.606675,34.984749],[-84.319594,34.990226],[-83.618546,34.984749],[-83.109191,35.00118]]]}};
+            var mbAttr = 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
+            '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+            'Imagery © <a href="http://mapbox.com">Mapbox</a>',
+                mbUrl = 'https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiYXRscmVnaW9uYWwiLCJhIjoiQmZ6d2tyMCJ9.oENm3NSf--qHrimdm9Vvdw';
 
-<h3>Demo</h3>
+            
+            map = L.map('map', {
+                    attributionControl: false,
+                    zoom: 7, 
+                    center: [32.630,-83.084]
+                    // zoom: params.zoom || 7, 
+                    // center: [params.lat || 32.630, params.lng || -83.084]
+                });
 
-<p>You can view a demo of leaflet-hash at <a href="http://mlevans.github.com/leaflet-hash/map.html">mlevans.github.com/leaflet-hash/map.html</a>.</p>
+                // map.on('dblclick', function(e) { zoomByAbout(e) }); 
 
-<h3>Usage</h3>
+            L.tileLayer(mbUrl, {id: 'atlregional.i86o780c',   attribution: mbAttr}).addTo(map);
+            // var hash = new L.Hash(map);
+            state.geometry.coordinates = [
+                // the world
+                [
+                    [-180, -90],
+                    [-180, 90],
+                    [180, 90],
+                    [180, -90],
+                    [-180, -90]
+                ],
+                // the state
+                state.geometry.coordinates[0]
+            ];
 
-<ol>
-<li><p>Prepare a basic leaflet map. You can find instructions on <a href="http://leaflet.cloudmade.com/examples/quick-start.html">Leaflet's quick-start guide</a>.</p></li>
-<li><p>Include <a href="https://github.com/mlevans/leaflet-hash/blob/master/leaflet-hash.js">leaflet-hash.js</a>.</p></li>
-<li>
-<p>Once you have initialized the map (an instance of <a href="http://leaflet.cloudmade.com/reference.html#map-usage">L.Map</a>), add the following code:</p>
+            // statesData comes from the 'us-states.js' script included above
+            var statesLayer = L.geoJson(state, {
+              fillOpacity: 1,
+              fillColor: '#fff',
+              weight: 0
+            }).addTo(map);
+            var geojson = {};
+            var county, rc, house, congress, senate;
+            
+            var geoLayers = {
+                "county" : county,
+                "regional_comm" : rc,
+                "congress" : congress,
+                "senate" : senate,
+                "house" : house
 
-<div class="highlight"><pre>    <span class="c1">// Assuming your map instance is in a variable called map</span>
-    <span class="kd">var</span> <span class="nx">hash</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">L</span><span class="p">.</span><span class="nx">Hash</span><span class="p">(</span><span class="nx">map</span><span class="p">);</span>
-</pre></div>
-</li>
-</ol><h3>Author</h3>
+            }
+            function toggleLayer(el){
+                console.log(el);
+                // Currently set up for radio button
+                if (!$(el).hasClass('active')){
+                    map.addLayer(geoLayers[el.id]);
+                    for (var i = geos.length - 1; i >= 0; i--) {
+                        if (geos[i].id == el.id){
+                            geos[i].active = "active";
+                            geojson = {};
+                            ePrev = {};
+                            previous = {};
+                            eHov = {};
+                            click = false;
+                            target = {};
+                            zoom
+                            geojson = geoLayers[geos[i].id]
+                        }
+                        else if (geos[i].active == "active"){
+                            // geojson = {};
+                            if (zoom != null){
+                                geoLayers[geos[i].id].resetStyle(previous);
+                            }
+                            map.removeLayer(geoLayers[geos[i].id]);
+                            geos[i].active = ""
+                        }
+                    };
+                }
+            }
+            // activate button plugin!
+            $('.btn').button()
 
-<p><a href="https://github.com/mlevans" class="user-mention">@mlevans</a></p>
+            
 
-<h3>Contributors</h3>
+            addGeographies(geos, map);
+            // control that shows state info on hover
+            var info = L.control();
 
-<p><a href="https://github.com/calvinmetcalf" class="user-mention">@calvinmetcalf</a></p>
+            info.onAdd = function (map) {
+                this._div = L.DomUtil.create('div', 'info');
+                this.update();
+                return this._div;
+            };
+              
+            info.update = function (props) {
 
-<p><a href="https://github.com/rsudekum" class="user-mention">@rsudekum</a></p>
+                var buttons = '<br /><div class="pull-right switches btn-group-vertical" data-toggle="buttons">'
+                for (var i = geos.length - 1; i >= 0; i--) {
+                    buttons += '<label type="button" id="'+geos[i].id+'" onclick="toggleLayer(this)" class=" layer-switch btn '+geos[i].active+' btn-default" title="'+geos[i].id+'"><input type="radio">'+geos[i].id+'</label>'
+                    console.log(geos[i])
+                };
+                buttons += '</div><br /><br />'
 
-<p><a href="https://github.com/tmcw" class="user-mention">@tmcw</a></p>
+                this._div.innerHTML = '<h4 class="pull-right">Community Assets</h4>' + buttons +   (props ?
+                    '<span class="pull-right"><b>' + props.id + '</b><br />' + getName(props) + '</span>'
+                    : '<span class="pull-right">Hover over a school or hospital</span>');
+            };
 
-<p><a href="https://github.com/yohanboniface" class="user-mention">@yohanboniface</a></p>
+            info.addTo(map);
 
-<h3>License</h3>
+            var hospital = L.icon({
+                iconUrl: 'hospital.png',
+                iconSize: [25, 25]
 
-<p>MIT License. See <a href="https://github.com/mlevans/leaflet-hash/blob/master/LICENSE.md">LICENSE</a> for details.</p>
-      </section>
-      <footer>
-        <p>This project is maintained by <a href="https://github.com/mlevans">mlevans</a></p>
-        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
-      </footer>
-    </div>
-    <script src="javascripts/scale.fix.js"></script>
-    
-  </body>
+            });
+            var school = L.icon({
+                iconUrl: 'backpack.png',
+                iconSize: [30, 30]
+            });
+            function getName(props){
+                if (props.DISTRICT){
+                    return props.DISTRICT;
+                }
+                else if (props.name != 'null'){
+                    return props.name;
+                }
+            }
+            function highlightFeature(e) {
+                // var layer = e.target;
+
+                // console.log(layer.feature.properties);  
+                // info.update(layer.feature.properties);
+                console.log(e)
+                if (e.target._map._container.id === "map"){
+                    console.log('test')
+                    target = e.target;
+                    if (zoom != null && zoom == target){
+
+                        // return;
+                    }
+                    // else if (zoom == null){
+                    //     info.update(layer.feature.properties);
+                    // }
+                    else{
+                        var layer = e.target;
+                        click = false;
+                        e.click = false
+                        layer.setStyle({
+                            weight: layer.options.weight,
+                            color: '#444',
+                            dashArray: '',
+                            opacity: 0.7
+                        });
+
+                        if (!L.Browser.ie && !L.Browser.opera) {
+                            layer.bringToFront();
+                        }
+                        eHov = e
+                        if (ePrev != null && eHov != null && eHov.target == ePrev.target){
+                            ePrev.click = false;
+                        }
+                        
+                    }   
+                }
+
+            }
+            function resetHighlight(e) {
+                if (e.target._map._container.id === "map"){
+                    if (zoom != null && zoom == target){
+                        return;
+                    }
+                    else{
+                        if (!click){
+                            geojson.resetStyle(e.target);
+                            
+                        }
+                        if (ePrev != null && eHov != null && !ePrev.click && !eHov.click){
+                            info.update();
+                        }
+                    }
+                }
+            }
+            function zoomToFeature(e) {
+                if (e.target._map._container.id === "map"){
+
+                    var layer = e.target;
+                    zoom = e.target;
+                        
+                     // if (confirmChanges(layer.feature.properties.RCLINK)){
+                        // $('#home-tab').trigger('click');
+                        map.fitBounds(e.target.getBounds());
+                        console.log(ePrev)
+                        
+                        if (ePrev != null && ePrev.click){
+                            geojson.resetStyle(ePrev.target);
+                        }
+                        click = true;
+                        e.click = true;
+                        if (click){
+                            geojson.resetStyle(e.target);
+                            layer.setStyle({
+                                weight: '8',
+                                color: '#000',
+                                dashArray: '',
+                                opacity:.3
+                            });
+                         }
+                     // }
+                     
+                     info.update(layer.feature.properties);
+                     ePrev = e;
+                     console.log(ePrev)
+                     previous = layer.feature.properties;
+                     console.log(previous)
+                }
+            }
+            function onEachFeature(feature, layer) {
+                var props = feature.properties
+                layer.bindLabel(getName(props), {noHide:true});
+                layer.on({
+                    mouseover: highlightFeature,
+                    mouseout: resetHighlight,
+                    click: zoomToFeature
+                });
+                if (entity !== "" && entity == getName(props).toLowerCase()){
+                    console.log(feature)
+                    map.fitBounds(L.geoJson(feature).getBounds())
+                    info.update(props);
+                    layer.setStyle({
+                            weight: '8',
+                            color: '#000',
+                            dashArray: '',
+                            opacity:.3
+                        });
+                    previous = layer.feature.properties;
+                }
+            }
+            function addGeographies(geos, map){
+                // var county = L.GeoJSON().addTo(map);
+                $.each(geos, function(i, geo){
+                    $.ajax({
+                        type: "GET",
+                        url: "/data/" + geo.id + ".geojson", 
+                        dataType: "json",
+                        success: function(data){
+                            console.log(data)
+                                geoLayers[geo.id] = L.geoJson(data, {
+                                    style: function (feature) {
+                                        return {
+                                            color: geo.color,
+                                            weight: 2,
+                                            // dashArray: '3',
+                                            opacity: .5
+                                        }
+                                        
+                                    },
+                                    onEachFeature: onEachFeature,
+                                    pointToLayer: function (feature, latlng) {
+
+                                    }
+                                })
+                                if (geo.active == "active"){
+                                    geoLayers[geo.id].addTo(map);
+                                    geojson = geoLayers[geo.id];
+                                }
+                        }
+                    });
+                });
+                    
+           
+            }
+            function restoreFromHash(){
+                var params = jQuery.unparam(window.location.hash);
+                if ('lat' in params && 'lng' in params && 'z' in params){
+                  map.setView();
+                }
+                if ('date' in params){
+                  setDate(params['date']);
+                }
+                if ('fromName' in params){
+                    $('#planner-options-from').val(params['fromName']);
+                }
+                if ('fromPlace' in params){
+                    $('#planner-options-from-latlng').val(params['fromPlace']);
+                    var latlng = params['fromPlace'].split(',')
+                    console.log(Number(latlng[0]))
+                    addMarker({lat:Number(latlng[0]),lng:Number(latlng[1])}, params['fromName'], "circle-stroked")
+                }
+                if ('toName' in params){
+                    $('#planner-options-dest').val(params['toName']);
+                }
+                if ('mode' in params){
+                    $('#train').parent().removeClass('active')
+                    $('input[type=radio][value="' + params.mode + '"]').prop('checked', true).parent().addClass('active');
+                }
+                if ('toPlace' in params){
+                    $('#planner-options-dest-latlng').val(params['toPlace']);
+                    var latlng = params['toPlace'].split(',')
+                    console.log(Number(latlng[0]))
+                    addMarker({lat:Number(latlng[0]),lng:Number(latlng[1])}, params['toName'], "circle")
+                }
+                if ('arriveBy' in params && params['arriveBy'] == "true"){
+                    $('#planner-options-arrivebefore').click();
+                }else{
+                    $('#planner-options-departureafter').click();
+                }
+                if (validate()){submit();}
+            }
+
+
+        </script>
+    </body>
 </html>
