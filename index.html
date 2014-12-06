@@ -74,8 +74,8 @@
 
         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
         <script src="http://leafletjs.com/dist/leaflet.js"></script>
-        <script src="gta/javascripts/leaflet.label.js"></script>
-        <script src="gta/javascripts/leaflet-hash.js"></script>
+        <script src="javascripts/leaflet.label.js"></script>
+        <script src="javascripts/leaflet-hash.js"></script>
         <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.2.0/js/button.js"></script>
         
     </head>
@@ -375,7 +375,7 @@
                 $.each(geos, function(i, geo){
                     $.ajax({
                         type: "GET",
-                        url: "/gta/data/" + geo.id + ".geojson", 
+                        url: "data/" + geo.id + ".geojson", 
                         dataType: "json",
                         success: function(data){
                             console.log(data)
