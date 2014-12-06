@@ -233,7 +233,7 @@
                 
                 var buttons = '<br /><div class="pull-right switches btn-group-vertical" data-toggle="buttons">'
                 for (var i = geos.length - 1; i >= 0; i--) {
-                    buttons += '<label type="button" id="'+geos[i].id+'" onclick="toggleLayer(this)" class=" layer-switch btn '+geos[i].active+' btn-default" title="'+geos[i].id+'"><input type="radio">'+geos[i].id+'</label>'
+                    buttons += '<label type="button" id="'+geos[i].id+'" onclick="toggleLayer(this)" class=" layer-switch btn '+geos[i].active+' btn-default" title="'+geos[i].name+'"><input type="radio">'+geos[i].name+'</label>'
                     console.log(geos[i])
                 };
                 buttons += '</div><br /><br />'
