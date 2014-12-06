@@ -111,12 +111,15 @@
                 {"id":"house","name":"House Districts","color":"#f0f","active":""},
                 {"id":"congress","name":"Congressional Districts","color":"#f00","active":""},
                 {"id":"senate","name":"State Senate Districts","color":"#0f0","active":""}
-             ]
+            ]
+            var currentLayer = ""
+
             var entity = ""
             var params = window.location.hash.substring(1).split('/');
             for (var i = geos.length - 1; i >= 0; i--) {
                 if (params[0] == geos[i].id){
                     geos[i].active = "active";
+                    currentLayer = geos[i].id
                     if (params[1]){
                         entity = params[1];
                     }
@@ -175,7 +178,6 @@
             }).addTo(map);
             var geojson = {};
             var county, rc, house, congress, senate;
-            
             var geoLayers = {
                 "county" : county,
                 "regional_comm" : rc,
@@ -199,6 +201,7 @@
                             target = {};
                             zoom
                             geojson = geoLayers[geos[i].id]
+                            currentLayer = geos[i].id;
                         }
                         else if (geos[i].active == "active"){
                             // geojson = {};
@@ -326,7 +329,7 @@
                     var layer = e.target;
                     zoom = e.target;
                     var name = getName(layer.feature.properties).toLowerCase();
-                    window.location.hash ="county/"+ name;
+                    window.location.hash = currentLayer+"/"+ name;
                      // if (confirmChanges(layer.feature.properties.RCLINK)){
                         // $('#home-tab').trigger('click');
                         map.fitBounds(e.target.getBounds());
