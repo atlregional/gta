@@ -182,7 +182,6 @@
                 "congress" : congress,
                 "senate" : senate,
                 "house" : house
-
             }
             function toggleLayer(el){
                 console.log(el);
@@ -228,7 +227,7 @@
             };
               
             info.update = function (props) {
-
+                
                 var buttons = '<br /><div class="pull-right switches btn-group-vertical" data-toggle="buttons">'
                 for (var i = geos.length - 1; i >= 0; i--) {
                     buttons += '<label type="button" id="'+geos[i].id+'" onclick="toggleLayer(this)" class=" layer-switch btn '+geos[i].active+' btn-default" title="'+geos[i].id+'"><input type="radio">'+geos[i].id+'</label>'
@@ -317,10 +316,17 @@
             }
             function zoomToFeature(e) {
                 if (e.target._map._container.id === "map"){
-
+                    // if(history.pushState) {
+                    //     history.pushState(null, null, '#myhash');
+                    // }
+                    // else {
+                    //     location.hash = '#myhash';
+                    // }
+                    
                     var layer = e.target;
                     zoom = e.target;
-                        
+                    var name = getName(layer.feature.properties).toLowerCase();
+                    window.location.hash ="county/"+ name;
                      // if (confirmChanges(layer.feature.properties.RCLINK)){
                         // $('#home-tab').trigger('click');
                         map.fitBounds(e.target.getBounds());
