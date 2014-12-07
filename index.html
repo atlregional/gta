@@ -149,7 +149,8 @@
             map = L.map('map', {
                     attributionControl: false,
                     zoom: 7, 
-                    center: [32.630,-83.084]
+                    center: [32.630,-83.084],
+                    maxBounds: L.latLngBounds([30, -88], [35.7, -78])
                     // zoom: params.zoom || 7, 
                     // center: [params.lat || 32.630, params.lng || -83.084]
                 });
@@ -247,7 +248,7 @@
                 }
                 this._div.innerHTML = '<h4 class="pull-right">Community Assets</h4>' + buttons +   (props ?
                     '<span class="pull-right"><b>' + geoLayers[currentLayer].name_sing + '</b><br />' + getName(props) + '</span><br />' + data
-                    : '<span class="pull-right">Hover over a school or hospital</span>');
+                    : '<span class="pull-right">Click a district for information on its public transit.</span>');
             };
 
             info.addTo(map);
