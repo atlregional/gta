@@ -76,6 +76,7 @@
         <script src="http://leafletjs.com/dist/leaflet.js"></script>
         <script src="javascripts/leaflet.label.js"></script>
         <script src="javascripts/leaflet-hash.js"></script>
+        <script src='https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-omnivore/v0.2.0/leaflet-omnivore.min.js'></script>
         <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.2.0/js/button.js"></script>
         
     </head>
@@ -238,8 +239,13 @@
                     console.log(geos[i])
                 };
                 buttons += '</div><br /><br />'
+                data = ""
+                if (currentLayer == "rc" && typeof props !== "undefined"){
+                    data = props.counties.toString()
+                    data = "<b>Counties:</b><br />" + data.replace(/,/g,'<br />')
+                }
                 this._div.innerHTML = '<h4 class="pull-right">Community Assets</h4>' + buttons +   (props ?
-                    '<span class="pull-right"><b>' + geoLayers[currentLayer].name_sing + '</b><br />' + getName(props) + '</span>'
+                    '<span class="pull-right"><b>' + geoLayers[currentLayer].name_sing + '</b><br />' + getName(props) + '</span><br />' + data
                     : '<span class="pull-right">Hover over a school or hospital</span>');
             };
 
@@ -338,6 +344,7 @@
                     // }
                     
                     var layer = e.target;
+                    console.log(layer)
                     zoom = e.target;
                     var name = getId(layer.feature.properties).toLowerCase();
                     window.location.hash = currentLayer+"/"+ name;
@@ -390,7 +397,7 @@
                     previous = layer.feature.properties;
                 }
             }
-            function addGeographies(geos, map){
+            function addGeoJSONGeographies(geos, map){
                 // var county = L.GeoJSON().addTo(map);
                 $.each(geos, function(i, geo){
                     $.ajax({
@@ -423,6 +430,31 @@
                 });
                     
            
+            }
+            function addGeographies(geos, map){
+                $.each(geos, function(i, geo){
+                    var customLayer = L.geoJson(null, {
+                        style: function (feature) {
+                            return {
+                                color: geo.color,
+                                weight: 2,
+                                // dashArray: '3',
+                                opacity: .5
+                            }
+                            
+                        },
+                        onEachFeature: onEachFeature,
+                        pointToLayer: function (feature, latlng) {
+
+                        }
+                    });
+
+                    geoLayers[geo.id].data = omnivore.topojson("data/" + geo.id + ".json", null, customLayer)
+                    if (geo.active == "active"){
+                        geoLayers[geo.id].data.addTo(map);
+                        geojson = geoLayers[geo.id].data;
+                    }
+                });
             }
             function restoreFromHash(){
                 var params = jQuery.unparam(window.location.hash);
