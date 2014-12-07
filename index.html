@@ -188,12 +188,13 @@
             }
             function toggleLayer(el){
                 console.log(el);
+                var elId = el.id.split('-')[0]
                 // Currently set up for radio button
                 if (!$(el).hasClass('active')){
-                    map.addLayer(geoLayers[el.id].data);
-                    history.pushState(null, null, "#" + el.id);
+                    map.addLayer(geoLayers[elId].data);
+                    history.pushState(null, null, "#" + elId);
                     for (var i = geos.length - 1; i >= 0; i--) {
-                        if (geos[i].id == el.id){
+                        if (geos[i].id == elId){
                             geos[i].active = "active";
                             geojson = {};
                             ePrev = {};
@@ -235,7 +236,7 @@
                 
                 var buttons = '<br /><div class="pull-right switches btn-group-vertical" data-toggle="buttons">'
                 for (var i = geos.length - 1; i >= 0; i--) {
-                    buttons += '<label type="button" id="'+geos[i].id+'" onclick="toggleLayer(this)" class=" layer-switch btn '+geos[i].active+' btn-default" title="'+geos[i].name+'"><input type="radio">'+geos[i].name+'</label>'
+                    buttons += '<label type="button" id="'+geos[i].id+'-button" onclick="toggleLayer(this)" class=" layer-switch btn '+geos[i].active+' btn-default" title="'+geos[i].name+'"><input type="radio">'+geos[i].name+'</label>'
                     console.log(geos[i])
                 };
                 buttons += '</div><br /><br />'
