@@ -238,7 +238,6 @@
                     console.log(geos[i])
                 };
                 buttons += '</div><br /><br />'
-                console.log(geoLayers[currentLayer].name_sing)
                 this._div.innerHTML = '<h4 class="pull-right">Community Assets</h4>' + buttons +   (props ?
                     '<span class="pull-right"><b>' + geoLayers[currentLayer].name_sing + '</b><br />' + getName(props) + '</span>'
                     : '<span class="pull-right">Hover over a school or hospital</span>');
@@ -258,6 +257,17 @@
             function getName(props){
                 if (props.DISTRICT){
                     return props.DISTRICT;
+                }
+                else if (props.name != 'null'){
+                    return props.name;
+                }
+            }
+            function getId(props){
+                if (props.DISTRICT){
+                    return props.DISTRICT;
+                }
+                else if (props.acronym){
+                    return props.acronym;
                 }
                 else if (props.name != 'null'){
                     return props.name;
@@ -329,7 +339,7 @@
                     
                     var layer = e.target;
                     zoom = e.target;
-                    var name = getName(layer.feature.properties).toLowerCase();
+                    var name = getId(layer.feature.properties).toLowerCase();
                     window.location.hash = currentLayer+"/"+ name;
                      // if (confirmChanges(layer.feature.properties.RCLINK)){
                         // $('#home-tab').trigger('click');
@@ -367,7 +377,7 @@
                     mouseout: resetHighlight,
                     click: zoomToFeature
                 });
-                if (entity !== "" && entity == getName(props).toLowerCase()){
+                if (entity !== "" && entity == getId(props).toLowerCase()){
                     console.log(feature)
                     map.fitBounds(L.geoJson(feature).getBounds())
                     info.update(props);
