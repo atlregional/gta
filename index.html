@@ -108,10 +108,10 @@
             // restoreFromHash()
             var geos = [
                 {"id":"county","name":"Counties","color":"#ff0","active":""},
-                {"id":"rc","name":"Regional Commissions","color":"#0ff","active":""},
-                {"id":"house","name":"House Districts","color":"#f0f","active":""},
-                {"id":"congress","name":"Congressional Districts","color":"#f00","active":""},
-                {"id":"senate","name":"State Senate Districts","color":"#0f0","active":""}
+                {"id":"rc","name":"Regional Comm.","color":"#0ff","active":""},
+                {"id":"house","name":"State House","color":"#f0f","active":""},
+                {"id":"congress","name":"US Congress","color":"#f00","active":""},
+                {"id":"senate","name":"State Senate","color":"#0f0","active":""}
             ]
             var currentLayer = ""
 
@@ -150,7 +150,8 @@
                     attributionControl: false,
                     zoom: 7, 
                     center: [32.630,-83.084],
-                    maxBounds: L.latLngBounds([30, -88], [35.7, -78])
+                    maxBounds: L.latLngBounds([30, -88], [35.7, -78]),
+                    minZoom: 7
                     // zoom: params.zoom || 7, 
                     // center: [params.lat || 32.630, params.lng || -83.084]
                 });
@@ -183,9 +184,9 @@
             var geoLayers = {
                 "county" : {"data": county, "name_sing":"County", "name":"Counties","color":"#ff0","active":""},
                 "rc" : {"data": rc, "name_sing":"Regional Commission", "name":"Regional Commissions","color":"#0ff","active":""},
-                "congress" : {"data": congress, "name_sing":"Congressional District", "name":"Congressional Districts","color":"#f0f","active":""},
-                "senate" : {"data": senate, "name_sing":"State Senate District", "name":"State Senate Districts","color":"#f00","active":""},
-                "house" : {"data": house, "name_sing":"House District", "name":"House Districts","color":"#0f0","active":""}
+                "congress" : {"data": congress, "name_sing":"Congressional District", "name":"US Congress","color":"#f0f","active":""},
+                "senate" : {"data": senate, "name_sing":"State Senate District", "name":"State Senate","color":"#f00","active":""},
+                "house" : {"data": house, "name_sing":"House District", "name":"State House","color":"#0f0","active":""}
             }
             function toggleLayer(el){
                 console.log(el);
@@ -235,9 +236,9 @@
               
             info.update = function (props) {
                 
-                var buttons = '<br /><div class="pull-right switches btn-group-vertical" data-toggle="buttons">'
+                var buttons = '<div class=" switches btn-group-vertical" data-toggle="buttons">'
                 for (var i = geos.length - 1; i >= 0; i--) {
-                    buttons += '<label type="button" id="'+geos[i].id+'-button" onclick="toggleLayer(this)" class=" layer-switch btn '+geos[i].active+' btn-default" title="'+geos[i].name+'"><input type="radio">'+geos[i].name+'</label>'
+                    buttons += '<label type="button" id="'+geos[i].id+'-button" onclick="toggleLayer(this)" class=" layer-switch btn '+geos[i].active+' btn-default" title="'+geos[i].name+'"><input type="radio" ><span style="font-size:medium;">'+geos[i].name+'</span></label>'
                     console.log(geos[i])
                 };
                 buttons += '</div><br /><br />'
@@ -246,9 +247,9 @@
                     data = props.counties.toString()
                     data = "<b>Counties:</b><br />" + data.replace(/,/g,'<br />')
                 }
-                this._div.innerHTML = '<h4 class="pull-right">Public Transit in Georgia</h4>' + buttons +   (props ?
-                    '<span class="pull-right"><b>' + geoLayers[currentLayer].name_sing + '</b><br />' + getName(props) + '</span><br />' + data
-                    : '<span class="pull-right">Click a district for information on its public transit.</span>');
+                this._div.innerHTML = '<div><h3 class="pull-right">Public Transit in Georgia</h3></div>' + buttons +   (props ?
+                    '<span ><b>' + geoLayers[currentLayer].name_sing + '</b><br />' + getName(props) + '</span><br />' + data
+                    : '<span >Click a district for information on its public transit.</span>');
             };
 
             info.addTo(map);
