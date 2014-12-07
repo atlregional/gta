@@ -179,17 +179,18 @@
             var geojson = {};
             var county, rc, house, congress, senate;
             var geoLayers = {
-                "county" : county,
-                "rc" : rc,
-                "congress" : congress,
-                "senate" : senate,
-                "house" : house
+                "county" : {"data": county, "name_sing":"County", "name":"Counties","color":"#ff0","active":""},
+                "rc" : {"data": rc, "name_sing":"Regional Commission", "name":"Regional Commissions","color":"#0ff","active":""},
+                "congress" : {"data": congress, "name_sing":"Congressional District", "name":"Congressional Districts","color":"#f0f","active":""},
+                "senate" : {"data": senate, "name_sing":"State Senate District", "name":"State Senate Districts","color":"#f00","active":""},
+                "house" : {"data": house, "name_sing":"House District", "name":"House Districts","color":"#0f0","active":""}
             }
             function toggleLayer(el){
                 console.log(el);
                 // Currently set up for radio button
                 if (!$(el).hasClass('active')){
-                    map.addLayer(geoLayers[el.id]);
+                    map.addLayer(geoLayers[el.id].data);
+                    history.pushState(null, null, "#" + el.id);
                     for (var i = geos.length - 1; i >= 0; i--) {
                         if (geos[i].id == el.id){
                             geos[i].active = "active";
@@ -200,15 +201,15 @@
                             click = false;
                             target = {};
                             zoom
-                            geojson = geoLayers[geos[i].id]
+                            geojson = geoLayers[geos[i].id].data
                             currentLayer = geos[i].id;
                         }
                         else if (geos[i].active == "active"){
                             // geojson = {};
                             if (zoom != null){
-                                geoLayers[geos[i].id].resetStyle(previous);
+                                geoLayers[geos[i].id].data.resetStyle(previous);
                             }
-                            map.removeLayer(geoLayers[geos[i].id]);
+                            map.removeLayer(geoLayers[geos[i].id].data);
                             geos[i].active = ""
                         }
                     };
@@ -237,9 +238,9 @@
                     console.log(geos[i])
                 };
                 buttons += '</div><br /><br />'
-
+                console.log(geoLayers[currentLayer].name_sing)
                 this._div.innerHTML = '<h4 class="pull-right">Community Assets</h4>' + buttons +   (props ?
-                    '<span class="pull-right"><b>' + props.id + '</b><br />' + getName(props) + '</span>'
+                    '<span class="pull-right"><b>' + geoLayers[currentLayer].name_sing + '</b><br />' + getName(props) + '</span>'
                     : '<span class="pull-right">Hover over a school or hospital</span>');
             };
 
@@ -388,7 +389,7 @@
                         dataType: "json",
                         success: function(data){
                             console.log(data)
-                                geoLayers[geo.id] = L.geoJson(data, {
+                                geoLayers[geo.id].data = L.geoJson(data, {
                                     style: function (feature) {
                                         return {
                                             color: geo.color,
@@ -404,8 +405,8 @@
                                     }
                                 })
                                 if (geo.active == "active"){
-                                    geoLayers[geo.id].addTo(map);
-                                    geojson = geoLayers[geo.id];
+                                    geoLayers[geo.id].data.addTo(map);
+                                    geojson = geoLayers[geo.id].data;
                                 }
                         }
                     });
