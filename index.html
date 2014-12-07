@@ -246,7 +246,7 @@
                     data = props.counties.toString()
                     data = "<b>Counties:</b><br />" + data.replace(/,/g,'<br />')
                 }
-                this._div.innerHTML = '<h4 class="pull-right">Community Assets</h4>' + buttons +   (props ?
+                this._div.innerHTML = '<h4 class="pull-right">Public Transit in Georgia</h4>' + buttons +   (props ?
                     '<span class="pull-right"><b>' + geoLayers[currentLayer].name_sing + '</b><br />' + getName(props) + '</span><br />' + data
                     : '<span class="pull-right">Click a district for information on its public transit.</span>');
             };
