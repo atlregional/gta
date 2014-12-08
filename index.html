@@ -83,6 +83,10 @@
     <body>
         <div id="map"></div>
         <script type="text/javascript">
+        $(document).ready(function(){
+            info.update();
+            console.log("ready")
+        })
         jQuery.unparam = function (value) {
             if (value.length > 1 && value.charAt(0) == '#'){
                 value = value.substring(1);
@@ -194,6 +198,7 @@
                     // console.log(dom)
                     if (params[1]){
                         entity = params[1];
+                        click = true;
                     }
                 }
             };
@@ -239,7 +244,41 @@
             };
 
             info.addTo(map);
+            function onEachFeature(feature, layer) {
+                var e;
+                    if (typeof e == "undefined"){
+                        e = {}
+                    }
+                var props = feature.properties
+                layer.bindLabel(getName(props), {noHide:true});
+                layer.on({
+                    mouseover: highlightFeature,
+                    mouseout: resetHighlight,
+                    click: zoomToFeature
+                });
+                if (entity !== "" && entity == getId(props).toLowerCase()){
+                    
+                    console.log(feature)
+                    console.log(layer)
 
+
+
+                    map.fitBounds(L.geoJson(feature).getBounds())
+                    info.update(props);
+                    
+                    layer.setStyle({
+                            weight: '8',
+                            color: '#000',
+                            dashArray: '',
+                            opacity:.3
+                        });
+                    // geoLayers[currentLayer].data.resetStyle(ePrev.target)
+                    // zoom = layer;
+                    // previous = layer.feature.properties;
+                    ePrev.target = layer;
+                    // click = true;
+                }
+            }
             function showFeature(select){
                 var e;
                 if (typeof e == "undefined"){
@@ -247,31 +286,28 @@
                 }
                 console.log(select.value)
                 console.log(select.id)
-                
                 entity = select.value
                 window.location.hash = currentLayer+"/"+ entity.toLowerCase();
                 if ($("#"+select.id).hasClass('geog')){
                     $('#' + currentLayer + '-name-select').text(select.value)
                 }
-                // else{
-                    
-                //     $('#' + currentLayer + '-select').val(select.value)
-                // }
-                
-                
                 $.each(geoLayers[currentLayer].data._layers, function(i, layer){
                     // console.log(layer)
                     var props = layer.feature.properties;
                     if (props.DISTRICT == select.value || props.name == select.value){
                         map.fitBounds(L.geoJson(layer.feature).getBounds())
                         info.update(props);
+                        zoom = layer;
                         layer.setStyle({
                                 weight: '8',
                                 color: '#000',
                                 dashArray: '',
                                 opacity:.3
                             });
-                        geoLayers[currentLayer].data.resetStyle(ePrev.target)
+                        geojson.resetStyle(ePrev.target);
+                        if (ePrev.target){
+                            geoLayers[currentLayer].data.resetStyle(ePrev.target)
+                        }
                         previous = layer.feature.properties;
                         ePrev.target = layer;
                         click = true;
@@ -316,22 +352,21 @@
                         history.pushState(null, null, "#" + elId);
                         info.update()
                     }
-                    // info.update()
-                    // else{
-                    //     window.setTimeOut(function(){info.update()},1000)
-                    // }
                 }
             }
             var nameArray;
             var geogArray;
             function getSelect(layer){
-                nameSelect = '<select onChange="showFeature(this)" class="name" id="'+layer+'-name-select">'
-                geogSelect = '<select onChange="showFeature(this)" class="geog" id="'+layer+'-select">'
+                console.log(currentLayer)
+                nameSelect = '<select onChange="showFeature(this)" class="name" id="'+layer+'-name-select"><option>[Representative Name]</option>';
+                geogSelect = '<select onChange="showFeature(this)" class="geog" id="'+layer+'-select"><option>[Select district]</option>';
                 var nameBool = true
                 nameArray = []
                  geogArray = []
+                 console.log(geoLayers[layer].data)
                 $.each(geoLayers[layer].data._layers, function(i, val){
                     var prop = val.feature.properties;
+                    // console.log(prop)
                     if (typeof prop.DISTRICT !== "undefined"){
                         
                         nameArray.push([prop.last + ', ' + prop.first + ' (' + prop.party[0] + ')',prop.DISTRICT])
@@ -339,7 +374,7 @@
                     }
                     else{
                         nameBool = false;
-                        // console.log("hello")
+                        console.log(prop.name)
                         // TODO: temoporary fix for Congress which is missing names
                         if (typeof prop.DISTRICT !== "undefined"){
                             geogArray.push(prop.DISTRICT)
@@ -414,7 +449,7 @@
                 // info.update(layer.feature.properties);
                 // console.log(e)
                 if (e.target._map._container.id === "map"){
-                    // console.log('test')
+                    console.log(e)
                     target = e.target;
                     if (zoom != null && zoom == target){
 
@@ -428,7 +463,7 @@
                         click = false;
                         e.click = false
                         layer.setStyle({
-                            weight: layer.options.weight,
+                            weight: 3,
                             color: '#444',
                             dashArray: '',
                             opacity: 0.7
@@ -447,33 +482,30 @@
 
             }
             function resetHighlight(e) {
-                if (e.target._map._container.id === "map"){
+                // if (e.target._map._container.id === "map"){
                     if (zoom != null && zoom == target){
+                        console.log("not reset")
                         return;
+
                     }
                     else{
                         if (!click){
                             geojson.resetStyle(e.target);
-                            
+                            console.log("reset style")
+                            console.log(zoom)
+                            console.log(target)
                         }
                         if (ePrev != null && eHov != null && !ePrev.click && !eHov.click){
                             info.update();
                         }
                     }
-                }
+                // }
             }
             function zoomToFeature(e) {
-                if (e.target._map._container.id === "map"){
-                    // if(history.pushState) {
-                    //     history.pushState(null, null, '#myhash');
-                    // }
-                    // else {
-                    //     location.hash = '#myhash';
-                    // }
-                    
+                // if (e.target._map._container.id === "map"){
                     var layer = e.target;
                     console.log(e)
-                    zoom = e.target;
+                    zoom = layer;
                     var name = getId(layer.feature.properties).toLowerCase();
                     window.location.hash = currentLayer+"/"+ name;
                      // if (confirmChanges(layer.feature.properties.RCLINK)){
@@ -482,6 +514,7 @@
                         // console.log(ePrev)
                         
                         if (ePrev != null && ePrev.click){
+                            console.log(ePrev)
                             geojson.resetStyle(ePrev.target);
                         }
                         click = true;
@@ -509,29 +542,9 @@
                     // console.log(ePrev)
                     previous = layer.feature.properties;
                     // console.log(previous)
-                }
+                // }
             }
-            function onEachFeature(feature, layer) {
-                var props = feature.properties
-                layer.bindLabel(getName(props), {noHide:true});
-                layer.on({
-                    mouseover: highlightFeature,
-                    mouseout: resetHighlight,
-                    click: zoomToFeature
-                });
-                if (entity !== "" && entity == getId(props).toLowerCase()){
-                    console.log(feature)
-                    map.fitBounds(L.geoJson(feature).getBounds())
-                    info.update(props);
-                    layer.setStyle({
-                            weight: '8',
-                            color: '#000',
-                            dashArray: '',
-                            opacity:.3
-                        });
-                    previous = layer.feature.properties;
-                }
-            }
+            
             function addGeoJSONGeographies(geos, map){
                 // var county = L.GeoJSON().addTo(map);
                 $.each(geos, function(i, geo){
@@ -589,46 +602,12 @@
                         geoLayers[geo.id].data.addTo(map);
                         geojson = geoLayers[geo.id].data;
                     }
+                    if (i == geos.length-1){
+                        // info.update();
+                        // $()
+                    }
                 });
             }
-            function restoreFromHash(){
-                var params = jQuery.unparam(window.location.hash);
-                if ('lat' in params && 'lng' in params && 'z' in params){
-                  map.setView();
-                }
-                if ('date' in params){
-                  setDate(params['date']);
-                }
-                if ('fromName' in params){
-                    $('#planner-options-from').val(params['fromName']);
-                }
-                if ('fromPlace' in params){
-                    $('#planner-options-from-latlng').val(params['fromPlace']);
-                    var latlng = params['fromPlace'].split(',')
-                    console.log(Number(latlng[0]))
-                    addMarker({lat:Number(latlng[0]),lng:Number(latlng[1])}, params['fromName'], "circle-stroked")
-                }
-                if ('toName' in params){
-                    $('#planner-options-dest').val(params['toName']);
-                }
-                if ('mode' in params){
-                    $('#train').parent().removeClass('active')
-                    $('input[type=radio][value="' + params.mode + '"]').prop('checked', true).parent().addClass('active');
-                }
-                if ('toPlace' in params){
-                    $('#planner-options-dest-latlng').val(params['toPlace']);
-                    var latlng = params['toPlace'].split(',')
-                    console.log(Number(latlng[0]))
-                    addMarker({lat:Number(latlng[0]),lng:Number(latlng[1])}, params['toName'], "circle")
-                }
-                if ('arriveBy' in params && params['arriveBy'] == "true"){
-                    $('#planner-options-arrivebefore').click();
-                }else{
-                    $('#planner-options-departureafter').click();
-                }
-                if (validate()){submit();}
-            }
-
 
         </script>
     </body>
