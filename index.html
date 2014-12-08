@@ -198,6 +198,77 @@
                 }
             };
             
+
+            // activate button plugin!
+            $('.btn').button()
+
+            
+
+            
+            // control that shows state info on hover
+            var info = L.control();
+
+            info.onAdd = function (map) {
+                this._div = L.DomUtil.create('div', 'info');
+                this.update();
+                return this._div;
+            };
+              
+            info.update = function (props) {
+                
+                var buttons = '<div class=" switches btn-group-vertical" data-toggle="buttons">'
+                for (var i = geos.length - 1; i >= 0; i--) {
+                    buttons += '<label type="button" id="'+geos[i].id+'-button" onclick="toggleLayer(this, false)" class=" layer-switch btn '+geos[i].active+' btn-default" title="'+geos[i].name+'"><input type="radio" ><span>'+geos[i].name+'</span></label>'
+                    // console.log(geos[i])
+                };
+                buttons += '</div><br /><br />'
+                if (currentLayer !== ""){
+                    // setTimeOut(function(){
+                        nameSelect, geogSelect = getSelect(currentLayer)
+                    // },1000)
+                }
+                data = ""
+                if (currentLayer == "rc" && typeof props !== "undefined"){
+                    data = props.counties.toString()
+                    data = "<b>Counties:</b><br />" + data.replace(/,/g,'<br />')
+                }
+                
+                this._div.innerHTML = '<div><h3 class="pull-right">Public Transit in Georgia</h3></div>' + buttons + geogSelect + nameSelect +   (props ?
+                    '<span ><b>' + geoLayers[currentLayer].name_sing + '</b><br />' + getName(props) + '</span><br />' + data
+                    : '<span >Click a district for information on its public transit.</span>');
+            };
+
+            info.addTo(map);
+
+            function showFeature(select){
+                var e;
+                if (typeof e == "undefined"){
+                    e = {}
+                }
+                console.log(select.value)
+                entity = select.value
+                $('#' + currentLayer + '-name-select').val(select.value)
+                $('#' + currentLayer + '-select').val(select.value)
+                $.each(geoLayers[currentLayer].data._layers, function(i, layer){
+                    console.log(layer)
+                    var props = layer.feature.properties;
+                    if (props.DISTRICT == select.value){
+                        map.fitBounds(L.geoJson(layer.feature).getBounds())
+                        info.update(props);
+                        layer.setStyle({
+                                weight: '8',
+                                color: '#000',
+                                dashArray: '',
+                                opacity:.3
+                            });
+                        geoLayers[currentLayer].data.resetStyle(ePrev.target)
+                        previous = layer.feature.properties;
+                        ePrev.target = layer;
+                        click = true;
+                        e.click = true;
+                    }
+                });
+            }
             function toggleLayer(el, onload){
                 console.log(el);
                 var elid;
@@ -227,7 +298,7 @@
                         else if (geos[i].active == "active"){
                             // geojson = {};
                             if (zoom != null){
-                                geoLayers[geos[i].id].data.resetStyle(previous);
+                                geojson.resetStyle(previous.target);
                             }
                             map.removeLayer(geoLayers[geos[i].id].data);
                             geos[i].active = ""
@@ -237,87 +308,55 @@
                         history.pushState(null, null, "#" + elId);
                         info.update()
                     }
+                    // info.update()
+                    // else{
+                    //     window.setTimeOut(function(){info.update()},1000)
+                    // }
                 }
             }
-            // activate button plugin!
-            $('.btn').button()
-
-            
-
-            
-            // control that shows state info on hover
-            var info = L.control();
-
-            info.onAdd = function (map) {
-                this._div = L.DomUtil.create('div', 'info');
-                this.update();
-                return this._div;
-            };
-              
-            info.update = function (props) {
-                
-                var buttons = '<div class=" switches btn-group-vertical" data-toggle="buttons">'
-                for (var i = geos.length - 1; i >= 0; i--) {
-                    buttons += '<label type="button" id="'+geos[i].id+'-button" onclick="toggleLayer(this, false)" class=" layer-switch btn '+geos[i].active+' btn-default" title="'+geos[i].name+'"><input type="radio" ><span>'+geos[i].name+'</span></label>'
-                    console.log(geos[i])
-                };
-                buttons += '</div><br /><br />'
-                if (currentLayer !== ""){
-                    nameSelect, geogSelect = getSelect(currentLayer)
-                }
-                data = ""
-                if (currentLayer == "rc" && typeof props !== "undefined"){
-                    data = props.counties.toString()
-                    data = "<b>Counties:</b><br />" + data.replace(/,/g,'<br />')
-                }
-                
-                this._div.innerHTML = '<div><h3 class="pull-right">Public Transit in Georgia</h3></div>' + buttons + geogSelect + nameSelect +   (props ?
-                    '<span ><b>' + geoLayers[currentLayer].name_sing + '</b><br />' + getName(props) + '</span><br />' + data
-                    : '<span >Click a district for information on its public transit.</span>');
-            };
-
-            info.addTo(map);
-
-            var hospital = L.icon({
-                iconUrl: 'hospital.png',
-                iconSize: [25, 25]
-
-            });
-            var school = L.icon({
-                iconUrl: 'backpack.png',
-                iconSize: [30, 30]
-            });
-            function showFeature(e){
-                console.log(e.value)
-            }
+            var nameArray;
+            var geogArray;
             function getSelect(layer){
                 nameSelect = '<select onChange="showFeature(this)" id="'+layer+'-name-select">'
                 geogSelect = '<select onChange="showFeature(this)" id="'+layer+'-select">'
                 var nameBool = true
-                var nameArray = []
-                var geogArray = []
+                nameArray = []
+                 geogArray = []
                 $.each(geoLayers[layer].data._layers, function(i, val){
                     var prop = val.feature.properties;
                     if (typeof prop.DISTRICT !== "undefined"){
                         
-                        nameArray.push(prop.Last + ', ' + prop.First + ' (' + prop.Party[0] + ')')
+                        nameArray.push([prop.last + ', ' + prop.first + ' (' + prop.party[0] + ')',prop.DISTRICT])
                         geogArray.push(prop.DISTRICT)
                     }
                     else{
                         nameBool = false;
                         // console.log("hello")
-                        geogArray.push(prop.name)
+                        // TODO: temoporary fix for Congress which is missing names
+                        if (typeof prop.DISTRICT !== "undefined"){
+                            geogArray.push(prop.DISTRICT)
+                        }
+                        else{
+                            geogArray.push(prop.name)
+                        }
+                        
                         // console.log(prop.name)
                     }
                     // geogSelect += '<option>' + + '</option>';
                 })
-                nameArray.sort()
+                nameArray.sort(sortFunction)
                 geogArray.sort()
                 $.each(geogArray, function(i, val){
                     // nameArray.push(val.feature.properties.Last + ', ' + val.feature.properties.First)
-                    geogSelect += '<option>' + val + '</option>';
-                    if (nameBool){
-                        nameSelect += '<option value="'+val+'">' + nameArray[i] + '</option>';
+                    var selected = ''
+                    if (entity == val){
+                        selected = "selected"
+                    }
+                    geogSelect += '<option' + ' ' + selected + '>' + val + '</option>';
+                    // geogSelect += '<option>' + val + '</option>';
+                    if (nameBool && nameArray[i] ){
+                        nameSelect += '<option value="'+nameArray[i][1]+'" '+selected+'>' + nameArray[i][0] + '</option>';
+                        // nameSelect += '<option value="'+nameArray[i][1]+'">' + nameArray[i][0] + '</option>';
                     }
                 })
                 if (!nameBool){
@@ -328,6 +367,14 @@
                 }
                 geogSelect += '</select><br />'
                 return nameSelect, geogSelect
+            }
+            function sortFunction(a, b) {
+                if (a[0] === b[0]) {
+                    return 0;
+                }
+                else {
+                    return (a[0] < b[0]) ? -1 : 1;
+                }
             }
             function getName(props){
                 if (props.DISTRICT){
@@ -353,9 +400,9 @@
 
                 // console.log(layer.feature.properties);  
                 // info.update(layer.feature.properties);
-                console.log(e)
+                // console.log(e)
                 if (e.target._map._container.id === "map"){
-                    console.log('test')
+                    // console.log('test')
                     target = e.target;
                     if (zoom != null && zoom == target){
 
@@ -413,14 +460,14 @@
                     // }
                     
                     var layer = e.target;
-                    console.log(layer)
+                    console.log(e)
                     zoom = e.target;
                     var name = getId(layer.feature.properties).toLowerCase();
                     window.location.hash = currentLayer+"/"+ name;
                      // if (confirmChanges(layer.feature.properties.RCLINK)){
                         // $('#home-tab').trigger('click');
                         map.fitBounds(e.target.getBounds());
-                        console.log(ePrev)
+                        // console.log(ePrev)
                         
                         if (ePrev != null && ePrev.click){
                             geojson.resetStyle(ePrev.target);
@@ -447,9 +494,9 @@
                         $('#'+currentLayer+'-select').val(layer.feature.properties.name)
                     }
                     ePrev = e;
-                    console.log(ePrev)
+                    // console.log(ePrev)
                     previous = layer.feature.properties;
-                    console.log(previous)
+                    // console.log(previous)
                 }
             }
             function onEachFeature(feature, layer) {
