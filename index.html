@@ -246,13 +246,23 @@
                     e = {}
                 }
                 console.log(select.value)
+                console.log(select.id)
+                
                 entity = select.value
-                $('#' + currentLayer + '-name-select').val(select.value)
-                $('#' + currentLayer + '-select').val(select.value)
+                window.location.hash = currentLayer+"/"+ entity.toLowerCase();
+                if ($("#"+select.id).hasClass('geog')){
+                    $('#' + currentLayer + '-name-select').text(select.value)
+                }
+                // else{
+                    
+                //     $('#' + currentLayer + '-select').val(select.value)
+                // }
+                
+                
                 $.each(geoLayers[currentLayer].data._layers, function(i, layer){
-                    console.log(layer)
+                    // console.log(layer)
                     var props = layer.feature.properties;
-                    if (props.DISTRICT == select.value){
+                    if (props.DISTRICT == select.value || props.name == select.value){
                         map.fitBounds(L.geoJson(layer.feature).getBounds())
                         info.update(props);
                         layer.setStyle({
@@ -281,22 +291,20 @@
                 // Currently set up for radio button
                 if (!$(el).hasClass('active') || geoLayers.layers.indexOf(el) > -1){
                     map.addLayer(geoLayers[elId].data);
-                    
+                    geojson = {};
+                    ePrev = {};
+                    previous = {};
+                    eHov = {};
+                    click = false;
+                    target = {};
+                    zoom = null;
                     for (var i = geos.length - 1; i >= 0; i--) {
                         if (geos[i].id == elId){
                             geos[i].active = "active";
-                            geojson = {};
-                            ePrev = {};
-                            previous = {};
-                            eHov = {};
-                            click = false;
-                            target = {};
-                            zoom
                             geojson = geoLayers[geos[i].id].data
                             currentLayer = geos[i].id;
                         }
                         else if (geos[i].active == "active"){
-                            // geojson = {};
                             if (zoom != null){
                                 geojson.resetStyle(previous.target);
                             }
@@ -317,8 +325,8 @@
             var nameArray;
             var geogArray;
             function getSelect(layer){
-                nameSelect = '<select onChange="showFeature(this)" id="'+layer+'-name-select">'
-                geogSelect = '<select onChange="showFeature(this)" id="'+layer+'-select">'
+                nameSelect = '<select onChange="showFeature(this)" class="name" id="'+layer+'-name-select">'
+                geogSelect = '<select onChange="showFeature(this)" class="geog" id="'+layer+'-select">'
                 var nameBool = true
                 nameArray = []
                  geogArray = []
@@ -348,14 +356,18 @@
                 geogArray.sort()
                 $.each(geogArray, function(i, val){
                     // nameArray.push(val.feature.properties.Last + ', ' + val.feature.properties.First)
-                    var selected = ''
+                    var selectedGeog = ''
+                    var selectedName = ''
                     if (entity == val){
-                        selected = "selected"
+                        selectedGeog = "selected"
                     }
-                    geogSelect += '<option' + ' ' + selected + '>' + val + '</option>';
+                    if (nameBool && entity == nameArray[i][1]){
+                        selectedName = "selected"
+                    }
+                    geogSelect += '<option' + ' ' + selectedGeog + '>' + val + '</option>';
                     // geogSelect += '<option>' + val + '</option>';
                     if (nameBool && nameArray[i] ){
-                        nameSelect += '<option value="'+nameArray[i][1]+'" '+selected+'>' + nameArray[i][0] + '</option>';
+                        nameSelect += '<option value="'+nameArray[i][1]+'" '+selectedName+'>' + nameArray[i][0] + '</option>';
                         // nameSelect += '<option value="'+nameArray[i][1]+'">' + nameArray[i][0] + '</option>';
                     }
                 })
