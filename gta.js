@@ -7,7 +7,7 @@ var geos = [
     {"id":"congress","dom_id":"#congress-button","name":"US Congress","color":"#f00","active":""},
     {"id":"senate","dom_id":"#senate-button","name":"State Senate","color":"#0f0","active":""}
 ];
-var funding;
+var funding = {};
 getFunding();
 var currentLayer = "";
 if (params[0]) {
@@ -116,13 +116,13 @@ info.onAdd = function (map) {
 };
   
 info.update = function (props) {
-    console.log("info updating...")
+    console.log("info updating...");
     var buttons = '<div class=" switches btn-group-vertical" data-toggle="buttons">';
     var name = getName(props);
     var id = getId(props);
     
     if (typeof id == "undefined" ){
-        id = entity
+        id = entity;
     }
     // console.log(id);
 
@@ -156,30 +156,20 @@ info.update = function (props) {
     		console.log("5310!");
     		fundingData += " (5310)";
     	}
+        fund5311 = checkFunding("5311", name);
+        if(fund5311.length > 0){
+            console.log("5311!");
+            fundingData += "<br />(5311 Agency: " + fund5311[0]["Sub.Recipient.Agency.x"] + ")";
+        }
     }
     this._div.innerHTML = '<div><h3 class="pull-right">Public Transit in Georgia</h3></div>' + buttons + geogSelect + nameSelect +   (props ?
         '<span ><b>' + geoLayers[currentLayer].name_sing + '</b><br />' + name + fundingData +'</span><br />' + data
         : '<span >Click a district for information on its public transit.</span>');
-    if (params[1]){
-    var id = params[1];
-    if (id){
-        entity = id;
-        click = true;
-    }
-    if (currentLayer === "rc" || currentLayer === "county") {
-        $('#'+currentLayer+'-select').val(id);
-        console.log("selecting " + currentLayer);
-        console.log(id);
-        console.log($('#'+currentLayer+'-select'));
-    }
-    else {
-        $('#'+currentLayer+'-select').val(id);
-        $('#'+currentLayer+'-name-select').val(id);
-    }
-}
 };
 
 info.addTo(map);
+
+// Handles onload select change
 if (params[1]){
     var id = params[1];
     if (id){
@@ -289,31 +279,26 @@ function toggleLayer(el, onload){
         }
     }
 }
-var nameArray;
-var geogArray;
+
 function getSelect(layer){
     nameSelect = '<select onChange="showFeature(this)" class="name" id="'+layer+'-name-select"><option>[Representative Name]</option>';
     geogSelect = '<select onChange="showFeature(this)" class="geog" id="'+layer+'-select"><option>[Select district]</option>';
     
     // Tells us whether layer has representative (e.g., senate, house, congress)
     var nameBool = true;
-
-    nameArray = [];
-    geogArray = [];
-    // console.log(geoLayers[layer].data)
     if (layer === "rc" || layer === "county") {
         nameBool = false;
     }
+
     geoLayers[layer].select.name.sort(sortFunction);
     geoLayers[layer].select.geog.sort();
     console.log("entity = " + params[1]);
     $.each(geoLayers[layer].select.geog, function(i, val){
-        // nameArray.push(val.feature.properties.Last + ', ' + val.feature.properties.First)
         var selectedGeog = '';
-        
         var selectedName = '';
+
         if (load && typeof entity !== "undefined" && entity == val[1]) {
-            console.log(val[1])
+            console.log(val[1]);
             selectedGeog = "selected";
         }
         if (load && typeof entity !== "undefined" && nameBool && entity == geoLayers[layer].select.name[i][1]){
@@ -333,7 +318,7 @@ function getSelect(layer){
         nameSelect += '</select><br />';
     }
     geogSelect += '</select><br />';
-    console.log("getting select")
+    console.log("getting select");
     return nameSelect, geogSelect;
 }
 function sortFunction(a, b) {
@@ -369,20 +354,6 @@ function getCounties(geoIds){
 	return names;
 	
 }
-function myLoop (smallerVal, largerVal) {           //  create a loop function
-   setTimeout(function () {    //  call a 3s setTimeout when the loop is called
-      console.log('looping');          //  your code here
-      console.log(smallerVal);          //  your code here
-      console.log(largerVal);          //  your code here
-      if (smallerVal < largerVal) {            //  if the counter < 10, call the loop function
-         myLoop(geogArray.length, largerVal);             //  ..  again which will trigger another 
-      }
-      else{
-
-      }                    //  ..  setTimeout()
-   }, 10)
-}
-
 
 function getId(props){
     if (typeof props !== "undefined" && props.DISTRICT){
@@ -398,6 +369,7 @@ function getId(props){
         return props.acronym;
     }
 }
+
 function highlightFeature(e) {
     if (e.target._map._container.id === "map"){
         // console.log(e)
@@ -431,44 +403,28 @@ function highlightFeature(e) {
 
 }
 function resetHighlight(e) {
-    // if (e.target._map._container.id === "map"){
     console.log("resetting highlight...");
-    var id = getId(e.target.feature.properties)
-    // console.log((!load && id !== params[1]));
-    // console.log(!click);
-    // console.log(click || (!load && id !== params[1]));
+    var id = getId(e.target.feature.properties);
         if (zoom !== null && zoom == target){
-            // console.log("not reset");
             return;
-
         }
         else{
             if (!click) {
                 geojson.resetStyle(e.target);
-                // console.log("reset style")
-                // console.log(zoom)
-                // console.log(target)
             }
             if (ePrev !== null && eHov !== null && !ePrev.click && !eHov.click && !load){
                 info.update();
             }
         }
-    // }
 }
 function zoomToFeature(e) {
-    // if (e.target._map._container.id === "map"){
         var layer = e.target;
-        // console.log(e);
         zoom = layer;
         var id = getId(layer.feature.properties);
         window.location.hash = currentLayer+"/"+ id;
-         // if (confirmChanges(layer.feature.properties.RCLINK)){
-            // $('#home-tab').trigger('click');
             map.fitBounds(e.target.getBounds());
-            // console.log(ePrev)
             
             if (ePrev !== null && ePrev.click){
-                // console.log(ePrev)
                 geojson.resetStyle(ePrev.target);
             }
             click = true;
@@ -483,15 +439,8 @@ function zoomToFeature(e) {
                     opacity: 0.3
                 });
              }
-         // }
          
         info.update(layer.feature.properties);
-        // console.log(layer);
-        // checkIntersect(layer.feature, geoLayers.rc.data.toGeoJSON().features);
-        // checkIntersect(layer.feature, geoLayers.county.data.toGeoJSON().features);
-        // checkIntersect(layer.feature, geoLayers.congress.data.toGeoJSON().features);
-        // checkIntersect(layer.feature, geoLayers.senate.data.toGeoJSON().features);
-        // checkIntersect(layer.feature, geoLayers.house.data.toGeoJSON().features);
         if (typeof layer.feature.properties.DISTRICT !== "undefined"){
             $('#'+currentLayer+'-select').val(layer.feature.properties.DISTRICT);
             $('#'+currentLayer+'-name-select').val(layer.feature.properties.DISTRICT);
@@ -499,18 +448,11 @@ function zoomToFeature(e) {
         else{
             $('#'+currentLayer+'-select').val(id);
         }
-        // if (typeof layer.feature.properties.DISTRICT !== "undefined"){
-        //     $('#'+currentLayer+'-select').on(layer.feature.properties.DISTRICT);
-        //     $('#'+currentLayer+'-name-select').on(layer.feature.properties.DISTRICT);
-        // }
-        // else{
-        //     $('#'+currentLayer+'-select').on(id);
-        // }
+
         ePrev = e;
         // console.log(ePrev)
         previous = layer.feature.properties;
         // console.log(previous)
-    // }
 }
 
 function addGeoJSONGeographies(geos, map){
@@ -663,16 +605,44 @@ function addGeographies(geos, map){
 }
 function getFunding(){
 	$.getJSON('data/ntd/5310.json', function(d){
-		funding = d;
+		funding["5310"] = d["5310"];
 	});
+    d3.csv('data/ntd/5311.csv')
+        // .row(function(d) { return {key: d["Sub.Recipient.ID"], value: +d.value}; })
+        .get(function(error, rows) { 
+            console.log(rows); 
+            funding["5311"] = rows;
+        });
 }
 function addTopoData(topoData){  
 	topoLayer.addData(topoData);
 	topoLayer.addTo(map);
 }
 function checkFunding(code, county){
-	if(funding[code].indexOf(county) > -1){
-    		return true;
-    	}
+    if (code === "5310"){
+    	if(funding[code].indexOf(county) > -1){
+        	return true;
+        }
+        else{
+            return false;
+        }
+    }
+    var funds = [];
+    if (code === "5311"){
+        for (var i = funding["5311"].length - 1; i >= 0; i--) {
+            if(funding["5311"][i].counties.replace(/ /g,'').split(",").indexOf(county) > -1){
+                funds.push(funding["5311"][i]);
+            }
+        }
+        return funds;
+        
+    }
 }
 
+function checkMultipleFunding(code, counties){
+    var funds = {};
+    for (var i = counties.length - 1; i >= 0; i--) {
+        funds[counties[i]] = checkFunding(code, counties[i]);
+    }
+    return funds;
+}
