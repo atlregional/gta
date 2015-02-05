@@ -146,31 +146,39 @@ info.update = function (props) {
     	console.log(props.counties);
         data = props.counties.toString();
         data = '<div style="max-width:272px;"><b>Counties:</b><br />' + data.replace(/,/g,', ') + '</div>';
+
+        fundingData = getFundingString("5311", props.counties);
     }
     else if ((currentLayer === "senate" || currentLayer === "house" || currentLayer === "congress") && typeof props !== "undefined" && typeof geoLayers[currentLayer].counties !== "undefined") {
     	$('#'+currentLayer+'-name-select').val(name);
         counties = getCounties(geoLayers[currentLayer].counties[name]);
     	data = counties.toString();
         data = '<div style="max-width:272px;"><b>Counties:</b><br />' + data.replace(/,/g,', ') + '</div>';
+
+        fundingData = getFundingString("5311", counties);
     }
     else if (currentLayer == "county" && typeof props !== "undefined"){
     	
-    	if(checkFunding("5310", name)){
+    	if(checkMultipleFunding("5310", [name])){
     		console.log("5310!");
     		fundingData += " (5310)";
     	}
-        fund5311 = checkFunding("5311", name);
-        if(fund5311.length > 0){
+        fund5311 = checkMultipleFunding("5311", [name]);
+        if(Object.keys(fund5311).length > 0){
             console.log("5311!");
             var upt = 0;
-            for (var i = fund5311.length - 1; i >= 0; i--) {
-                fundingData += "<br /><b>" + fund5311[i]["Sub.Recipient.Agency.x"] + "</b>";
-                fundingData += "<br />UPT: " + numberWithCommas(fund5311[i]["Unlinked.Passenger.Trips"]) + "";
-                upt += +fund5311[i]["Unlinked.Passenger.Trips"];
-            };
-            if (upt > 0){
-                fundingData += "<br /><b>Total UPT:</b> " + numberWithCommas(upt);
-            }
+            $.each(fund5311, function(county, data){
+                console.log(data)
+                for (var i = data.length - 1; i >= 0; i--) {
+                    fundingData += "<br /><b>" + data[i]["Sub.Recipient.Agency.x"] + "</b>";
+                    fundingData += "<br />UPT: " + numberWithCommas(data[i]["Unlinked.Passenger.Trips"]) + "";
+                    upt += +data[i]["Unlinked.Passenger.Trips"];
+                };
+                if (upt > 0){
+                    fundingData += "<br /><b>Total UPT:</b> " + numberWithCommas(upt);
+                }
+            });
+            
         }
     }
     this._div.innerHTML = '<div><h3 class="pull-right">Public Transit in Georgia</h3></div>' + buttons + geogSelect + nameSelect +   (props ?
@@ -653,4 +661,39 @@ function checkMultipleFunding(code, counties){
         funds[counties[i]] = checkFunding(code, counties[i]);
     }
     return funds;
+}
+
+function getFundingString(code, counties){
+    var fundingData = '';
+    fund5311 = checkMultipleFunding(code, counties);
+    if(Object.keys(fund5311).length > 0){
+        console.log(code);
+        var agencies = [];
+        var totalUpt = 0;
+        $.each(fund5311, function(county, data){
+            var upt = 0;
+            console.log(data);
+            for (var i = data.length - 1; i >= 0; i--) {
+                if (agencies.indexOf(data[i]["Sub.Recipient.Agency.x"]) > -1){
+                    continue;
+                }
+                if (i === data.length - 1){
+                    // fundingData += "<br /><b style='font-size:x-large;'>" + county + "</b>";
+                }
+                fundingData += "<br /><b>" + data[i]["Sub.Recipient.Agency.x"] + "</b>";
+                fundingData += "<br />UPT: " + numberWithCommas(data[i]["Unlinked.Passenger.Trips"]) + "";
+                upt += +data[i]["Unlinked.Passenger.Trips"];
+                totalUpt += +data[i]["Unlinked.Passenger.Trips"];
+                agencies.push(data[i]["Sub.Recipient.Agency.x"]);
+            }
+            if (upt > 0){
+                // fundingData += "<br /><b>County UPT:</b> " + numberWithCommas(upt);
+            }
+        });
+        if (totalUpt > 0){
+            fundingData += "<br /><b>Total UPT:</b> " + numberWithCommas(totalUpt);
+        }
+        
+    }
+    return fundingData;
 }
