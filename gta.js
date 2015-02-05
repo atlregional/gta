@@ -7,7 +7,10 @@ var geos = [
     {"id":"congress","dom_id":"#congress-button","name":"US Congress","color":"#f00","active":""},
     {"id":"senate","dom_id":"#senate-button","name":"State Senate","color":"#0f0","active":""}
 ];
-var funding = {};
+var funding = {
+    "5310": {},
+    "5311": {}
+};
 getFunding();
 var currentLayer = "";
 if (params[0]) {
@@ -156,11 +159,13 @@ info.update = function (props) {
     		console.log("5310!");
     		fundingData += " (5310)";
     	}
-        fund5311 = checkFunding("5311", name);
-        if(fund5311.length > 0){
-            console.log("5311!");
-            fundingData += "<br />(5311 Agency: " + fund5311[0]["Sub.Recipient.Agency.x"] + ")";
-        }
+        // fund5311 = checkFunding("5311", name);
+        // if(fund5311.length > 0){
+        //     console.log("5311!");
+        //     for (var i = fund5311.length - 1; i >= 0; i--) {
+        //         fundingData += "<br />(5311 Agency: " + fund5311[i]["Sub.Recipient.Agency.x"] + ")";
+        //     };
+        // }
     }
     this._div.innerHTML = '<div><h3 class="pull-right">Public Transit in Georgia</h3></div>' + buttons + geogSelect + nameSelect +   (props ?
         '<span ><b>' + geoLayers[currentLayer].name_sing + '</b><br />' + name + fundingData +'</span><br />' + data
@@ -578,23 +583,7 @@ function addGeographies(geos, map){
 
             }
         });
-
         geoLayers[geo.id].data = omnivore.topojson("data/topo/" + geo.id + ".json", null, customLayer);
-        // $.getJSON("data/topo/" + geo.id + ".json", function(data){
-        // 	console.log(data)
-        // 	if(geo.id === "county"){
-        // 		for (var i = data.objects[geo.id].geometries.length - 1; i >= 0; i--) {
-        // 			if(checkFunding("5310", data.objects[geo.id].geometries[i].properties.name)){
-        // 				data.objects[geo.id].geometries[i].properties.funding = ["5310"];
-        // 			}
-        // 			else{
-        // 				data.objects[geo.id].geometries[i].properties.funding = ["5310"];
-        // 			}
-        // 		}
-        // 	}
-        // 	// customLayer.addData(data);
-        // 	geoLayers[geo.id].data = customLayer.addData(omnivore.topojson.parse(data));
-        // });
         console.log(geoLayers[geo.id].data);
         if (geo.active == "active"){
             geoLayers[geo.id].data.addTo(map);
@@ -607,12 +596,19 @@ function getFunding(){
 	$.getJSON('data/ntd/5310.json', function(d){
 		funding["5310"] = d["5310"];
 	});
-    d3.csv('data/ntd/5311.csv')
-        // .row(function(d) { return {key: d["Sub.Recipient.ID"], value: +d.value}; })
-        .get(function(error, rows) { 
-            console.log(rows); 
-            funding["5311"] = rows;
-        });
+    d3.csv('data/ntd/5311.csv', function(data){
+        funding["5311"].service = d3.nest()
+            .key(function(d) { return d["counties"].replace(/ /g,''); })
+            // .key(function(d) { return d["Sub.Recipient.ID"]; })
+            .map(data);
+    });
+    d3.csv('data/ntd/5311_financial.csv', function(data){
+        console.log(data);
+        funding["5311"] = d3.nest()
+            .key(function(d) { return d["Sub.Recipient.ID"]; })
+            .key(function(d) { return d["Funding.Type"]; })
+            .map(data);
+    });
 }
 function addTopoData(topoData){  
 	topoLayer.addData(topoData);
@@ -629,13 +625,17 @@ function checkFunding(code, county){
     }
     var funds = [];
     if (code === "5311"){
-        for (var i = funding["5311"].length - 1; i >= 0; i--) {
-            if(funding["5311"][i].counties.replace(/ /g,'').split(",").indexOf(county) > -1){
-                funds.push(funding["5311"][i]);
+        for (var key in funding["5311"].service) {
+            if (funding["5311"].service.hasOwnProperty(key)) {
+                // console.log(key + " -> " + funding["5311"].service[key]);
+                if(key.split(",").indexOf(county) > -1){
+                    for (var i = funding["5311"].service[key].length - 1; i >= 0; i--) {
+                        funds.push(funding["5311"].service[key][i]);
+                    };
+                }
             }
         }
         return funds;
-        
     }
 }
 
