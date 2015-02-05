@@ -159,13 +159,19 @@ info.update = function (props) {
     		console.log("5310!");
     		fundingData += " (5310)";
     	}
-        // fund5311 = checkFunding("5311", name);
-        // if(fund5311.length > 0){
-        //     console.log("5311!");
-        //     for (var i = fund5311.length - 1; i >= 0; i--) {
-        //         fundingData += "<br />(5311 Agency: " + fund5311[i]["Sub.Recipient.Agency.x"] + ")";
-        //     };
-        // }
+        fund5311 = checkFunding("5311", name);
+        if(fund5311.length > 0){
+            console.log("5311!");
+            var upt = 0;
+            for (var i = fund5311.length - 1; i >= 0; i--) {
+                fundingData += "<br /><b>" + fund5311[i]["Sub.Recipient.Agency.x"] + "</b>";
+                fundingData += "<br />UPT: " + numberWithCommas(fund5311[i]["Unlinked.Passenger.Trips"]) + "";
+                upt += +fund5311[i]["Unlinked.Passenger.Trips"];
+            };
+            if (upt > 0){
+                fundingData += "<br /><b>Total UPT:</b> " + numberWithCommas(upt);
+            }
+        }
     }
     this._div.innerHTML = '<div><h3 class="pull-right">Public Transit in Georgia</h3></div>' + buttons + geogSelect + nameSelect +   (props ?
         '<span ><b>' + geoLayers[currentLayer].name_sing + '</b><br />' + name + fundingData +'</span><br />' + data
@@ -345,7 +351,9 @@ function getName(props){
     	return "name goes here";
     }
 }
-
+function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
 function getCounties(geoIds){
 	var names = [];
 	var counties = geoLayers.county.data.toGeoJSON().features;
