@@ -13,6 +13,7 @@ var funding = {
 };
 getFunding();
 var currentLayer = "";
+var currentProps = "";
 if (params[0]) {
     currentLayer = params[0];
 }
@@ -64,7 +65,8 @@ map = L.map('map', {
         zoom: 7, 
         center: [32.630,-83.084],
         maxBounds: L.latLngBounds([30, -88], [35.7, -78]),
-        minZoom: 7
+        minZoom: 7,
+        scrollWheelZoom: false
         // zoom: params.zoom || 7, 
         // center: [params.lat || 32.630, params.lng || -83.084]
     });
@@ -99,6 +101,12 @@ var geoLayers = {
     "senate" : {"select": {"geog": [], "name": []}, "data": senate, "counties": null, "name_sing":"State Senate District", "name":"State Senate","color":"#f00","active":""},
     "house" : {"select": {"geog": [], "name": []}, "data": house, "counties": null, "name_sing":"House District", "name":"State House","color":"#0f0","active":""}
 };
+var stats = {
+    "UPT": "Unlinked.Passenger.Trips",
+    "VRM": "Vehicle.Revenue.Miles",
+    "VRH": "Vehicle.Revenue.Hours"
+};
+var currentStat = "UPT";
 
 addGeographies(geos, map);
 
@@ -120,10 +128,12 @@ info.onAdd = function (map) {
   
 info.update = function (props) {
     console.log("info updating...");
+    currentProps = props;
     var buttons = '<div class=" switches btn-group-vertical" data-toggle="buttons">';
     var name = getName(props);
     var id = getId(props);
-    
+    var statsOptions = '';
+    var disabled = '';
     if (typeof id == "undefined" ){
         id = entity;
     }
@@ -142,48 +152,59 @@ info.update = function (props) {
         // },1000)
     }
     data = "";
-    if (currentLayer == "rc" && typeof props !== "undefined"){
-    	console.log(props.counties);
-        data = props.counties.toString();
-        data = '<div style="max-width:272px;"><b>Counties:</b><br />' + data.replace(/,/g,', ') + '</div>';
-
-        fundingData = getFundingString("5311", props.counties);
-    }
-    else if ((currentLayer === "senate" || currentLayer === "house" || currentLayer === "congress") && typeof props !== "undefined" && typeof geoLayers[currentLayer].counties !== "undefined") {
-    	$('#'+currentLayer+'-name-select').val(name);
-        counties = getCounties(geoLayers[currentLayer].counties[name]);
-    	data = counties.toString();
-        data = '<div style="max-width:272px;"><b>Counties:</b><br />' + data.replace(/,/g,', ') + '</div>';
-
-        fundingData = getFundingString("5311", counties);
-    }
-    else if (currentLayer == "county" && typeof props !== "undefined"){
-    	
-    	if(checkMultipleFunding("5310", [name])){
-    		console.log("5310!");
-    		fundingData += " (5310)";
-    	}
-        fund5311 = checkMultipleFunding("5311", [name]);
-        if(Object.keys(fund5311).length > 0){
-            console.log("5311!");
-            var upt = 0;
-            $.each(fund5311, function(county, data){
-                console.log(data)
-                for (var i = data.length - 1; i >= 0; i--) {
-                    fundingData += "<br /><b>" + data[i]["Sub.Recipient.Agency.x"] + "</b>";
-                    fundingData += "<br />UPT: " + numberWithCommas(data[i]["Unlinked.Passenger.Trips"]) + "";
-                    upt += +data[i]["Unlinked.Passenger.Trips"];
-                };
-                if (upt > 0){
-                    fundingData += "<br /><b>Total UPT:</b> " + numberWithCommas(upt);
-                }
-            });
-            
+    if (typeof props !== "undefined"){
+        for (var key in stats) {
+            var selected = '';
+            if (currentStat === key){
+                selected = 'selected';
+            }
+            if (stats.hasOwnProperty(key)) {
+                statsOptions += '<option ' + selected + '>' + key + '</option>';
+            }
         }
+        if (currentLayer == "rc"){
+        	console.log(props.counties);
+            data = props.counties.toString();
+            data = '<div style="max-width:272px;"><b>Counties:</b><br />' + data.replace(/,/g,', ') + '</div>';
+
+            fundingData = getFundingString("5311", props.counties);
+        }
+        else if ((currentLayer === "senate" || currentLayer === "house" || currentLayer === "congress") && typeof geoLayers[currentLayer].counties !== "undefined") {
+        	$('#'+currentLayer+'-name-select').val(name);
+            counties = getCounties(geoLayers[currentLayer].counties[name]);
+        	data = counties.toString();
+            data = '<b>Counties:</b><br />' + data.replace(/,/g,', ');
+
+            fundingData = getFundingString("5311", counties);
+        }
+        else if (currentLayer == "county"){
+            fundingData = getFundingString("5311", [name]);
+            if(checkFunding("5310", name)){
+                console.log("5310!");
+                fundingData = "5310 in this county<br />" + fundingData;
+            }
+            if (checkMultipleFunding("5311", [name])[name].length === 0){
+                disabled = 'disabled';
+            }
+        }
+        
     }
-    this._div.innerHTML = '<div><h3 class="pull-right">Public Transit in Georgia</h3></div>' + buttons + geogSelect + nameSelect +   (props ?
-        '<span ><b>' + geoLayers[currentLayer].name_sing + '</b><br />' + name + fundingData +'</span><br />' + data
-        : '<span >Click a district for information on its public transit.</span>');
+    this._div.innerHTML = '<div><h3 class="pull-right">Public Transit in Georgia</h3></div>' + 
+                            buttons + 
+                            geogSelect + 
+                            nameSelect +
+                            (props ? 
+                                '<select id="stat-select" '+disabled+' onchange="toggleStat(this)" style="float:right; margin-top:6px;">' + 
+                                        statsOptions +
+                                '</select>' +
+                                '<div style="max-width:301px; overflow-y:auto; max-height:300px;">' +
+                                    // '<b>' + geoLayers[currentLayer].name_sing + '</b><br />' +
+                                    // name +
+                                    fundingData +'<br />' +
+                                    data +
+                                '</div>'
+                            : 
+                                '<span >Click a district for information on its public transit.</span>');
 };
 
 info.addTo(map);
@@ -266,7 +287,7 @@ function toggleLayer(el, onload){
         elId = el;
     }
     // Hide select
-    $('#'+currentLayer+'-select').hide();
+    // $('#'+currentLayer+'-select').hide();
 
     // Currently set up for radio button
     if (!$(el).hasClass('active') || geoLayers.layers.indexOf(el) > -1){
@@ -308,9 +329,10 @@ function getSelect(layer){
     if (layer === "rc" || layer === "county") {
         nameBool = false;
     }
-
-    geoLayers[layer].select.name.sort(sortFunction);
+    // Sort select arrays for display
     geoLayers[layer].select.geog.sort();
+    geoLayers[layer].select.name.sort(sortFunction);
+    
     console.log("entity = " + params[1]);
     $.each(geoLayers[layer].select.geog, function(i, val){
         var selectedGeog = '';
@@ -319,9 +341,11 @@ function getSelect(layer){
         if (load && typeof entity !== "undefined" && entity == val[1]) {
             console.log(val[1]);
             selectedGeog = "selected";
+            // load = false;
         }
         if (load && typeof entity !== "undefined" && nameBool && entity == geoLayers[layer].select.name[i][1]){
             selectedName = "selected";
+            // load = false;
         }
         geogSelect += '<option value="' + val[1] + '" ' + selectedGeog + '>' + val[0] + '</option>';
         // geogSelect += '<option>' + val + '</option>';
@@ -543,12 +567,15 @@ function checkIntersect(district, set){
 
 function addGeographies(geos, map){
     $.each(geos, function(i, geo){
-    	if (geo.id === "senate" || geo.id === "house" || geo.id === "congress"){
+
+        // Get county data for districts only 
+    	if (isDistrict(geo.id)){
     		$.getJSON('data/bef/' + geo.id + '.json', function(data){
     			geoLayers[geo.id].counties = data;
     		});
     	}
 
+        // Set up custom layer data with unique color
         var customLayer = L.geoJson(null, {
             style: function (feature) {
                 return {
@@ -558,6 +585,7 @@ function addGeographies(geos, map){
                     opacity: 0.5
                 };
             },
+            // 
             onEachFeature: function (feature, layer){
                                 var props = feature.properties;
                                 var id = getId(props);
@@ -600,6 +628,7 @@ function addGeographies(geos, map){
             }
         });
         geoLayers[geo.id].data = omnivore.topojson("data/topo/" + geo.id + ".json", null, customLayer);
+        
         console.log(geoLayers[geo.id].data);
         if (geo.active == "active"){
             geoLayers[geo.id].data.addTo(map);
@@ -663,8 +692,15 @@ function checkMultipleFunding(code, counties){
     return funds;
 }
 
+function toggleStat(select){
+    console.log(select.value);
+    currentStat = select.value;
+    load = true;
+    info.update(currentProps);
+}
+
 function getFundingString(code, counties){
-    var fundingData = '';
+    var fundingString = '';
     fund5311 = checkMultipleFunding(code, counties);
     if(Object.keys(fund5311).length > 0){
         console.log(code);
@@ -678,22 +714,32 @@ function getFundingString(code, counties){
                     continue;
                 }
                 if (i === data.length - 1){
-                    // fundingData += "<br /><b style='font-size:x-large;'>" + county + "</b>";
+                    // fundingString += "<br /><b style='font-size:x-large;'>" + county + "</b>";
                 }
-                fundingData += "<br /><b>" + data[i]["Sub.Recipient.Agency.x"] + "</b>";
-                fundingData += "<br />UPT: " + numberWithCommas(data[i]["Unlinked.Passenger.Trips"]) + "";
+                fundingString += "<b>" + data[i]["Sub.Recipient.Agency.x"] + "</b><br />";
+                fundingString += currentStat + ": " + numberWithCommas(data[i][stats[currentStat]]) + "<br />";
                 upt += +data[i]["Unlinked.Passenger.Trips"];
-                totalUpt += +data[i]["Unlinked.Passenger.Trips"];
+                totalUpt += +data[i][stats[currentStat]];
                 agencies.push(data[i]["Sub.Recipient.Agency.x"]);
             }
             if (upt > 0){
-                // fundingData += "<br /><b>County UPT:</b> " + numberWithCommas(upt);
+                // fundingString += "<br /><b>County UPT:</b> " + numberWithCommas(upt);
             }
         });
-        if (totalUpt > 0){
-            fundingData += "<br /><b>Total UPT:</b> " + numberWithCommas(totalUpt);
+        if ( agencies.length > 0 ){
+            fundingString = '<span style="font-size:large;"><b>Total '+currentStat+':</b> ' + numberWithCommas(totalUpt) + '</span><br />' +
+                            fundingString;
         }
         
     }
-    return fundingData;
+    return fundingString;
+}
+
+function isDistrict(id){
+    if (id === "senate" || id === "house" || id === "congress"){
+        return true;
+    }
+    else{
+        return false;
+    }
 }
