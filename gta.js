@@ -194,15 +194,18 @@ info.update = function (props) {
                             geogSelect + 
                             nameSelect +
                             (props ? 
-                                '<select id="stat-select" '+disabled+' onchange="toggleStat(this)" style="position:absolute; right:8px; margin-top:6px;">' + 
+                                '<form class="form-inline"><div class="form-group pull-right">'+
+                                '<label for="stat-select"></label><select class="form-control" id="stat-select" '+disabled+' onchange="toggleStat(this)">' + //style="position:absolute; right:8px; margin-top:6px;">' + 
                                         statsOptions +
                                 '</select>' +
+                                '</div>' +
                                 '<div style="max-width:301px; overflow-y:auto; max-height:300px;">' +
                                     // '<b>' + geoLayers[currentLayer].name_sing + '</b><br />' +
                                     // name +
                                     fundingData +'<br />' +
                                     data +
-                                '</div>'
+                                '</div>' +
+                                '</form>'
                             : 
                                 '<span >Click a district for information on its public transit.</span>');
 };
@@ -321,8 +324,8 @@ function toggleLayer(el, onload){
 }
 
 function getSelect(layer, id){
-    nameSelect = '<select onChange="showFeature(this)" class="name" id="'+layer+'-name-select"><option>[Representative Name]</option>';
-    geogSelect = '<select onChange="showFeature(this)" class="geog" id="'+layer+'-select"><option>[Select district]</option>';
+    nameSelect = '<select class="form-control" onChange="showFeature(this)" class="name" id="'+layer+'-name-select"><option>[Representative Name]</option>';
+    geogSelect = '<select class="form-control" onChange="showFeature(this)" class="geog" id="'+layer+'-select"><option>[Select district]</option>';
     
     // Tells us whether layer has representative (e.g., senate, house, congress)
     var nameBool = true;
