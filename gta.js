@@ -121,7 +121,7 @@ $('.btn').button();
 var info = L.control();
 
 info.onAdd = function (map) {
-    this._div = L.DomUtil.create('div', 'info');
+    this._div = L.DomUtil.create('div', 'info col-md-12');
     this.update();
     return this._div;
 };
