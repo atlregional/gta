@@ -191,11 +191,16 @@ info.update = function (props) {
     }
     this._div.innerHTML = '<div><h3 class="pull-right">Public Transit in Georgia</h3></div>' + 
                             buttons + 
+                            '<form class="form-inline">' +
+                            // '<div class="form-group pull-right">'+
                             geogSelect + 
-                            nameSelect +
+                            // '</div>' +
+                            // '<div class="form-group pull-right">'+
+                            nameSelect + 
+                            // '</div>' +
                             (props ? 
-                                '<form class="form-inline"><div class="form-group pull-right">'+
-                                '<label for="stat-select"></label><select class="form-control" id="stat-select" '+disabled+' onchange="toggleStat(this)">' + //style="position:absolute; right:8px; margin-top:6px;">' + 
+                                '<div class="form-group pull-right">'+
+                                '<select class="form-control" id="stat-select" '+disabled+' onchange="toggleStat(this)">' + // style="position:absolute; right:8px; margin-top:6px;">' + 
                                         statsOptions +
                                 '</select>' +
                                 '</div>' +
@@ -207,7 +212,9 @@ info.update = function (props) {
                                 '</div>' +
                                 '</form>'
                             : 
-                                '<span >Click a district for information on its public transit.</span>');
+                                '<span >Click a district for information on its public transit.</span>' +
+                                '</form>'
+                            );
 };
 
 info.addTo(map);
@@ -282,6 +289,9 @@ function toTitleCase(str)
 }
 function toggleLayer(el, onload){
     // console.log(el);
+    if (!load){
+        entity = undefined;
+    }
     var elid;
     if (el.id){
         elId = el.id.split('-')[0];
