@@ -335,7 +335,7 @@ function toggleLayer(el, onload){
 
 function getSelect(layer, id){
     nameSelect = '<select class="form-control" onChange="showFeature(this)" class="name" id="'+layer+'-name-select"><option>[Representative Name]</option>';
-    geogSelect = '<select class="form-control" onChange="showFeature(this)" class="geog" id="'+layer+'-select"><option>[Select district]</option>';
+    geogSelect = '<select class="form-control" onChange="showFeature(this)" class="geog" id="'+layer+'-select"><option>[Select ' + geoLayers[layer].name_sing + ']</option>';
     
     // Tells us whether layer has representative (e.g., senate, house, congress)
     var nameBool = true;
