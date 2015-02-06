@@ -148,7 +148,7 @@ info.update = function (props) {
     buttons += '</div><br /><br />';
     if (currentLayer !== ""){
         // setTimeOut(function(){
-            nameSelect, geogSelect = getSelect(currentLayer);
+            nameSelect, geogSelect = getSelect(currentLayer, id);
         // },1000)
     }
     data = "";
@@ -320,7 +320,7 @@ function toggleLayer(el, onload){
     }
 }
 
-function getSelect(layer){
+function getSelect(layer, id){
     nameSelect = '<select onChange="showFeature(this)" class="name" id="'+layer+'-name-select"><option>[Representative Name]</option>';
     geogSelect = '<select onChange="showFeature(this)" class="geog" id="'+layer+'-select"><option>[Select district]</option>';
     
@@ -338,12 +338,12 @@ function getSelect(layer){
         var selectedGeog = '';
         var selectedName = '';
 
-        if (load && typeof entity !== "undefined" && entity == val[1]) {
+        if (load && typeof id !== "undefined" && id == val[1]) {
             console.log(val[1]);
             selectedGeog = "selected";
             // load = false;
         }
-        if (load && typeof entity !== "undefined" && nameBool && entity == geoLayers[layer].select.name[i][1]){
+        if (load && typeof id !== "undefined" && nameBool && id == geoLayers[layer].select.name[i][1]){
             selectedName = "selected";
             // load = false;
         }
