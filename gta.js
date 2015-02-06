@@ -194,7 +194,7 @@ info.update = function (props) {
                             geogSelect + 
                             nameSelect +
                             (props ? 
-                                '<select id="stat-select" '+disabled+' onchange="toggleStat(this)" style="float:right; margin-top:6px;">' + 
+                                '<select id="stat-select" '+disabled+' onchange="toggleStat(this)" style="position:absolute; right:8px; margin-top:6px;">' + 
                                         statsOptions +
                                 '</select>' +
                                 '<div style="max-width:301px; overflow-y:auto; max-height:300px;">' +
@@ -706,10 +706,12 @@ function getFundingString(code, counties){
         console.log(code);
         var agencies = [];
         var totalUpt = 0;
+        var totalFunding = 0;
         $.each(fund5311, function(county, data){
             var upt = 0;
             console.log(data);
             for (var i = data.length - 1; i >= 0; i--) {
+                operations = funding["5311"][data[i]["Sub.Recipient.ID"]].Operations;
                 if (agencies.indexOf(data[i]["Sub.Recipient.Agency.x"]) > -1){
                     continue;
                 }
@@ -721,18 +723,28 @@ function getFundingString(code, counties){
                 upt += +data[i]["Unlinked.Passenger.Trips"];
                 totalUpt += +data[i][stats[currentStat]];
                 agencies.push(data[i]["Sub.Recipient.Agency.x"]);
+                if (typeof operations !== "undefined"){
+                    fundingString += 'Total Operating: $' + numberWithCommas(operations[0]["Total.Annual.Expenses"]) + '<br />';
+                    fundingString += "Local Funds: $" + numberWithCommas(operations[0]["Local.Funds"]) + "<br />";
+                    totalFunding += +operations[0]["Total.Annual.Expenses"];
+                }
             }
             if (upt > 0){
                 // fundingString += "<br /><b>County UPT:</b> " + numberWithCommas(upt);
             }
         });
+        // if (totalFunding > 0){
+            fundingString = '<span style="font-size:large;"><b>Total Funding:</b> $' + numberWithCommas(totalFunding) + '</span><br />' +
+                            fundingString;
+        // }
         if ( agencies.length > 0 ){
             fundingString = '<span style="font-size:large;"><b>Total '+currentStat+':</b> ' + numberWithCommas(totalUpt) + '</span><br />' +
                             fundingString;
         }
+
         
     }
-    return fundingString;
+    return fundingString ;
 }
 
 function isDistrict(id){
