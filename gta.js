@@ -36,20 +36,27 @@ var geogSelect = '';
 $(document).ready(function(){
 	
 	console.log("ready");
-    for (var i = geos.length - 1; i >= 0; i--) {
-        console.log(geos[i].id);
-        if (params[0] == geos[i].id){
-            geos[i].active = "active";
+    if (geoLayers.layers.indexOf(params[0]) > -1){
+        for (var i = geos.length - 1; i >= 0; i--) {
             console.log(geos[i].id);
-            currentLayer = params[0];
-            // $('#' + geos[i].id + '-button').addClass('active')
-            toggleLayer(geos[i].id, true);
-            // console.log($(geos[i].dom_id))
-            // var dom = $('#county-button')[0]
-            // console.log(dom)
+            if (params[0] == geos[i].id){
+                geos[i].active = "active";
+                console.log(geos[i].id);
+                currentLayer = params[0];
+                // $('#' + geos[i].id + '-button').addClass('active')
+                toggleLayer(geos[i].id, true);
+                // console.log($(geos[i].dom_id))
+                // var dom = $('#county-button')[0]
+                // console.log(dom)
+            }
         }
+        info.update();
     }
-    info.update();
+    else{
+        history.pushState(null, null, '');
+    }
+    
+    
 });
 
 
@@ -66,7 +73,8 @@ map = L.map('map', {
         center: [32.630,-83.084],
         maxBounds: L.latLngBounds([30, -88], [35.7, -78]),
         minZoom: 7,
-        scrollWheelZoom: false
+        scrollWheelZoom: false,
+        zoomControl: false
         // zoom: params.zoom || 7, 
         // center: [params.lat || 32.630, params.lng || -83.084]
     });
@@ -84,6 +92,8 @@ state.geometry.coordinates = [
     // the state
     state.geometry.coordinates[0]
 ];
+new L.Control.Zoom({ position: 'bottomright' }).addTo(map);
+var sidebar = L.control.sidebar('sidebar').addTo(map);
 
 // statesData comes from the 'us-states.js' script included above
 var statesLayer = L.geoJson(state, {
@@ -146,7 +156,7 @@ info.update = function (props) {
     }
     console.log(currentLayer);
     buttons += '</div><br /><br />';
-    if (currentLayer !== ""){
+    if (geoLayers.layers.indexOf(currentLayer) > -1){
         // setTimeOut(function(){
             nameSelect, geogSelect = getSelect(currentLayer, id);
         // },1000)
@@ -189,7 +199,8 @@ info.update = function (props) {
         }
         
     }
-    this._div.innerHTML = '<div><h3 class="pull-right">Public Transit in Georgia</h3></div>' + 
+    // this._div.innerHTML = 
+    $('#settings').html('<div><h3 class="pull-right">Public Transit in Georgia</h3></div>' + 
                             buttons + 
                             '<form class="form-inline">' +
                             // '<div class="form-group pull-right">'+
@@ -214,7 +225,7 @@ info.update = function (props) {
                             : 
                                 '<span >Click a district for information on its public transit.</span>' +
                                 '</form>'
-                            );
+                            ));
 };
 
 info.addTo(map);
