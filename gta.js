@@ -1,3 +1,9 @@
+$('#map-tabs a').click(function (e) {
+  e.preventDefault();
+  $(this).tab('show');
+});
+
+
 var params = window.location.hash.substring(1).split('/');
 // restoreFromHash()
 var geos = [
@@ -73,7 +79,7 @@ map = L.map('map', {
         center: [32.630,-83.084],
         maxBounds: L.latLngBounds([30, -88], [35.7, -78]),
         minZoom: 7,
-        scrollWheelZoom: false,
+        // scrollWheelZoom: false,
         zoomControl: false
         // zoom: params.zoom || 7, 
         // center: [params.lat || 32.630, params.lng || -83.084]
@@ -94,7 +100,11 @@ state.geometry.coordinates = [
 ];
 new L.Control.Zoom({ position: 'bottomright' }).addTo(map);
 var sidebar = L.control.sidebar('sidebar').addTo(map);
+sidebar.open(params[2]);
 
+// sidebar._onClick('open', function(d){
+//     console.log(d);
+// });
 // statesData comes from the 'us-states.js' script included above
 var statesLayer = L.geoJson(state, {
   fillOpacity: 1,
@@ -150,6 +160,7 @@ info.update = function (props) {
     // console.log(id);
 
     var fundingData = '';
+    var serviceData = '';
     // console.log(name);
     for (var i = geos.length - 1; i >= 0; i--) {
         buttons += '<label type="button" id="'+geos[i].id+'-button" onclick="toggleLayer(this, false)" class=" layer-switch btn '+geos[i].active+' btn-default" title="'+geos[i].name+'"><input type="radio" ><span>'+geos[i].name+'</span></label>';
@@ -178,6 +189,7 @@ info.update = function (props) {
             data = '<div style="max-width:272px;"><b>Counties:</b><br />' + data.replace(/,/g,', ') + '</div>';
 
             fundingData = getFundingString("5311", props.counties);
+            serviceData = getFundingString("5311", props.counties);
         }
         else if ((currentLayer === "senate" || currentLayer === "house" || currentLayer === "congress") && typeof geoLayers[currentLayer].counties !== "undefined") {
         	$('#'+currentLayer+'-name-select').val(name);
@@ -186,9 +198,11 @@ info.update = function (props) {
             data = '<b>Counties:</b><br />' + data.replace(/,/g,', ');
 
             fundingData = getFundingString("5311", counties);
+            serviceData = getFundingString("5311", counties);
         }
         else if (currentLayer == "county"){
             fundingData = getFundingString("5311", [name]);
+            serviceData = getFundingString("5311", [name]);
             if(checkFunding("5310", name)){
                 console.log("5310!");
                 fundingData = "5310 in this county<br />" + fundingData;
@@ -200,9 +214,15 @@ info.update = function (props) {
         
     }
     // this._div.innerHTML = 
-    $('#settings').html('<div><h3 class="pull-right">Public Transit in Georgia</h3></div>' + 
-                            buttons + 
+    $('#funding-content').html(fundingData);
+    $('#service-content').html('<select class="form-control" id="stat-select" '+disabled+' onchange="toggleStat(this)">' + // style="position:absolute; right:8px; margin-top:6px;">' + 
+                                        statsOptions +
+                                '</select>' +
+                                serviceData);
+    $('#home-content').html('<div><h3>Public Transit in Georgia</h3></div>' + 
+                             // + 
                             '<form class="form-inline">' +
+                            buttons +
                             // '<div class="form-group pull-right">'+
                             geogSelect + 
                             // '</div>' +
@@ -211,21 +231,20 @@ info.update = function (props) {
                             // '</div>' +
                             (props ? 
                                 '<div class="form-group pull-right">'+
-                                '<select class="form-control" id="stat-select" '+disabled+' onchange="toggleStat(this)">' + // style="position:absolute; right:8px; margin-top:6px;">' + 
-                                        statsOptions +
-                                '</select>' +
+                                
                                 '</div>' +
                                 '<div style="max-width:301px; overflow-y:auto; max-height:300px;">' +
                                     // '<b>' + geoLayers[currentLayer].name_sing + '</b><br />' +
                                     // name +
-                                    fundingData +'<br />' +
+                                    // fundingData +'<br />' +
                                     data +
                                 '</div>' +
                                 '</form>'
                             : 
                                 '<span >Click a district for information on its public transit.</span>' +
                                 '</form>'
-                            ));
+                            )
+    );
 };
 
 info.addTo(map);
@@ -257,7 +276,8 @@ function showFeature(select){
     // console.log(select.id)
     entity = select.value;
     // console.log("entity =" + entity);
-    window.location.hash = currentLayer+"/"+ entity;
+    var currentPane = $(sidebar._sidebar).find('div.active.sidebar-pane').attr('id');
+    window.location.hash = currentLayer +"/"+ entity +"/"+ currentPane;
     if ($("#"+select.id).hasClass('geog')){
         $('#' + currentLayer + '-name-select').text(entity);
     }
@@ -304,6 +324,8 @@ function toggleLayer(el, onload){
         entity = undefined;
     }
     var elid;
+    var currentPane = $(sidebar._sidebar).find('div.active.sidebar-pane').attr('id');
+
     if (el.id){
         elId = el.id.split('-')[0];
     }
@@ -338,7 +360,7 @@ function toggleLayer(el, onload){
             }
         }
         if (!onload){
-            history.pushState(null, null, "#" + elId);
+            history.pushState(null, null, "#" + elId); //+ '/' + currentPane);
             info.update();
         }
     }
@@ -490,7 +512,9 @@ function zoomToFeature(e) {
         var layer = e.target;
         zoom = layer;
         var id = getId(layer.feature.properties);
-        window.location.hash = currentLayer+"/"+ id;
+        var currentPane = $(sidebar._sidebar).find('div.active.sidebar-pane').attr('id');
+        window.location.hash = currentLayer +"/"+ id +"/"+ currentPane;
+        // window.location.hash = currentLayer+"/"+ id;
             map.fitBounds(e.target.getBounds());
             
             if (ePrev !== null && ePrev.click){
@@ -714,6 +738,12 @@ function checkMultipleFunding(code, counties){
         funds[counties[i]] = checkFunding(code, counties[i]);
     }
     return funds;
+}
+
+function toggleTab(tab){
+    var id = tab.id.split('-')[0];
+    console.log(id);
+    sidebar.open(id);
 }
 
 function toggleStat(select){
