@@ -364,6 +364,7 @@ function toggleLayer(el, onload){
 }
 
 function getSelect(layer, id){
+    helperText = '<p class="large">2. Click a district on map or select by name'
     nameSelect = '<select class="form-control" onChange="showFeature(this)" class="name" id="'+layer+'-name-select"><option>[Representative Name]</option>';
     geogSelect = '<select class="form-control" onChange="showFeature(this)" class="geog" id="'+layer+'-select"><option>[Select ' + geoLayers[layer].name_sing + ']</option>';
     
@@ -373,11 +374,10 @@ function getSelect(layer, id){
         nameBool = false;
     }
     // Sort select arrays for display
+    // console.log("entity = " + params[1]);
     geoLayers[layer].select.geog.sort();
     geoLayers[layer].select.name.sort(sortFunction);
     
-    console.log("entity = " + params[1]);
-    console.log(geoLayers[layer].select.geog);
     $.each(geoLayers[layer].select.geog, function(i, val){
 
         var selectedGeog = '';
@@ -401,16 +401,17 @@ function getSelect(layer, id){
     });
     if (!nameBool){
         nameSelect = '';
+        helperText += '.</p>';
     }
     else{
         nameSelect += '</select><br />';
+        helperText += ' or representative.</p>';
     }
     geogSelect += '</select><br />';
-    console.log("getting select");
-    console.log(geogSelect);
-    // return nameSelect, geogSelect;
-    $('#district-selects').html(geogSelect + 
-                                nameSelect);
+
+    $('#district-selects').html(helperText + 
+                                geogSelect + 
+                                nameSelect);    
 }
 function sortFunction(a, b) {
     if (a[0] === b[0]) {
@@ -635,6 +636,7 @@ function addGeographies(geos, map){
                     opacity: 0.5
                 };
             },
+            id: geo.id,
             // 
             onEachFeature: function (feature, layer){
                                 var props = feature.properties;
@@ -678,10 +680,15 @@ function addGeographies(geos, map){
 
             }
         });
-        geoLayers[geo.id].data = omnivore.topojson("data/topo/" + geo.id + ".json", null, customLayer);
         
+        geoLayers[geo.id].data = omnivore.topojson("data/topo/" + geo.id + ".json", null, customLayer)
+        .on('ready', function(){
+            if (geo.active == "active")
+                getSelect(geo.id);
+        });
         console.log(geoLayers[geo.id].data);
         if (geo.active == "active"){
+            console.log("adding data")
             geoLayers[geo.id].data.addTo(map);
             geojson = geoLayers[geo.id].data;
         }
