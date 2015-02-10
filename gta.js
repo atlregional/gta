@@ -72,6 +72,8 @@ $(document).ready(function(){
     $('#home-form').prepend(buttons);
     // console.log($('#layer-options').hasClass('switches'));
 
+
+
 });
 
 
@@ -170,8 +172,16 @@ info.update = function (props) {
     var fundingData = '';
     var serviceData = '';
     // console.log(name);
-    
 
+    // Try to nest again if first time fails
+    if (typeof funding["5311"].service == "undefined" && typeof funding["5311"].csv !== "undefined"){
+        console.log("trying again to nest");
+        funding["5311"].service = d3.nest()
+            .key(function(d) { return d["counties"].replace(/ /g,''); })
+            // .key(function(d) { return d["Sub.Recipient.ID"]; })
+            .map(funding["5311"].csv);
+    }
+    
     data = "";
     if (typeof props !== "undefined"){
         for (var key in stats) {
@@ -225,20 +235,9 @@ info.update = function (props) {
                                         statsOptions +
                                 '</select>' +
                                 serviceData);
-    $('#home-content').html((props ? 
-                                '<div class="form-group pull-right">'+
-                                
-                                '</div>' +
-                                // '<div style="max-width:301px; overflow-y:auto; max-height:300px;">' +
-                                    // '<b>' + geoLayers[currentLayer].name_sing + '</b><br />' +
-                                    // name +
-                                    // fundingData +'<br />' +
-                                    data
-                                // '</div>'
-                            : 
-                                '<span ></span>'
-                            )
-    );
+    $('#home-content').html();
+    $('#info-content').html(data);
+
 };
 
 info.addTo(map);
@@ -368,7 +367,7 @@ function toggleLayer(el, onload){
 }
 
 function getSelect(layer, id){
-    helperText = '<p class="large">2. Select a district on map or by name'
+    helperText = '<p class="large">2. Select a district on map or by name';
     nameSelect = '<select class="form-control" onChange="showFeature(this)" class="name" id="'+layer+'-name-select"><option>[Representative Name]</option>';
     geogSelect = '<select class="form-control" onChange="showFeature(this)" class="geog" id="'+layer+'-select"><option>[' + geoLayers[layer].name_sing + ']</option>';
     
@@ -629,7 +628,6 @@ function addGeographies(geos, map){
     			geoLayers[geo.id].counties = data;
     		});
     	}
-
         // Set up custom layer data with unique color
         var customLayer = L.geoJson(null, {
             style: function (feature) {
@@ -665,8 +663,8 @@ function addGeographies(geos, map){
                                 });
                                 if (entity !== "" && entity == getId(props)){
                                     map.fitBounds(L.geoJson(feature).getBounds());
-                                    info.update(props);
-                                    
+                                    // info.update(props);
+                                    currentProps = props;
                                     layer.setStyle({
                                             weight: '8',
                                             color: '#000',
@@ -687,8 +685,12 @@ function addGeographies(geos, map){
         
         geoLayers[geo.id].data = omnivore.topojson("data/topo/" + geo.id + ".json", null, customLayer)
         .on('ready', function(){
-            if (geo.active == "active")
+            if (geo.active == "active"){
                 getSelect(geo.id, entity);
+                if (entity !== "")
+                    info.update(currentProps);
+            }
+            
         });
         console.log(geoLayers[geo.id].data);
         if (geo.active == "active"){
@@ -704,19 +706,19 @@ function getFunding(){
 		funding["5310"] = d["5310"];
 	});
     d3.csv('data/ntd/5311.csv', function(data){
+        funding["5311"].csv = data;
         funding["5311"].service = d3.nest()
             .key(function(d) { return d["counties"].replace(/ /g,''); })
             // .key(function(d) { return d["Sub.Recipient.ID"]; })
             .map(data);
     });
-    d3.csv('data/ntd/5311_financial.csv', function(error, data){
-        // console.log(data);
-        console.log(error);
+    d3.csv('data/ntd/5311_financial.csv', function(data){
         funding["5311"] = d3.nest()
             .key(function(d) { return d["Sub.Recipient.ID"]; })
             .key(function(d) { return d["Funding.Type"]; })
             .map(data);
     });
+    
 }
 function addTopoData(topoData){  
 	topoLayer.addData(topoData);
