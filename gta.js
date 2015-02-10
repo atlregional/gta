@@ -193,7 +193,7 @@ info.update = function (props) {
 
             fundingData = getFundingString("5311", props.counties);
             console.log(fundingData);
-            serviceData = getFundingString("5311", props.counties);
+            // serviceData = getFundingString("5311", props.counties);
         }
         else if ((currentLayer === "senate" || currentLayer === "house" || currentLayer === "congress") && typeof geoLayers[currentLayer].counties !== "undefined") {
         	$('#'+currentLayer+'-name-select').val(name);
@@ -202,11 +202,11 @@ info.update = function (props) {
             data = '<b>Counties:</b><br />' + data.replace(/,/g,', ');
 
             fundingData = getFundingString("5311", counties);
-            serviceData = getFundingString("5311", counties);
+            // serviceData = getFundingString("5311", counties);
         }
         else if (currentLayer == "county"){
             fundingData = getFundingString("5311", [name]);
-            serviceData = getFundingString("5311", [name]);
+            // serviceData = getFundingString("5311", [name]);
             if(checkFunding("5310", name)){
                 console.log("5310!");
                 fundingData = "5310 in this county<br />" + fundingData;
@@ -228,7 +228,7 @@ info.update = function (props) {
     $('#service-content').html('<select class="form-control" id="stat-select" '+disabled+' onchange="toggleStat(this)">' + // style="position:absolute; right:8px; margin-top:6px;">' + 
                                         statsOptions +
                                 '</select>' +
-                                serviceData);
+                                fundingData);
     $('#home-content').html();
     $('#info-content').html(data);
 
