@@ -24,6 +24,8 @@ if (params[0]) {
     currentLayer = params[0];
 }
 
+
+
 var entity = "";
 
 console.log(params);
@@ -56,6 +58,13 @@ $(document).ready(function(){
                 // console.log(dom)
             }
         }
+        var buttons = '<div id="layer-options" class="switches btn-group-vertical" data-toggle="buttons">';
+        for (var i = geos.length - 1; i >= 0; i--) {
+                buttons += '<label type="button" id="'+geos[i].id+'-button" onclick="toggleLayer(this, false)" class=" layer-switch btn '+geos[i].active+' btn-default" title="'+geos[i].name+'"><input type="radio" ><span>'+geos[i].name+'</span></label>';
+            }
+        buttons += '</div><br /><br />';
+        $('#home-form').prepend(buttons);
+        console.log($('#layer-options').hasClass('switches'));
         info.update();
     }
     else{
@@ -100,7 +109,7 @@ state.geometry.coordinates = [
 ];
 new L.Control.Zoom({ position: 'bottomright' }).addTo(map);
 var sidebar = L.control.sidebar('sidebar').addTo(map);
-sidebar.open(params[2]);
+sidebar.open(typeof params[2] !== 'undefined' ? params[2] : 'home');
 
 // sidebar._onClick('open', function(d){
 //     console.log(d);
@@ -149,7 +158,6 @@ info.onAdd = function (map) {
 info.update = function (props) {
     console.log("info updating...");
     currentProps = props;
-    var buttons = '<div class=" switches btn-group-vertical" data-toggle="buttons">';
     var name = getName(props);
     var id = getId(props);
     var statsOptions = '';
@@ -162,11 +170,7 @@ info.update = function (props) {
     var fundingData = '';
     var serviceData = '';
     // console.log(name);
-    for (var i = geos.length - 1; i >= 0; i--) {
-        buttons += '<label type="button" id="'+geos[i].id+'-button" onclick="toggleLayer(this, false)" class=" layer-switch btn '+geos[i].active+' btn-default" title="'+geos[i].name+'"><input type="radio" ><span>'+geos[i].name+'</span></label>';
-    }
-    console.log(currentLayer);
-    buttons += '</div><br /><br />';
+    
     if (geoLayers.layers.indexOf(currentLayer) > -1){
         // setTimeOut(function(){
             nameSelect, geogSelect = getSelect(currentLayer, id);
@@ -219,17 +223,11 @@ info.update = function (props) {
                                         statsOptions +
                                 '</select>' +
                                 serviceData);
-    $('#home-content').html('<div><h3>Public Transit in Georgia</h3></div>' + 
-                             // + 
-                            '<form class="form-inline">' +
-                            buttons +
-                            // '<div class="form-group pull-right">'+
-                            geogSelect + 
+    $('#district-selects').html(geogSelect + 
                             // '</div>' +
                             // '<div class="form-group pull-right">'+
-                            nameSelect + 
-                            // '</div>' +
-                            (props ? 
+                            nameSelect);
+    $('#home-content').html((props ? 
                                 '<div class="form-group pull-right">'+
                                 
                                 '</div>' +
@@ -238,11 +236,9 @@ info.update = function (props) {
                                     // name +
                                     // fundingData +'<br />' +
                                     data +
-                                '</div>' +
-                                '</form>'
+                                '</div>'
                             : 
-                                '<span >Click a district for information on its public transit.</span>' +
-                                '</form>'
+                                '<span >Click a district for information on its public transit.</span>'
                             )
     );
 };
