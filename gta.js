@@ -141,7 +141,7 @@ var geoLayers = {
 };
 for (var i = geoLayers.layers.length - 1; i >= 0; i--) {
     var geoId = geoLayers.layers[i];
-    if (isDistrict(geoId)){
+    if (isDistrict(geoId) && ( currentLayer === '' || geoId !== currentLayer) ){
         $.getJSON('data/bef/' + geoId + '.json', function(data){
             geoLayers[geoId].counties = data;
             console.log(geoLayers[geoId].counties);
