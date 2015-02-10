@@ -58,20 +58,20 @@ $(document).ready(function(){
                 // console.log(dom)
             }
         }
-        var buttons = '<div id="layer-options" class="switches btn-group-vertical" data-toggle="buttons">';
-        for (var i = geos.length - 1; i >= 0; i--) {
-                buttons += '<label type="button" id="'+geos[i].id+'-button" onclick="toggleLayer(this, false)" class=" layer-switch btn '+geos[i].active+' btn-default" title="'+geos[i].name+'"><input type="radio" ><span>'+geos[i].name+'</span></label>';
-            }
-        buttons += '</div><br /><br />';
-        $('#home-form').prepend(buttons);
-        console.log($('#layer-options').hasClass('switches'));
         info.update();
     }
     else{
-        history.pushState(null, null, '');
+        console.log('no layer!')
+        window.location.hash = '';
     }
-    
-    
+    var buttons = '<div id="layer-options" class="switches btn-group-vertical" data-toggle="buttons">';
+    for (var i = geos.length - 1; i >= 0; i--) {
+            buttons += '<label type="button" id="'+geos[i].id+'-button" onclick="toggleLayer(this, false)" class=" layer-switch btn '+geos[i].active+' btn-default" title="'+geos[i].name+'"><input type="radio" ><span>'+geos[i].name+'</span></label>';
+        }
+    buttons += '</div><br /><br />';
+    $('#home-form').prepend(buttons);
+    console.log($('#layer-options').hasClass('switches'));
+
 });
 
 
@@ -171,11 +171,7 @@ info.update = function (props) {
     var serviceData = '';
     // console.log(name);
     
-    if (geoLayers.layers.indexOf(currentLayer) > -1){
-        // setTimeOut(function(){
-            nameSelect, geogSelect = getSelect(currentLayer, id);
-        // },1000)
-    }
+
     data = "";
     if (typeof props !== "undefined"){
         for (var key in stats) {
@@ -217,16 +213,18 @@ info.update = function (props) {
         }
         
     }
+    if (geoLayers.layers.indexOf(currentLayer) > -1){
+        // setTimeOut(function(){
+            console.log(geoLayers[currentLayer].select)
+            getSelect(currentLayer, id);
+        // },1000)
+    }
     // this._div.innerHTML = 
     $('#funding-content').html(fundingData);
     $('#service-content').html('<select class="form-control" id="stat-select" '+disabled+' onchange="toggleStat(this)">' + // style="position:absolute; right:8px; margin-top:6px;">' + 
                                         statsOptions +
                                 '</select>' +
                                 serviceData);
-    $('#district-selects').html(geogSelect + 
-                            // '</div>' +
-                            // '<div class="form-group pull-right">'+
-                            nameSelect);
     $('#home-content').html((props ? 
                                 '<div class="form-group pull-right">'+
                                 
@@ -359,6 +357,9 @@ function toggleLayer(el, onload){
             history.pushState(null, null, "#" + elId); //+ '/' + currentPane);
             info.update();
         }
+        // else{
+        //     info.update();
+        // }
     }
 }
 
@@ -376,7 +377,9 @@ function getSelect(layer, id){
     geoLayers[layer].select.name.sort(sortFunction);
     
     console.log("entity = " + params[1]);
+    console.log(geoLayers[layer].select.geog);
     $.each(geoLayers[layer].select.geog, function(i, val){
+
         var selectedGeog = '';
         var selectedName = '';
 
@@ -404,7 +407,10 @@ function getSelect(layer, id){
     }
     geogSelect += '</select><br />';
     console.log("getting select");
-    return nameSelect, geogSelect;
+    console.log(geogSelect);
+    // return nameSelect, geogSelect;
+    $('#district-selects').html(geogSelect + 
+                                nameSelect);
 }
 function sortFunction(a, b) {
     if (a[0] === b[0]) {
@@ -635,6 +641,7 @@ function addGeographies(geos, map){
                                 var id = getId(props);
                                 var name = getName(props);
                                 geoLayers[geo.id].select.geog.push([name, id]);
+                                // console.log([name, id]);
                                 if (geo.id === "senate" || geo.id === "house" || geo.id === "congress"){  //typeof props.DISTRICT !== "undefined" ){
                                     geoLayers[geo.id].select.name.push([toTitleCase(props.last) + ', ' + toTitleCase(props.first) + ' (' + props.party[0] + ')',props.DISTRICT]);
                                     // geoLayers[geo.id].select.name.push("blue")
@@ -720,7 +727,7 @@ function checkFunding(code, county){
                 if(key.split(",").indexOf(county) > -1){
                     for (var i = funding["5311"].service[key].length - 1; i >= 0; i--) {
                         funds.push(funding["5311"].service[key][i]);
-                    };
+                    }
                 }
             }
         }
