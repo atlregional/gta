@@ -86,7 +86,7 @@ map = L.map('map', {
         attributionControl: false,
         zoom: 7, 
         center: [32.630,-83.084],
-        maxBounds: L.latLngBounds([30, -88], [35.7, -78]),
+        maxBounds: L.latLngBounds([30, -90], [35.7, -78]),
         minZoom: 7,
         // scrollWheelZoom: false,
         zoomControl: false
@@ -150,7 +150,7 @@ $('.btn').button();
 var info = L.control();
 
 info.onAdd = function (map) {
-    this._div = L.DomUtil.create('div', 'info');
+    this._div = L.DomUtil.create('div', 'info hidden');
     this.update();
     return this._div;
 };
@@ -236,7 +236,7 @@ info.update = function (props) {
                                     data
                                 // '</div>'
                             : 
-                                '<span >Click a district for information on its public transit.</span>'
+                                '<span ></span>'
                             )
     );
 };
@@ -364,7 +364,7 @@ function toggleLayer(el, onload){
 }
 
 function getSelect(layer, id){
-    helperText = '<p class="large">2. Click a district on map or select by name'
+    helperText = '<p class="large">2. Select a district on map or by name'
     nameSelect = '<select class="form-control" onChange="showFeature(this)" class="name" id="'+layer+'-name-select"><option>[Representative Name]</option>';
     geogSelect = '<select class="form-control" onChange="showFeature(this)" class="geog" id="'+layer+'-select"><option>[Select ' + geoLayers[layer].name_sing + ']</option>';
     
