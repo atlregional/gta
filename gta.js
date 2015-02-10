@@ -837,9 +837,10 @@ function getFundingString(code, counties){
     var agencies = [];
     var totalUpt = 0;
     var totalFunding = 0;
+    console.log(Object.keys(service).length)
+    console.log(counties)
     for (var i = counties.length - 1; i >= 0; i--) {
         if (code === "5311"){
-            console.log(Object.keys(service).length)
             if (Object.keys(service).length > 0){
                 console.log(service);
                 for (var key in service) {
