@@ -873,8 +873,8 @@ function getFundingString(code, counties){
                 }
             }
             else{
-                showFeature(entity);
-                fundingString = '<button role="button" class="btn btn-default" onclick="showFeature(entity)">Refresh</button>'
+                // showFeature(entity);
+                fundingString = '<button role="button" class="btn btn-default" onclick="showFeature(entity)"><i class="fa fa-home"></i> Refresh</button>'
             }
         }
     }
