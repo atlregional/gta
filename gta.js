@@ -263,8 +263,14 @@ function showFeature(select){
     // console.log(select.id)
     if (select.value === "[Representative Name]" || select.value === "[" + geoLayers[currentLayer].name_sing + "]")
         entity = '[blank]';
-    else
-        entity = select.value;
+    else{
+        if (typeof select.value !== "undefined"){
+            entity = select.value;
+        }
+        else{
+            entity = select;
+        }
+    }
 
     // console.log("entity =" + entity);
     var currentPane = $(sidebar._sidebar).find('div.active.sidebar-pane').attr('id');
@@ -276,7 +282,7 @@ function showFeature(select){
         // console.log(layer)
         var props = layer.feature.properties;
         var id = getId(layer.feature.properties);
-        if (id == select.value){
+        if (id == entity){
             map.fitBounds(L.geoJson(layer.feature).getBounds());
             info.update(props);
             zoom = layer;
@@ -715,8 +721,8 @@ function getFunding(){
             .map(data);
     });
     d3.csv('data/ntd/5311.csv', function(data){
-        console.log(data)
-        funding["5311"].csv = data;
+        // console.log(data)
+        // funding["5311"].csv = data;
         service = d3.nest()
             .key(function(d) { return d["counties"].replace(/ /g,''); })
             // .key(function(d) { return d["Sub.Recipient.ID"]; })
@@ -831,38 +837,44 @@ function getFundingString(code, counties){
     var totalFunding = 0;
     for (var i = counties.length - 1; i >= 0; i--) {
         if (code === "5311"){
-            for (var key in service) {
-                // console.log(key);
-                if (service.hasOwnProperty(key)) {
-                    // console.log(key + " -> " + service[key]);
-                    if(key.split(",").indexOf(counties[i]) > -1){
-                        for (var j = service[key].length - 1; j >= 0; j--) {
-                            console.log(service[key][j]);
-                            var upt = 0;
-                            // console.log(data);
-                            operations = funding["5311"][service[key][j]["Sub.Recipient.ID"]].Operations;
-                            if (agencies.indexOf(service[key][j]["Sub.Recipient.Agency.x"]) > -1){
-                                continue;
+            if (Object.keys(service).length > 0){
+                for (var key in service) {
+                    // console.log(key);
+                    if (service.hasOwnProperty(key)) {
+                        // console.log(key + " -> " + service[key]);
+                        if(key.split(",").indexOf(counties[i]) > -1){
+                            for (var j = service[key].length - 1; j >= 0; j--) {
+                                // console.log(service[key][j]);
+                                var upt = 0;
+                                // console.log(data);
+                                operations = funding["5311"][service[key][j]["Sub.Recipient.ID"]].Operations;
+                                if (agencies.indexOf(service[key][j]["Sub.Recipient.Agency.x"]) > -1){
+                                    continue;
+                                }
+                                if (j === data.length - 1){
+                                    // fundingString += "<br /><b style='font-size:x-large;'>" + county + "</b>";
+                                }
+                                fundingString += "<b>" + service[key][j]["Sub.Recipient.Agency.x"] + "</b><br />";
+                                fundingString += currentStat + ": " + numberWithCommas(service[key][j][stats[currentStat]]) + "<br />";
+                                upt += +service[key][j]["Unlinked.Passenger.Trips"];
+                                totalUpt += +service[key][j][stats[currentStat]];
+                                agencies.push(service[key][j]["Sub.Recipient.Agency.x"]);
+                                if (typeof operations !== "undefined"){
+                                    fundingString += 'Total Operating: $' + numberWithCommas(operations[0]["Total.Annual.Expenses"]) + '<br />';
+                                    fundingString += "Local Funds: $" + numberWithCommas(operations[0]["Local.Funds"]) + "<br />";
+                                    totalFunding += +operations[0]["Total.Annual.Expenses"];
+                                }
                             }
-                            if (j === data.length - 1){
-                                // fundingString += "<br /><b style='font-size:x-large;'>" + county + "</b>";
+                            if (upt > 0){
+                                // fundingString += "<br /><b>County UPT:</b> " + numberWithCommas(upt);
                             }
-                            fundingString += "<b>" + service[key][j]["Sub.Recipient.Agency.x"] + "</b><br />";
-                            fundingString += currentStat + ": " + numberWithCommas(service[key][j][stats[currentStat]]) + "<br />";
-                            upt += +service[key][j]["Unlinked.Passenger.Trips"];
-                            totalUpt += +service[key][j][stats[currentStat]];
-                            agencies.push(service[key][j]["Sub.Recipient.Agency.x"]);
-                            if (typeof operations !== "undefined"){
-                                fundingString += 'Total Operating: $' + numberWithCommas(operations[0]["Total.Annual.Expenses"]) + '<br />';
-                                fundingString += "Local Funds: $" + numberWithCommas(operations[0]["Local.Funds"]) + "<br />";
-                                totalFunding += +operations[0]["Total.Annual.Expenses"];
-                            }
-                        }
-                        if (upt > 0){
-                            // fundingString += "<br /><b>County UPT:</b> " + numberWithCommas(upt);
                         }
                     }
                 }
+            }
+            else{
+                showFeature(entity);
+                fundingString = '<button role="button" class="btn btn-default" onclick="showFeature(entity)">Refresh</button>'
             }
         }
     }
