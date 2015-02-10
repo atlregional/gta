@@ -826,82 +826,45 @@ function toggleStat(select){
 
 function getFundingString(code, counties){
     var fundingString = '';
-    funds = {};
+    var agencies = [];
+    var totalUpt = 0;
+    var totalFunding = 0;
     for (var i = counties.length - 1; i >= 0; i--) {
-        if (code === "5310"){
-            if(funding[code].indexOf(counties[i]) > -1){
-                return true;
-            }
-            else{
-                return false;
-            }
-        }
-        var countyFunds = [];
         if (code === "5311"){
-            if (typeof service == "undefined"){
-                // getFunding();
-                // checkFunding(code, counties[i]);
-                console.log("check funding undefined")
-            }
-            // else{
-            // console.log(service);
-                for (var key in service) {
-                    // console.log(key);
-                    if (service.hasOwnProperty(key)) {
-                        // console.log(key + " -> " + service[key]);
-                        if(key.split(",").indexOf(counties[i]) > -1){
-                            for (var j = service[key].length - 1; j >= 0; j--) {
-                                countyFunds.push(service[key][j]);
+            for (var key in service) {
+                // console.log(key);
+                if (service.hasOwnProperty(key)) {
+                    // console.log(key + " -> " + service[key]);
+                    if(key.split(",").indexOf(counties[i]) > -1){
+                        for (var j = service[key].length - 1; j >= 0; j--) {
+                            console.log(service[key][j]);
+                            var upt = 0;
+                            // console.log(data);
+                            operations = funding["5311"][service[key][j]["Sub.Recipient.ID"]].Operations;
+                            if (agencies.indexOf(service[key][j]["Sub.Recipient.Agency.x"]) > -1){
+                                continue;
                             }
+                            if (j === data.length - 1){
+                                // fundingString += "<br /><b style='font-size:x-large;'>" + county + "</b>";
+                            }
+                            fundingString += "<b>" + service[key][j]["Sub.Recipient.Agency.x"] + "</b><br />";
+                            fundingString += currentStat + ": " + numberWithCommas(service[key][j][stats[currentStat]]) + "<br />";
+                            upt += +service[key][j]["Unlinked.Passenger.Trips"];
+                            totalUpt += +service[key][j][stats[currentStat]];
+                            agencies.push(service[key][j]["Sub.Recipient.Agency.x"]);
+                            if (typeof operations !== "undefined"){
+                                fundingString += 'Total Operating: $' + numberWithCommas(operations[0]["Total.Annual.Expenses"]) + '<br />';
+                                fundingString += "Local Funds: $" + numberWithCommas(operations[0]["Local.Funds"]) + "<br />";
+                                totalFunding += +operations[0]["Total.Annual.Expenses"];
+                            }
+                        }
+                        if (upt > 0){
+                            // fundingString += "<br /><b>County UPT:</b> " + numberWithCommas(upt);
                         }
                     }
                 }
-            // }
-        }
-        funds[counties[i]] = countyFunds;
-    }
-    // console.log(funds);
-    if(   Object.keys(funds).length > 0){
-        // console.log(code);
-        var agencies = [];
-        var totalUpt = 0;
-        var totalFunding = 0;
-        $.each(funds, function(county, data){
-            var upt = 0;
-            // console.log(data);
-            for (var i = data.length - 1; i >= 0; i--) {
-                operations = funding["5311"][data[i]["Sub.Recipient.ID"]].Operations;
-                if (agencies.indexOf(data[i]["Sub.Recipient.Agency.x"]) > -1){
-                    continue;
-                }
-                if (i === data.length - 1){
-                    // fundingString += "<br /><b style='font-size:x-large;'>" + county + "</b>";
-                }
-                fundingString += "<b>" + data[i]["Sub.Recipient.Agency.x"] + "</b><br />";
-                fundingString += currentStat + ": " + numberWithCommas(data[i][stats[currentStat]]) + "<br />";
-                upt += +data[i]["Unlinked.Passenger.Trips"];
-                totalUpt += +data[i][stats[currentStat]];
-                agencies.push(data[i]["Sub.Recipient.Agency.x"]);
-                if (typeof operations !== "undefined"){
-                    fundingString += 'Total Operating: $' + numberWithCommas(operations[0]["Total.Annual.Expenses"]) + '<br />';
-                    fundingString += "Local Funds: $" + numberWithCommas(operations[0]["Local.Funds"]) + "<br />";
-                    totalFunding += +operations[0]["Total.Annual.Expenses"];
-                }
             }
-            if (upt > 0){
-                // fundingString += "<br /><b>County UPT:</b> " + numberWithCommas(upt);
-            }
-        });
-        // if (totalFunding > 0){
-            fundingString = '<span style="font-size:large;"><b>Total Funding:</b> $' + numberWithCommas(totalFunding) + '</span><br />' +
-                            fundingString;
-        // }
-        if ( agencies.length > 0 ){
-            fundingString = '<span style="font-size:large;"><b>Total '+currentStat+':</b> ' + numberWithCommas(totalUpt) + '</span><br />' +
-                            fundingString;
         }
-
-        
     }
     return fundingString ;
 }
