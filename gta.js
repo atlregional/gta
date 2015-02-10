@@ -17,6 +17,7 @@ var funding = {
     "5310": {},
     "5311": {}
 };
+var service = {};
 getFunding();
 var currentLayer = "";
 var currentProps = "";
@@ -110,12 +111,11 @@ state.geometry.coordinates = [
     state.geometry.coordinates[0]
 ];
 new L.Control.Zoom({ position: 'bottomright' }).addTo(map);
+
+// Initiate sidebar
 var sidebar = L.control.sidebar('sidebar').addTo(map);
 sidebar.open(typeof params[2] !== 'undefined' ? params[2] : 'home');
 
-// sidebar._onClick('open', function(d){
-//     console.log(d);
-// });
 // statesData comes from the 'us-states.js' script included above
 var statesLayer = L.geoJson(state, {
   fillOpacity: 1,
@@ -140,7 +140,6 @@ var stats = {
 var currentStat = "UPT";
 
 addGeographies(geos, map);
-
 
 // activate button plugin!
 $('.btn').button();
@@ -172,17 +171,11 @@ info.update = function (props) {
     var fundingData = '';
     var serviceData = '';
     // console.log(name);
-
-    // Try to nest again if first time fails
-    if (typeof funding["5311"].service == "undefined" && typeof funding["5311"].csv !== "undefined"){
-        console.log("trying again to nest");
-        funding["5311"].service = d3.nest()
-            .key(function(d) { return d["counties"].replace(/ /g,''); })
-            // .key(function(d) { return d["Sub.Recipient.ID"]; })
-            .map(funding["5311"].csv);
-    }
     
     data = "";
+    if (typeof service == "undefined"){
+        console.log("funding undefined")
+    }
     if (typeof props !== "undefined"){
         for (var key in stats) {
             var selected = '';
@@ -199,6 +192,7 @@ info.update = function (props) {
             data = '<div style="max-width:272px;"><b>Counties:</b><br />' + data.replace(/,/g,', ') + '</div>';
 
             fundingData = getFundingString("5311", props.counties);
+            console.log(fundingData);
             serviceData = getFundingString("5311", props.counties);
         }
         else if ((currentLayer === "senate" || currentLayer === "house" || currentLayer === "congress") && typeof geoLayers[currentLayer].counties !== "undefined") {
@@ -705,12 +699,31 @@ function getFunding(){
 	$.getJSON('data/ntd/5310.json', function(d){
 		funding["5310"] = d["5310"];
 	});
+    // $.get('data/ntd/5311.csv', function(data){
+    //     console.log(data);
+    //     d = d3.csv.parse(data)
+    //     console.log(d)
+    //     service2 = d3.nest()
+    //         .key(function(d) { return d["counties"].replace(/ /g,''); })
+    //         // .key(function(d) { return d["Sub.Recipient.ID"]; })
+    //         .map(d3.csv.parse(data));
+    // });
     d3.csv('data/ntd/5311.csv', function(data){
+        console.log(data)
         funding["5311"].csv = data;
-        funding["5311"].service = d3.nest()
+        service = d3.nest()
             .key(function(d) { return d["counties"].replace(/ /g,''); })
             // .key(function(d) { return d["Sub.Recipient.ID"]; })
             .map(data);
+        if (typeof service !== "undefined"){
+            console.log(service);
+            if (entity !== ''){
+
+            }
+        }
+        else{
+            console.log("service data undefined")
+        }
     });
     d3.csv('data/ntd/5311_financial.csv', function(data){
         funding["5311"] = d3.nest()
@@ -735,16 +748,24 @@ function checkFunding(code, county){
     }
     var funds = [];
     if (code === "5311"){
-        for (var key in funding["5311"].service) {
-            if (funding["5311"].service.hasOwnProperty(key)) {
-                // console.log(key + " -> " + funding["5311"].service[key]);
-                if(key.split(",").indexOf(county) > -1){
-                    for (var i = funding["5311"].service[key].length - 1; i >= 0; i--) {
-                        funds.push(funding["5311"].service[key][i]);
+        if (typeof service == "undefined"){
+            // getFunding();
+            // checkFunding(code, county);
+            console.log("check funding undefined")
+        }
+        // else{
+            for (var key in service) {
+                if (service.hasOwnProperty(key)) {
+                    // console.log(key + " -> " + service[key]);
+                    if(key.split(",").indexOf(county) > -1){
+                        for (var i = service[key].length - 1; i >= 0; i--) {
+                            funds.push(service[key][i]);
+                        }
                     }
                 }
             }
-        }
+        // }
+        
         return funds;
     }
 }
@@ -773,7 +794,8 @@ function toggleStat(select){
 function getFundingString(code, counties){
     var fundingString = '';
     fund5311 = checkMultipleFunding(code, counties);
-    if(Object.keys(fund5311).length > 0){
+    console.log(fund5311);
+    if(   Object.keys(fund5311).length > 0){
         // console.log(code);
         var agencies = [];
         var totalUpt = 0;
