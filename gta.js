@@ -718,6 +718,7 @@ function getFunding(){
         if (typeof service !== "undefined"){
             console.log(service);
             if (entity !== ''){
+                // console.log(getFundingString("5311", ["Fulton"]));
 
             }
         }
@@ -755,6 +756,7 @@ function checkFunding(code, county){
         }
         // else{
             for (var key in service) {
+                // console.log(key);
                 if (service.hasOwnProperty(key)) {
                     // console.log(key + " -> " + service[key]);
                     if(key.split(",").indexOf(county) > -1){

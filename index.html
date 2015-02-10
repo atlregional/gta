@@ -31,11 +31,10 @@
             <!-- Nav tabs -->
             <ul class="sidebar-tabs" role="tablist">
                 <li><a href="#home" role="tab"><i class="fa fa-home"></i></a></li>
-                
                 <li><a href="#service" role="tab"><i class="fa fa-bar-chart"></i></a></li>
                 <li><a href="#funding" role="tab"><i class="fa fa-usd"></i></a></li>
                 <li><a href="#people" role="tab"><i class="fa fa-users"></i></a></li>
-                <li><a href="#profile" role="tab"><i class="fa fa-bus"></i></a></li>
+                <li><a href="#fleet" role="tab"><i class="fa fa-bus"></i></a></li>
                 <li><a href="#info" role="tab"><i class="fa fa-info"></i></a></li>
                 <li><a href="#settings" role="tab"><i class="fa fa-gear"></i></a></li>
             </ul>
@@ -74,6 +73,12 @@
                     <button id="back-button" role="button" style="position:relative; top:-50px;" class="btn visible-xs pull-right btn-default" onclick="sidebar.open('home')"><i class="fa fa-home"></i></button>
                     <button id="map-button" role="button" style="position:relative; top:-50px;" class="btn visible-xs btn-default pull-right" onclick="sidebar.close()"><i class="fa fa-globe"></i></button>
                     <div id="settings-content"></div>
+                </div>
+                <div class="sidebar-pane" id="info">
+                    <h3>Info</h3>
+                    <button id="back-button" role="button" style="position:relative; top:-50px;" class="btn visible-xs pull-right btn-default" onclick="sidebar.open('home')"><i class="fa fa-home"></i></button>
+                    <button id="map-button" role="button" style="position:relative; top:-50px;" class="btn visible-xs btn-default pull-right" onclick="sidebar.close()"><i class="fa fa-globe"></i></button>
+                    <div id="info-content"></div>
                 </div>
             </div>
         </div>
