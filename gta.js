@@ -13,6 +13,15 @@ var geos = [
     {"id":"congress","dom_id":"#congress-button","name":"US Congress","color":"#f00","active":""},
     {"id":"senate","dom_id":"#senate-button","name":"State Senate","color":"#0f0","active":""}
 ];
+// var county, rc, house, congress, senate;
+var geoLayers = {
+    "layers" : ["county","rc","congress","senate","house"],
+    "county" : {"select": {"geog": [], "name": []}, "data": null, "name_sing":"County", "name":"Counties","color":"#ff0","active":""},
+    "rc" : {"select": {"geog": [], "name": []}, "data": null, "name_sing":"Regional Commission", "name":"Regional Commissions","color":"#0ff","active":""},
+    "congress" : {"select": {"geog": [], "name": []}, "data": null, "counties": null, "name_sing":"Congressional District", "name":"US Congress","color":"#f0f","active":""},
+    "senate" : {"select": {"geog": [], "name": []}, "data": null, "counties": null, "name_sing":"State Senate District", "name":"State Senate","color":"#f00","active":""},
+    "house" : {"select": {"geog": [], "name": []}, "data": null, "counties": null, "name_sing":"House District", "name":"State House","color":"#0f0","active":""}
+};
 var funding = {
     "5310": {},
     "5311": {}
@@ -21,11 +30,6 @@ var service = {};
 getFunding();
 var currentLayer = "";
 var currentProps = "";
-if (params[0]) {
-    currentLayer = params[0];
-}
-
-
 
 var entity = "";
 
@@ -42,44 +46,33 @@ var load = true;
 var nameSelect = '' ;
 var geogSelect = '';
 
+if (typeof geoLayers[params[0]] !== "undefined"){
+    currentLayer = params[0];
+    // console.log()
+    geoLayers[currentLayer].active = "active";
+    if (isDistrict(currentLayer)){
+        // console.log(geoLayers[currentLayer]);
+        $.getJSON('data/bef/' + currentLayer + '.json', function(data){
+            geoLayers[currentLayer].counties = data;
+            console.log(geoLayers[currentLayer].counties);
+        });
+    }
+}
+
 $(document).ready(function(){
-	
-	// console.log("ready");
-    if (geoLayers.layers.indexOf(params[0]) > -1){
-        for (var i = geos.length - 1; i >= 0; i--) {
-            // console.log(geos[i].id);
-            if (params[0] == geos[i].id){
-                geos[i].active = "active";
-                // console.log(geos[i].id);
-                currentLayer = params[0];
-                if (isDistrict(geos[i].id)){
-                    console.log(geoLayers[currentLayer])
-                    $.getJSON('data/bef/' + currentLayer + '.json', function(data){
-                        geoLayers[currentLayer].counties = data;
-                        console.log(geoLayers[currentLayer].counties);
-                    });
-                }
-                // $('#' + geos[i].id + '-button').addClass('active')
-                toggleLayer(geos[i].id, true);
-                // console.log($(geos[i].dom_id))
-                // var dom = $('#county-button')[0]
-                // console.log(dom)
-            }
-        }
+	if (currentLayer !== ''){
+        toggleLayer(currentLayer, true);
         info.update();
     }
     else{
-        console.log('no layer!')
         window.location.hash = '';
     }
     var buttons = '<div id="layer-options" class="switches btn-group-vertical" data-toggle="buttons">';
     for (var i = geos.length - 1; i >= 0; i--) {
-            buttons += '<label type="button" id="'+geos[i].id+'-button" onclick="toggleLayer(this, false)" class=" layer-switch btn '+geos[i].active+' btn-default" title="'+geos[i].name+'"><input type="radio" ><span>'+geos[i].name+'</span></label>';
-        }
+        buttons += '<label type="button" id="'+geos[i].id+'-button" onclick="toggleLayer(this, false)" class=" layer-switch btn '+geos[i].active+' btn-default" title="'+geos[i].name+'"><input type="radio" ><span>'+geos[i].name+'</span></label>';
+    }
     buttons += '</div><br /><br />';
     $('#home-form').prepend(buttons);
-    // console.log($('#layer-options').hasClass('switches'));
-
 
 
 });
@@ -130,15 +123,7 @@ var statesLayer = L.geoJson(state, {
   weight: 0
 }).addTo(map);
 var geojson = {};
-var county, rc, house, congress, senate;
-var geoLayers = {
-    "layers" : ["county","rc","congress","senate","house"],
-    "county" : {"select": {"geog": [], "name": []}, "data": county, "name_sing":"County", "name":"Counties","color":"#ff0","active":""},
-    "rc" : {"select": {"geog": [], "name": []}, "data": rc, "name_sing":"Regional Commission", "name":"Regional Commissions","color":"#0ff","active":""},
-    "congress" : {"select": {"geog": [], "name": []}, "data": congress, "counties": null, "name_sing":"Congressional District", "name":"US Congress","color":"#f0f","active":""},
-    "senate" : {"select": {"geog": [], "name": []}, "data": senate, "counties": null, "name_sing":"State Senate District", "name":"State Senate","color":"#f00","active":""},
-    "house" : {"select": {"geog": [], "name": []}, "data": house, "counties": null, "name_sing":"House District", "name":"State House","color":"#0f0","active":""}
-};
+
 for (var i = geoLayers.layers.length - 1; i >= 0; i--) {
     var geoId = geoLayers.layers[i];
     if (isDistrict(geoId) && ( currentLayer === '' || geoId !== currentLayer) ){
