@@ -43,13 +43,13 @@ var geogSelect = '';
 
 $(document).ready(function(){
 	
-	console.log("ready");
+	// console.log("ready");
     if (geoLayers.layers.indexOf(params[0]) > -1){
         for (var i = geos.length - 1; i >= 0; i--) {
-            console.log(geos[i].id);
+            // console.log(geos[i].id);
             if (params[0] == geos[i].id){
                 geos[i].active = "active";
-                console.log(geos[i].id);
+                // console.log(geos[i].id);
                 currentLayer = params[0];
                 // $('#' + geos[i].id + '-button').addClass('active')
                 toggleLayer(geos[i].id, true);
@@ -70,7 +70,7 @@ $(document).ready(function(){
         }
     buttons += '</div><br /><br />';
     $('#home-form').prepend(buttons);
-    console.log($('#layer-options').hasClass('switches'));
+    // console.log($('#layer-options').hasClass('switches'));
 
 });
 
@@ -156,7 +156,7 @@ info.onAdd = function (map) {
 };
   
 info.update = function (props) {
-    console.log("info updating...");
+    // console.log("info updating...");
     currentProps = props;
     var name = getName(props);
     var id = getId(props);
@@ -215,7 +215,7 @@ info.update = function (props) {
     }
     if (geoLayers.layers.indexOf(currentLayer) > -1){
         // setTimeOut(function(){
-            console.log(geoLayers[currentLayer].select)
+            // console.log(geoLayers[currentLayer].select)
             getSelect(currentLayer, id);
         // },1000)
     }
@@ -268,7 +268,11 @@ function showFeature(select){
     }
     // console.log(select);
     // console.log(select.id)
-    entity = select.value;
+    if (select.value === "[Representative Name]" || select.value === "[" + geoLayers[currentLayer].name_sing + "]")
+        entity = '[blank]';
+    else
+        entity = select.value;
+    
     // console.log("entity =" + entity);
     var currentPane = $(sidebar._sidebar).find('div.active.sidebar-pane').attr('id');
     window.location.hash = currentLayer +"/"+ entity +"/"+ currentPane;
@@ -366,7 +370,7 @@ function toggleLayer(el, onload){
 function getSelect(layer, id){
     helperText = '<p class="large">2. Select a district on map or by name'
     nameSelect = '<select class="form-control" onChange="showFeature(this)" class="name" id="'+layer+'-name-select"><option>[Representative Name]</option>';
-    geogSelect = '<select class="form-control" onChange="showFeature(this)" class="geog" id="'+layer+'-select"><option>[Select ' + geoLayers[layer].name_sing + ']</option>';
+    geogSelect = '<select class="form-control" onChange="showFeature(this)" class="geog" id="'+layer+'-select"><option>[' + geoLayers[layer].name_sing + ']</option>';
     
     // Tells us whether layer has representative (e.g., senate, house, congress)
     var nameBool = true;
@@ -405,7 +409,7 @@ function getSelect(layer, id){
     }
     else{
         nameSelect += '</select><br />';
-        helperText += ' or representative.</p>';
+        helperText += ' / representative.</p>';
     }
     geogSelect += '</select><br />';
 
@@ -705,8 +709,9 @@ function getFunding(){
             // .key(function(d) { return d["Sub.Recipient.ID"]; })
             .map(data);
     });
-    d3.csv('data/ntd/5311_financial.csv', function(data){
-        console.log(data);
+    d3.csv('data/ntd/5311_financial.csv', function(error, data){
+        // console.log(data);
+        console.log(error);
         funding["5311"] = d3.nest()
             .key(function(d) { return d["Sub.Recipient.ID"]; })
             .key(function(d) { return d["Funding.Type"]; })
@@ -767,13 +772,13 @@ function getFundingString(code, counties){
     var fundingString = '';
     fund5311 = checkMultipleFunding(code, counties);
     if(Object.keys(fund5311).length > 0){
-        console.log(code);
+        // console.log(code);
         var agencies = [];
         var totalUpt = 0;
         var totalFunding = 0;
         $.each(fund5311, function(county, data){
             var upt = 0;
-            console.log(data);
+            // console.log(data);
             for (var i = data.length - 1; i >= 0; i--) {
                 operations = funding["5311"][data[i]["Sub.Recipient.ID"]].Operations;
                 if (agencies.indexOf(data[i]["Sub.Recipient.Agency.x"]) > -1){
