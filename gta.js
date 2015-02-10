@@ -229,12 +229,12 @@ info.update = function (props) {
                                 '<div class="form-group pull-right">'+
                                 
                                 '</div>' +
-                                '<div style="max-width:301px; overflow-y:auto; max-height:300px;">' +
+                                // '<div style="max-width:301px; overflow-y:auto; max-height:300px;">' +
                                     // '<b>' + geoLayers[currentLayer].name_sing + '</b><br />' +
                                     // name +
                                     // fundingData +'<br />' +
-                                    data +
-                                '</div>'
+                                    data
+                                // '</div>'
                             : 
                                 '<span >Click a district for information on its public transit.</span>'
                             )
@@ -377,7 +377,7 @@ function getSelect(layer, id){
     // console.log("entity = " + params[1]);
     geoLayers[layer].select.geog.sort();
     geoLayers[layer].select.name.sort(sortFunction);
-    
+
     $.each(geoLayers[layer].select.geog, function(i, val){
 
         var selectedGeog = '';
