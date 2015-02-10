@@ -708,6 +708,12 @@ function getFunding(){
     //         // .key(function(d) { return d["Sub.Recipient.ID"]; })
     //         .map(d3.csv.parse(data));
     // });
+    d3.csv('data/ntd/5311_financial.csv', function(data){
+        funding["5311"] = d3.nest()
+            .key(function(d) { return d["Sub.Recipient.ID"]; })
+            .key(function(d) { return d["Funding.Type"]; })
+            .map(data);
+    });
     d3.csv('data/ntd/5311.csv', function(data){
         console.log(data)
         funding["5311"].csv = data;
@@ -725,12 +731,6 @@ function getFunding(){
         else{
             console.log("service data undefined")
         }
-    });
-    d3.csv('data/ntd/5311_financial.csv', function(data){
-        funding["5311"] = d3.nest()
-            .key(function(d) { return d["Sub.Recipient.ID"]; })
-            .key(function(d) { return d["Funding.Type"]; })
-            .map(data);
     });
     
 }
@@ -755,6 +755,7 @@ function checkFunding(code, county){
             console.log("check funding undefined")
         }
         // else{
+        console.log(service);
             for (var key in service) {
                 // console.log(key);
                 if (service.hasOwnProperty(key)) {
@@ -775,7 +776,37 @@ function checkFunding(code, county){
 function checkMultipleFunding(code, counties){
     var funds = {};
     for (var i = counties.length - 1; i >= 0; i--) {
-        funds[counties[i]] = checkFunding(code, counties[i]);
+        if (code === "5310"){
+            if(funding[code].indexOf(counties[i]) > -1){
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+        var countyFunds = [];
+        if (code === "5311"){
+            if (typeof service == "undefined"){
+                // getFunding();
+                // checkFunding(code, counties[i]);
+                console.log("check funding undefined")
+            }
+            // else{
+            // console.log(service);
+                for (var key in service) {
+                    // console.log(key);
+                    if (service.hasOwnProperty(key)) {
+                        // console.log(key + " -> " + service[key]);
+                        if(key.split(",").indexOf(counties[i]) > -1){
+                            for (var j = service[key].length - 1; j >= 0; j--) {
+                                countyFunds.push(service[key][j]);
+                            }
+                        }
+                    }
+                }
+            // }
+        }
+        funds[counties[i]] = countyFunds;
     }
     return funds;
 }
@@ -795,8 +826,9 @@ function toggleStat(select){
 
 function getFundingString(code, counties){
     var fundingString = '';
+    fund5311 = {};
     fund5311 = checkMultipleFunding(code, counties);
-    console.log(fund5311);
+    // console.log(fund5311);
     if(   Object.keys(fund5311).length > 0){
         // console.log(code);
         var agencies = [];
