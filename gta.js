@@ -52,6 +52,13 @@ $(document).ready(function(){
                 geos[i].active = "active";
                 // console.log(geos[i].id);
                 currentLayer = params[0];
+                if (isDistrict(geos[i].id)){
+                    console.log(geoLayers[currentLayer])
+                    $.getJSON('data/bef/' + currentLayer + '.json', function(data){
+                        geoLayers[currentLayer].counties = data;
+                        console.log(geoLayers[currentLayer].counties);
+                    });
+                }
                 // $('#' + geos[i].id + '-button').addClass('active')
                 toggleLayer(geos[i].id, true);
                 // console.log($(geos[i].dom_id))
@@ -132,6 +139,16 @@ var geoLayers = {
     "senate" : {"select": {"geog": [], "name": []}, "data": senate, "counties": null, "name_sing":"State Senate District", "name":"State Senate","color":"#f00","active":""},
     "house" : {"select": {"geog": [], "name": []}, "data": house, "counties": null, "name_sing":"House District", "name":"State House","color":"#0f0","active":""}
 };
+for (var i = geoLayers.layers.length - 1; i >= 0; i--) {
+    var geoId = geoLayers.layers[i];
+    if (isDistrict(geoId)){
+        $.getJSON('data/bef/' + geoId + '.json', function(data){
+            geoLayers[geoId].counties = data;
+            console.log(geoLayers[geoId].counties);
+        });
+    }
+}
+
 var stats = {
     "UPT": "Unlinked.Passenger.Trips",
     "VRM": "Vehicle.Revenue.Miles",
@@ -198,6 +215,7 @@ info.update = function (props) {
         else if ((currentLayer === "senate" || currentLayer === "house" || currentLayer === "congress") && typeof geoLayers[currentLayer].counties !== "undefined") {
         	$('#'+currentLayer+'-name-select').val(name);
             console.log("getting funding string for district")
+            console.log(geoLayers[currentLayer].counties);
             counties = getCounties(geoLayers[currentLayer].counties[name]);
         	data = counties.toString();
             data = '<b>Counties:</b><br />' + data.replace(/,/g,', ');
@@ -622,13 +640,6 @@ function checkIntersect(district, set){
 
 function addGeographies(geos, map){
     $.each(geos, function(i, geo){
-
-        // Get county data for districts only 
-    	if (isDistrict(geo.id)){
-    		$.getJSON('data/bef/' + geo.id + '.json', function(data){
-    			geoLayers[geo.id].counties = data;
-    		});
-    	}
         // Set up custom layer data with unique color
         var customLayer = L.geoJson(null, {
             style: function (feature) {
@@ -689,7 +700,7 @@ function addGeographies(geos, map){
             if (geo.active == "active"){
                 getSelect(geo.id, entity);
                 if (entity !== "")
-                    info.update(currentProps);
+                    window.setTimeout(function(){info.update(currentProps);}, 100);
             }
             
         });
