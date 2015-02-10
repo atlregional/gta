@@ -838,6 +838,7 @@ function getFundingString(code, counties){
     for (var i = counties.length - 1; i >= 0; i--) {
         if (code === "5311"){
             if (Object.keys(service).length > 0){
+                console.log(service);
                 for (var key in service) {
                     // console.log(key);
                     if (service.hasOwnProperty(key)) {
