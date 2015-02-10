@@ -197,6 +197,7 @@ info.update = function (props) {
         }
         else if ((currentLayer === "senate" || currentLayer === "house" || currentLayer === "congress") && typeof geoLayers[currentLayer].counties !== "undefined") {
         	$('#'+currentLayer+'-name-select').val(name);
+            console.log("getting funding string for district")
             counties = getCounties(geoLayers[currentLayer].counties[name]);
         	data = counties.toString();
             data = '<b>Counties:</b><br />' + data.replace(/,/g,', ');
@@ -831,6 +832,7 @@ function toggleStat(select){
 }
 
 function getFundingString(code, counties){
+    console.log("get funding string...")
     var fundingString = '';
     var agencies = [];
     var totalUpt = 0;
