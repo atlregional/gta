@@ -272,7 +272,7 @@ function showFeature(select){
         entity = '[blank]';
     else
         entity = select.value;
-    
+
     // console.log("entity =" + entity);
     var currentPane = $(sidebar._sidebar).find('div.active.sidebar-pane').attr('id');
     window.location.hash = currentLayer +"/"+ entity +"/"+ currentPane;
@@ -688,7 +688,7 @@ function addGeographies(geos, map){
         geoLayers[geo.id].data = omnivore.topojson("data/topo/" + geo.id + ".json", null, customLayer)
         .on('ready', function(){
             if (geo.active == "active")
-                getSelect(geo.id);
+                getSelect(geo.id, entity);
         });
         console.log(geoLayers[geo.id].data);
         if (geo.active == "active"){
