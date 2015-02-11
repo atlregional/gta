@@ -31,6 +31,10 @@ var service = {
     "5311": {},
     "urban": {}
 };
+var info = {
+    "5311": {},
+    "urban": {}
+};
 
 getFunding();
 var currentLayer = "";
@@ -132,16 +136,22 @@ var statesLayer = L.geoJson(state, {
 var geojson = {};
 
 var stats = {
-    "UPT": "Unlinked.Passenger.Trips",
-    "VRM": "Vehicle.Revenue.Miles",
-    "VRH": "Vehicle.Revenue.Hours"
+    "service": {
+        "UPT": "Unlinked.Passenger.Trips",
+        "VRM": "Vehicle.Revenue.Miles",
+        "VRH": "Vehicle.Revenue.Hours"
+        },
+    "funding": {
+        "Capital": "Capital Funds",
+        "Operations": "Operations Funds",
+        "Other": "Other"
+    }
 };
-var fundCategories = {
-    "Capital": "",
-    "Operations": "",
-    "Other": ""
-}
-var currentStat = "UPT";
+
+var currentStat = {
+    "service": "UPT",
+    "funding": "Operations"
+};
 
 addGeographies(geos, map);
 
@@ -165,7 +175,7 @@ info.update = function (props) {
     currentProps = props;
     var name = getName(props);
     var id = getId(props);
-    var statsOptions = '';
+    var statsOptions = {};
     var disabled = '';
     if (typeof id == "undefined" ){
         id = entity;
@@ -182,13 +192,15 @@ info.update = function (props) {
         console.log("funding undefined")
     }
     if (typeof props !== "undefined"){
-        for (var key in stats) {
-            var selected = '';
-            if (currentStat === key){
-                selected = 'selected';
-            }
-            if (stats.hasOwnProperty(key)) {
-                statsOptions += '<option ' + selected + '>' + key + '</option>';
+        for (var stat in stats) {
+            for (var key in stats[stat]) {
+                var selected = '';
+                if (currentStat[stat] === key){
+                    selected = 'selected';
+                }
+                if (stats[stat].hasOwnProperty(key)) {
+                    statsOptions[stat] += '<option value="' + key + '" ' + selected + '>' + stats[stat][key].replace(/\./g,' ') + '</option>';
+                }
             }
         }
         if (currentLayer == "rc"){
@@ -197,8 +209,8 @@ info.update = function (props) {
             data = '<div style="max-width:272px;"><b>Counties:</b><br />' + data.replace(/,/g,', ') + '</div>';
 
             fundingData = getFundingString("5311", props.counties);
-            urbanData = getUrbanString("5311", props.counties)
-            console.log(fundingData);
+            urbanData = getFundingString("urban", props.counties);
+            console.log(urbanData);
             // serviceData = getFundingString("5311", props.counties);
         }
         else if ((currentLayer === "senate" || currentLayer === "house" || currentLayer === "congress") && typeof geoLayers[currentLayer].counties !== "undefined") {
@@ -210,12 +222,12 @@ info.update = function (props) {
             data = '<b>Counties:</b><br />' + data.replace(/,/g,', ');
 
             fundingData = getFundingString("5311", counties);
-            urbanData = getUrbanString("5311", counties)
+            urbanData = getFundingString("urban", counties);
             // serviceData = getFundingString("5311", counties);
         }
         else if (currentLayer == "county"){
             fundingData = getFundingString("5311", [name]);
-            urbanData = getUrbanString("5311", [name])
+            urbanData = getFundingString("urban", [name]);
             // serviceData = getFundingString("5311", [name]);
             if(checkFunding("5310", name)){
                 console.log("5310!");
@@ -234,9 +246,12 @@ info.update = function (props) {
         // },1000)
     }
     // this._div.innerHTML = 
-    $('#funding-content').html(fundingData);
-    $('#service-content').html('<select class="form-control" id="stat-select" '+disabled+' onchange="toggleStat(this)">' + // style="position:absolute; right:8px; margin-top:6px;">' + 
-                                        statsOptions +
+    $('#funding-content').html('<select class="form-control" id="funding-select" '+disabled+' onchange="toggleStat(this)">' + // style="position:absolute; right:8px; margin-top:6px;">' + 
+                                        statsOptions.funding +
+                                '</select>' +
+                                fundingData);
+    $('#service-content').html('<select class="form-control" id="service-select" '+disabled+' onchange="toggleStat(this)">' + // style="position:absolute; right:8px; margin-top:6px;">' + 
+                                        statsOptions.service +
                                 '</select>' +
                                 '<h4>Urban</h4>' +
                                 (urbanData == '' ? 'None' : urbanData) +
@@ -720,15 +735,6 @@ function getFunding(){
 	$.getJSON('data/ntd/5310.json', function(d){
 		funding["5310"] = d["5310"];
 	});
-    // $.get('data/ntd/5311.csv', function(data){
-    //     console.log(data);
-    //     d = d3.csv.parse(data)
-    //     console.log(d)
-    //     service2 = d3.nest()
-    //         .key(function(d) { return d["counties"].replace(/ /g,''); })
-    //         // .key(function(d) { return d["Sub.Recipient.ID"]; })
-    //         .map(d3.csv.parse(data));
-    // });
     d3.csv('data/ntd/5311_financial.csv', function(data){
         funding["5311"] = d3.nest()
             .key(function(d) { return d["Sub.Recipient.ID"]; })
@@ -736,27 +742,27 @@ function getFunding(){
             .map(data);
     });
     d3.csv('data/ntd/urban/service.csv', function(data){
-        urbanService = d3.nest()
+        service["urban"] = d3.nest()
             .key(function(d) { return d.NTDID; })
             // .key(function(d) { return d.Mode; })
             .map(data);
     });
     d3.csv('data/ntd/urban/operating.csv', function(data){
-        urbanOperating = d3.nest()
+        funding["urban"] = d3.nest()
             .key(function(d) { return d.NTDID; })
             // .key(function(d) { return d.Mode; })
             .key(function(d) { return d["Operating.Expense.Category"]; })
             .map(data);
     });
     d3.csv('data/ntd/urban/capital.csv', function(data){
-        urbanOperating = d3.nest()
+        urbanCapital = d3.nest()
             .key(function(d) { return d.NTDID; })
             // .key(function(d) { return d.Mode; })
-            .key(function(d) { return d["Operating.Expense.Category"]; })
+            // .key(function(d) { return d["Operating.Expense.Category"]; })
             .map(data);
     });
     d3.csv('data/ntd/urban/info.csv', function(data){
-        urban = d3.nest()
+        info["urban"] = d3.nest()
             .key(function(d) { return d["counties"].replace(/ /g,''); })
             // .key(function(d) { return d["Funding.Type"]; })
             .map(data);
@@ -764,20 +770,18 @@ function getFunding(){
     d3.csv('data/ntd/5311.csv', function(data){
         // console.log(data)
         // funding["5311"].csv = data;
-        service = d3.nest()
+        info["5311"] = d3.nest()
             .key(function(d) { return d["counties"].replace(/ /g,''); })
             // .key(function(d) { return d["Sub.Recipient.ID"]; })
             .map(data);
-        if (typeof service !== "undefined"){
-            console.log(service);
-            if (entity !== ''){
-                // console.log(getFundingString("5311", ["Fulton"]));
-
-            }
-        }
-        else{
-            console.log("service data undefined")
-        }
+    });
+    d3.csv('data/ntd/5311_service.csv', function(data){
+        // console.log(data)
+        // funding["5311"].csv = data;
+        service["5311"] = d3.nest()
+            .key(function(d) { return d["Sub.Recipient.ID"]; })
+            // .key(function(d) { return d["Sub.Recipient.ID"]; })
+            .map(data);
     });
     
 }
@@ -866,65 +870,10 @@ function toggleTab(tab){
 
 function toggleStat(select){
     console.log(select.value);
-    currentStat = select.value;
+    console.log(select.id.split('-')[0])
+    currentStat[select.id.split('-')[0]] = select.value;
     load = true;
     info.update(currentProps);
-}
-
-function getUrbanString(code, counties){
-    console.log("get funding string...");
-    var fundingString = '';
-    var agencies = [];
-    var totalUpt = 0;
-    var totalFunding = 0;
-    console.log(Object.keys(urban).length);
-    console.log(counties);
-    for (var i = counties.length - 1; i >= 0; i--) {
-        if (code === "5311"){
-            if (Object.keys(urban).length > 0){
-                console.log(urban);
-                for (var key in urban) {
-                    // console.log(key);
-                    if (urban.hasOwnProperty(key)) {
-                        // console.log(key + " -> " + urban[key]);
-                        if(key.split(",").indexOf(counties[i]) > -1){
-                            for (var j = urban[key].length - 1; j >= 0; j--) {
-                                // console.log(urban[key][j]);
-                                var upt = 0;
-                                console.log(urbanOperating[urban[key][j]["NTDID"]]);
-                                operations = urbanOperating[urban[key][j]["NTDID"]]["Total"];
-                                if (agencies.indexOf(urban[key][j]["NTDID"]) > -1){
-                                    continue;
-                                }
-                                if (j === data.length - 1){
-                                    // fundingString += "<br /><b style='font-size:x-large;'>" + county + "</b>";
-                                }
-                                console.log(urban[key][j]["NTDID"])
-                                fundingString += "<b>" + urban[key][j]["Agency"] + "</b><br />";
-                                fundingString += currentStat + ": " + numberWithCommas(urbanService[urban[key][j]["NTDID"]][0][stats[currentStat]]) + "<br />";
-                                upt += +urban[key][j]["Unlinked.Passenger.Trips"];
-                                totalUpt += +urban[key][j][stats[currentStat]];
-                                agencies.push(urban[key][j]["NTDID"]);
-                                if (typeof operations !== "undefined"){
-                                    fundingString += 'Total Operating: $' + numberWithCommas(operations[0]["Total.Modal.Expenses"]) + '<br />';
-                                    // fundingString += "Local Funds: $" + numberWithCommas(operations[0]["Local.Funds"]) + "<br />";
-                                    totalFunding += +operations[0]["Total.Modal.Expenses"];
-                                }
-                            }
-                            if (upt > 0){
-                                // fundingString += "<br /><b>County UPT:</b> " + numberWithCommas(upt);
-                            }
-                        }
-                    }
-                }
-            }
-            else{
-                // showFeature(entity);
-                fundingString = '<button role="button" class="btn btn-default" onclick="showFeature(entity)"><i class="fa fa-home"></i> Refresh</button>';
-            }
-        }
-    }
-    return fundingString ;
 }
 
 function getFundingString(code, counties){
@@ -933,37 +882,64 @@ function getFundingString(code, counties){
     var agencies = [];
     var totalUpt = 0;
     var totalFunding = 0;
+    var codeId = {
+        "5311": {
+            "id": "Sub.Recipient.ID",
+            "name": "Sub.Recipient.Agency.x",
+            "operating": {
+                "parent": "Operations",
+                "total": "Total.Annual.Expenses",
+                "local": "Local.Funds"
+            }
+        },
+        "urban": {
+            "id": "NTDID",
+            "name": "Agency",
+            "operating": {
+                "parent": "Total",
+                "total": "Total.Modal.Expenses",
+                "local": "Local.Funds"
+            }
+        }
+    };
     console.log(Object.keys(service).length)
     console.log(counties)
     for (var i = counties.length - 1; i >= 0; i--) {
-        if (code === "5311"){
-            if (Object.keys(service).length > 0){
-                console.log(service);
-                for (var key in service) {
+            if (Object.keys(service[code]).length > 0){
+                // console.log(service[code]);
+                for (var key in info[code]) {
                     // console.log(key);
-                    if (service.hasOwnProperty(key)) {
+                    if (info[code].hasOwnProperty(key)) {
                         // console.log(key + " -> " + service[key]);
                         if(key.split(",").indexOf(counties[i]) > -1){
-                            for (var j = service[key].length - 1; j >= 0; j--) {
-                                // console.log(service[key][j]);
+                            for (var j = info[code][key].length - 1; j >= 0; j--) {
+                                console.log(info[code][key][j]);
+                                var data = info[code][key][j];
+                                var dataId = data[codeId[code].id];
                                 var upt = 0;
-                                // console.log(data);
-                                operations = funding["5311"][service[key][j]["Sub.Recipient.ID"]].Operations;
-                                if (agencies.indexOf(service[key][j]["Sub.Recipient.Agency.x"]) > -1){
+                                console.log(dataId)
+                                // if(code === "urban"){
+                                //     console.log(dataId)
+                                //     console.log(funding[code][dataId][codeId[code].operating.parent]);
+                                // }
+                                operationsData = funding[code][dataId][codeId[code].operating.parent];
+                                serviceData = service[code][dataId][0];
+                                console.log(serviceData)
+                                if (agencies.indexOf(dataId) > -1){
                                     continue;
                                 }
                                 if (j === data.length - 1){
                                     // fundingString += "<br /><b style='font-size:x-large;'>" + county + "</b>";
                                 }
-                                fundingString += "<b>" + service[key][j]["Sub.Recipient.Agency.x"] + "</b><br />";
-                                fundingString += currentStat + ": " + numberWithCommas(service[key][j][stats[currentStat]]) + "<br />";
-                                upt += +service[key][j]["Unlinked.Passenger.Trips"];
-                                totalUpt += +service[key][j][stats[currentStat]];
-                                agencies.push(service[key][j]["Sub.Recipient.Agency.x"]);
-                                if (typeof operations !== "undefined"){
-                                    fundingString += 'Total Operating: $' + numberWithCommas(operations[0]["Total.Annual.Expenses"]) + '<br />';
-                                    fundingString += "Local Funds: $" + numberWithCommas(operations[0]["Local.Funds"]) + "<br />";
-                                    totalFunding += +operations[0]["Total.Annual.Expenses"];
+                                fundingString += "<b>" + data[codeId[code].name] + "</b><br />";
+                                fundingString += currentStat.service + ": " + numberWithCommas(serviceData[stats.service[currentStat.service]]) + "<br />";
+                                upt += +serviceData["Unlinked.Passenger.Trips"];
+                                totalUpt += +serviceData[stats.service[currentStat.service]];
+                                agencies.push(dataId);
+                                if (typeof operationsData !== "undefined"){
+                                    fundingString += 'Total Operating: $' + numberWithCommas(operationsData[0][codeId[code].operating.total]) + '<br />';
+                                    // fundingString += "Local Funds: $" + numberWithCommas(operationsData[0]["Local.Funds"]) + "<br />";
+                                    totalFunding += +operationsData[0][codeId[code].operating.total];
                                 }
                             }
                             if (upt > 0){
@@ -977,7 +953,6 @@ function getFundingString(code, counties){
                 // showFeature(entity);
                 fundingString = '<button role="button" class="btn btn-default" onclick="showFeature(entity)"><i class="fa fa-home"></i> Refresh</button>';
             }
-        }
     }
     return fundingString ;
 }
