@@ -1,0 +1,93 @@
+"","NTDID","Agency","SSW","Mode","TOS","Capital.Use.Type","Guideway","Passenger.Stations","Administrative.Buildings","Maintenance.Buildings","Revenue.Vehicles","Service.Vehicles..non.revenue.","Fare.Revenue.Collection.Equipment","Communications.Information.Systems","Other","Small.Systems.Waiver","Total.Funds"
+"1","4021","Albany Transit System","N","DR","DO","Expanded Service",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0
+"2","4021","Albany Transit System","N","DR","DO","Existing Service",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0
+"3","4021","Albany Transit System","N","MB","DO","Expanded Service",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0
+"4","4021","Albany Transit System","N","MB","DO","Existing Service",NA,172360,NA,9772,NA,18210,44546,72917,32950,NA,350755
+"5","4022","Metropolitan Atlanta Rapid Transit Authority","N","DR","DO","Existing Service",NA,NA,NA,3533658,9322,NA,NA,NA,NA,NA,3542980
+"6","4022","Metropolitan Atlanta Rapid Transit Authority","N","DR","DO","Expanded Service",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0
+"7","4022","Metropolitan Atlanta Rapid Transit Authority","N","HR","DO","Existing Service",46198672,33332867,14384830,3217670,12040947,1438783,985524,19677862,3429,NA,131280584
+"8","4022","Metropolitan Atlanta Rapid Transit Authority","N","HR","DO","Expanded Service",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0
+"9","4022","Metropolitan Atlanta Rapid Transit Authority","N","MB","DO","Expanded Service",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0
+"10","4022","Metropolitan Atlanta Rapid Transit Authority","N","MB","DO","Existing Service",NA,89209,1510372,6239704,4407226,24410,33750,24094867,179471,NA,36579009
+"11","4023","Augusta Richmond County Transit Department","N","DR","PT","Existing Service",NA,NA,NA,131913,NA,NA,NA,NA,12741,NA,144654
+"12","4023","Augusta Richmond County Transit Department","N","DR","PT","Expanded Service",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0
+"13","4023","Augusta Richmond County Transit Department","N","MB","PT","Existing Service",NA,NA,NA,296803,NA,NA,NA,NA,41515,NA,338318
+"14","4023","Augusta Richmond County Transit Department","N","MB","PT","Expanded Service",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0
+"15","4024","Metra Transit System (Columbus, GA)","Y","DR","DO","Existing Service",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0
+"16","4024","Metra Transit System (Columbus, GA)","Y","DR","DO","Expanded Service",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0
+"17","4024","Metra Transit System (Columbus, GA)","Y","DR","DO","Total",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0
+"18","4024","Metra Transit System (Columbus, GA)","Y","MB","DO","Total",NA,NA,NA,NA,NA,NA,NA,NA,NA,3236417,3236417
+"19","4024","Metra Transit System (Columbus, GA)","Y","MB","DO","Expanded Service",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0
+"20","4024","Metra Transit System (Columbus, GA)","Y","MB","DO","Existing Service",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0
+"21","4025","Chatham Area Transit Authority","N","DR","DO","Expanded Service",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0
+"22","4025","Chatham Area Transit Authority","N","DR","DO","Existing Service",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0
+"23","4025","Chatham Area Transit Authority","N","DR","PT","Expanded Service",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0
+"24","4025","Chatham Area Transit Authority","N","DR","PT","Existing Service",NA,NA,NA,NA,195816,NA,NA,NA,NA,NA,195816
+"25","4025","Chatham Area Transit Authority","N","FB","DO","Existing Service",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0
+"26","4025","Chatham Area Transit Authority","N","FB","DO","Expanded Service",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0
+"27","4025","Chatham Area Transit Authority","N","FB","PT","Existing Service",NA,NA,NA,NA,720982,NA,NA,NA,NA,NA,720982
+"28","4025","Chatham Area Transit Authority","N","FB","PT","Expanded Service",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0
+"29","4025","Chatham Area Transit Authority","N","MB","DO","Expanded Service",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0
+"30","4025","Chatham Area Transit Authority","N","MB","DO","Existing Service",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0
+"31","4025","Chatham Area Transit Authority","N","MB","PT","Expanded Service",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0
+"32","4025","Chatham Area Transit Authority","N","MB","PT","Existing Service",NA,NA,4483215,2402496,324364,63041,NA,215955,NA,NA,7489071
+"33","4047","Athens Transit System","N","DR","DO","Expanded Service",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0
+"34","4047","Athens Transit System","N","DR","DO","Existing Service",NA,NA,NA,NA,NA,NA,9760,22611,NA,NA,32371
+"35","4047","Athens Transit System","N","MB","DO","Existing Service",NA,1806718,853812,NA,1618747,NA,32736,296433,NA,NA,4608446
+"36","4047","Athens Transit System","N","MB","DO","Expanded Service",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0
+"37","4058","City of Rome Transit Department","N","DR","DO","Expanded Service",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0
+"38","4058","City of Rome Transit Department","N","DR","DO","Existing Service",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0
+"39","4058","City of Rome Transit Department","N","MB","DO","Existing Service",NA,NA,47998,NA,93035,NA,40000,130451,20971,NA,332455
+"40","4058","City of Rome Transit Department","N","MB","DO","Expanded Service",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0
+"41","4078","Cobb County Department of Transportation Authority","N","CB","PT","Expanded Service",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0
+"42","4078","Cobb County Department of Transportation Authority","N","CB","PT","Existing Service",NA,NA,6179,NA,NA,NA,164462,NA,30296,NA,200937
+"43","4078","Cobb County Department of Transportation Authority","N","DR","PT","Existing Service",NA,NA,3870287,NA,NA,NA,215066,NA,109613,NA,4194966
+"44","4078","Cobb County Department of Transportation Authority","N","DR","PT","Expanded Service",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0
+"45","4078","Cobb County Department of Transportation Authority","N","MB","PT","Existing Service",NA,NA,NA,NA,NA,NA,885565,NA,163135,NA,1048700
+"46","4078","Cobb County Department of Transportation Authority","N","MB","PT","Expanded Service",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0
+"47","4082","Douglas County Rideshare","N","VP","DO","Expanded Service",NA,NA,NA,NA,238052,NA,NA,NA,NA,NA,238052
+"48","4082","Douglas County Rideshare","N","VP","DO","Existing Service",NA,NA,NA,NA,136110,NA,NA,NA,NA,NA,136110
+"49","4130","Macon-Bibb County Transit Authority","Y","DR","DO","Expanded Service",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0
+"50","4130","Macon-Bibb County Transit Authority","Y","DR","DO","Existing Service",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0
+"51","4130","Macon-Bibb County Transit Authority","Y","DR","DO","Total",NA,NA,NA,NA,NA,NA,NA,NA,NA,62232,62232
+"52","4130","Macon-Bibb County Transit Authority","Y","MB","DO","Expanded Service",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0
+"53","4130","Macon-Bibb County Transit Authority","Y","MB","DO","Existing Service",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0
+"54","4130","Macon-Bibb County Transit Authority","Y","MB","DO","Total",NA,NA,NA,NA,NA,NA,NA,NA,NA,492442,492442
+"55","4135","Georgia Regional Transportation Authority","N","CB","PT","Expanded Service",NA,3094606,NA,NA,NA,NA,NA,NA,NA,NA,3094606
+"56","4135","Georgia Regional Transportation Authority","N","CB","PT","Existing Service",NA,NA,NA,NA,NA,NA,116405,NA,NA,NA,116405
+"57","4135","Georgia Regional Transportation Authority","N","VP","PT","Expanded Service",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0
+"58","4135","Georgia Regional Transportation Authority","N","VP","PT","Existing Service",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0
+"59","4138","Gwinnett County Board of Commissioners","N","CB","PT","Expanded Service",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0
+"60","4138","Gwinnett County Board of Commissioners","N","CB","PT","Existing Service",NA,NA,NA,NA,NA,NA,20873,1155086,759854,NA,1935813
+"61","4138","Gwinnett County Board of Commissioners","N","DR","PT","Expanded Service",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0
+"62","4138","Gwinnett County Board of Commissioners","N","DR","PT","Existing Service",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0
+"63","4138","Gwinnett County Board of Commissioners","N","MB","PT","Expanded Service",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0
+"64","4138","Gwinnett County Board of Commissioners","N","MB","PT","Existing Service",NA,NA,NA,NA,NA,NA,19134,1058829,696532,NA,1774495
+"65","4144","Hall Area Transit","N","DR","DO","Expanded Service",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0
+"66","4144","Hall Area Transit","N","DR","DO","Existing Service",NA,NA,NA,NA,NA,NA,NA,54883,NA,NA,54883
+"67","4144","Hall Area Transit","N","MB","DO","Existing Service",NA,NA,NA,NA,NA,NA,NA,NA,57498,NA,57498
+"68","4144","Hall Area Transit","N","MB","DO","Expanded Service",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0
+"69","4153","vRide, Inc. - Atlanta","N","VP","DO","Expanded Service",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0
+"70","4153","vRide, Inc. - Atlanta","N","VP","DO","Existing Service",NA,NA,NA,NA,5062452,NA,NA,NA,NA,NA,5062452
+"71","4161","Cherokee County Board of Commissioners","Y","DR","DO","Expanded Service",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0
+"72","4161","Cherokee County Board of Commissioners","Y","DR","DO","Total",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0
+"73","4161","Cherokee County Board of Commissioners","Y","DR","DO","Existing Service",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0
+"74","4161","Cherokee County Board of Commissioners","Y","MB","DO","Total",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0
+"75","4161","Cherokee County Board of Commissioners","Y","MB","DO","Existing Service",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0
+"76","4161","Cherokee County Board of Commissioners","Y","MB","DO","Expanded Service",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0
+"77","4177","Buckhead Community Improvement District","N","MB","PT","Existing Service",NA,NA,NA,NA,NA,NA,NA,NA,1853,NA,1853
+"78","4177","Buckhead Community Improvement District","N","MB","PT","Expanded Service",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0
+"79","4180","University of Georgia Transit System","N","DR","DO","Existing Service",NA,NA,NA,NA,73500,NA,NA,NA,NA,NA,73500
+"80","4180","University of Georgia Transit System","N","DR","DO","Expanded Service",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0
+"81","4180","University of Georgia Transit System","N","MB","DO","Existing Service",NA,NA,4461,159101,117102,NA,NA,17205,NA,NA,297869
+"82","4180","University of Georgia Transit System","N","MB","DO","Expanded Service",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0
+"83","4181","Henry County Transit","Y","DR","DO","Existing Service",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0
+"84","4181","Henry County Transit","Y","DR","DO","Total",NA,NA,NA,NA,NA,NA,NA,NA,NA,774302,774302
+"85","4181","Henry County Transit","Y","DR","DO","Expanded Service",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0
+"86","4193","Liberty Transit","Y","MB","PT","Total",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0
+"87","4193","Liberty Transit","Y","MB","PT","Expanded Service",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0
+"88","4193","Liberty Transit","Y","MB","PT","Existing Service",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0
+"89","4203","Enterprise Rideshare","N","VP","DO","Expanded Service",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0
+"90","4203","Enterprise Rideshare","N","VP","DO","Existing Service",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0
+"91","4230","City of Atlanta - Department of Public Works - Transit Division","N","SR","DO","Existing Service",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0
+"92","4230","City of Atlanta - Department of Public Works - Transit Division","N","SR","DO","Expanded Service",20876391,632066,NA,828029,9455973,NA,NA,NA,2787567,NA,34580026

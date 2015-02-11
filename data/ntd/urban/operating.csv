@@ -1,0 +1,206 @@
+"","NTDID","Agency","SSW","Mode","TOS","Operating.Expense.Category","Operators.salaries.and.wages","Other.salaries.and.wages","Fringe.Benefits","Services","Fuel.and.lubricants","Tires.and.tubes","Other.materials.and.supplies","Utilities","Casualty.and.Liability.Costs","Taxes","Purchased.Transportation.In.Report","Purchased.Transportation.Filing.Separate.Report","Miscellaneous.Expenses","Small.Systems.Waiver.Expenses","Total.Modal.Expenses","ADA.Related.Expenses"
+"1","4021","Albany Transit System","N","DR","DO","General Administration",NA,19685,11360,6247,NA,NA,4380,6337,7162,NA,NA,NA,2442,NA,NA,NA
+"2","4021","Albany Transit System","N","DR","DO","Non-Vehicle Maintenance",NA,1229,455,6351,NA,NA,2601,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"3","4021","Albany Transit System","N","DR","DO","Total",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,417169,417169
+"4","4021","Albany Transit System","N","DR","DO","Vehicle Maintenance",NA,33597,24970,3287,3270,87,23073,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"5","4021","Albany Transit System","N","DR","DO","Vehicle Operations",109807,25760,76885,526,39770,7888,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"6","4021","Albany Transit System","N","MB","DO","General Administration",NA,111549,64371,35398,NA,NA,24817,35909,40585,NA,NA,NA,13837,NA,NA,NA
+"7","4021","Albany Transit System","N","MB","DO","Non-Vehicle Maintenance",NA,6964,2581,35988,NA,NA,14740,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"8","4021","Albany Transit System","N","MB","DO","Total",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,2358690,NA
+"9","4021","Albany Transit System","N","MB","DO","Vehicle Maintenance",NA,190381,141494,18629,18530,495,130747,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"10","4021","Albany Transit System","N","MB","DO","Vehicle Operations",470054,145975,350612,2979,457358,44697,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"11","4022","Metropolitan Atlanta Rapid Transit Authority","N","DR","DO","General Administration",NA,1393354,1069677,69229,NA,NA,23616,104757,192604,NA,NA,NA,18547,NA,NA,NA
+"12","4022","Metropolitan Atlanta Rapid Transit Authority","N","DR","DO","Non-Vehicle Maintenance",NA,157775,121123,1555,NA,NA,12704,NA,NA,NA,NA,NA,708,NA,NA,NA
+"13","4022","Metropolitan Atlanta Rapid Transit Authority","N","DR","DO","Total",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,26807055,26807055
+"14","4022","Metropolitan Atlanta Rapid Transit Authority","N","DR","DO","Vehicle Maintenance",NA,1752298,1345240,6096,281564,42631,588795,NA,NA,40,NA,NA,752,NA,NA,NA
+"15","4022","Metropolitan Atlanta Rapid Transit Authority","N","DR","DO","Vehicle Operations",7198229,1930181,7007881,15219,3051356,376741,10301,NA,NA,NA,NA,NA,34082,NA,NA,NA
+"16","4022","Metropolitan Atlanta Rapid Transit Authority","N","HR","DO","General Administration",NA,24108582,18642346,4866504,NA,NA,924885,5492693,3954544,2673,NA,NA,875009,NA,NA,NA
+"17","4022","Metropolitan Atlanta Rapid Transit Authority","N","HR","DO","Non-Vehicle Maintenance",NA,21824515,16724693,9136148,NA,NA,2720579,NA,NA,NA,NA,NA,88970,NA,NA,NA
+"18","4022","Metropolitan Atlanta Rapid Transit Authority","N","HR","DO","Total",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,208150500,NA
+"19","4022","Metropolitan Atlanta Rapid Transit Authority","N","HR","DO","Vehicle Maintenance",NA,11642115,9048412,2280630,195641,29621,8846904,NA,NA,920,NA,NA,10410,NA,NA,NA
+"20","4022","Metropolitan Atlanta Rapid Transit Authority","N","HR","DO","Vehicle Operations",5373793,27468300,25197596,1444256,NA,NA,418860,6726693,NA,NA,NA,NA,104208,NA,NA,NA
+"21","4022","Metropolitan Atlanta Rapid Transit Authority","N","MB","DO","General Administration",NA,20221454,15316578,4670781,NA,NA,1384776,5512320,3607007,9153,NA,NA,2068334,NA,NA,NA
+"22","4022","Metropolitan Atlanta Rapid Transit Authority","N","MB","DO","Non-Vehicle Maintenance",NA,4884764,3734391,3304648,NA,NA,841360,NA,NA,NA,NA,NA,144,NA,NA,NA
+"23","4022","Metropolitan Atlanta Rapid Transit Authority","N","MB","DO","Total",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,220425909,NA
+"24","4022","Metropolitan Atlanta Rapid Transit Authority","N","MB","DO","Vehicle Maintenance",NA,17080886,13111803,1156635,844692,127891,13671628,NA,NA,3984,NA,NA,78256,NA,NA,NA
+"25","4022","Metropolitan Atlanta Rapid Transit Authority","N","MB","DO","Vehicle Operations",44970939,7932616,40629338,1466045,11363854,1836312,297608,NA,NA,75617,NA,NA,222095,NA,NA,NA
+"26","4023","Augusta Richmond County Transit Department","N","DR","PT","General Administration",NA,24347,21774,9341,NA,NA,402,6133,422,NA,183535,NA,13136,NA,NA,NA
+"27","4023","Augusta Richmond County Transit Department","N","DR","PT","Non-Vehicle Maintenance",NA,NA,NA,320,NA,NA,NA,NA,NA,NA,33161,NA,NA,NA,NA,NA
+"28","4023","Augusta Richmond County Transit Department","N","DR","PT","Total",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,828643,828643
+"29","4023","Augusta Richmond County Transit Department","N","DR","PT","Vehicle Maintenance",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,112235,NA,NA,NA,NA,NA
+"30","4023","Augusta Richmond County Transit Department","N","DR","PT","Vehicle Operations",NA,NA,NA,NA,32569,NA,NA,NA,NA,NA,391268,NA,NA,NA,NA,NA
+"31","4023","Augusta Richmond County Transit Department","N","MB","PT","General Administration",NA,73658,52815,21017,NA,NA,906,13800,948,NA,738472,NA,29556,NA,NA,NA
+"32","4023","Augusta Richmond County Transit Department","N","MB","PT","Non-Vehicle Maintenance",NA,NA,NA,720,NA,NA,NA,NA,NA,NA,119651,NA,NA,NA,NA,NA
+"33","4023","Augusta Richmond County Transit Department","N","MB","PT","Total",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,3280359,NA
+"34","4023","Augusta Richmond County Transit Department","N","MB","PT","Vehicle Maintenance",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,504410,NA,NA,NA,NA,NA
+"35","4023","Augusta Richmond County Transit Department","N","MB","PT","Vehicle Operations",NA,NA,NA,NA,222638,NA,NA,NA,NA,NA,1501768,NA,NA,NA,NA,NA
+"36","4024","Metra Transit System (Columbus, GA)","Y","DR","DO","General Administration",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"37","4024","Metra Transit System (Columbus, GA)","Y","DR","DO","Non-Vehicle Maintenance",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"38","4024","Metra Transit System (Columbus, GA)","Y","DR","DO","Total",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,321335,321335,NA
+"39","4024","Metra Transit System (Columbus, GA)","Y","DR","DO","Vehicle Maintenance",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"40","4024","Metra Transit System (Columbus, GA)","Y","DR","DO","Vehicle Operations",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"41","4024","Metra Transit System (Columbus, GA)","Y","MB","DO","General Administration",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"42","4024","Metra Transit System (Columbus, GA)","Y","MB","DO","Non-Vehicle Maintenance",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"43","4024","Metra Transit System (Columbus, GA)","Y","MB","DO","Total",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,4068465,4068465,NA
+"44","4024","Metra Transit System (Columbus, GA)","Y","MB","DO","Vehicle Maintenance",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"45","4024","Metra Transit System (Columbus, GA)","Y","MB","DO","Vehicle Operations",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"46","4025","Chatham Area Transit Authority","N","DR","DO","General Administration",NA,6227,1858,597,NA,NA,825,912,6767,NA,NA,NA,NA,NA,NA,NA
+"47","4025","Chatham Area Transit Authority","N","DR","DO","Non-Vehicle Maintenance",NA,2193,571,NA,NA,NA,1786,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"48","4025","Chatham Area Transit Authority","N","DR","DO","Total",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,159766,159766
+"49","4025","Chatham Area Transit Authority","N","DR","DO","Vehicle Maintenance",NA,3132,736,NA,148,267,11453,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"50","4025","Chatham Area Transit Authority","N","DR","DO","Vehicle Operations",61585,7582,17983,128,32320,2696,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"51","4025","Chatham Area Transit Authority","N","DR","PT","General Administration",NA,18211,4735,NA,NA,NA,NA,8920,61880,NA,86620,NA,NA,NA,NA,NA
+"52","4025","Chatham Area Transit Authority","N","DR","PT","Non-Vehicle Maintenance",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,48703,NA,NA,NA,NA,NA
+"53","4025","Chatham Area Transit Authority","N","DR","PT","Total",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,1976947,1976947
+"54","4025","Chatham Area Transit Authority","N","DR","PT","Vehicle Maintenance",NA,NA,NA,NA,1709,NA,NA,NA,NA,NA,175288,NA,NA,NA,NA,NA
+"55","4025","Chatham Area Transit Authority","N","DR","PT","Vehicle Operations",NA,NA,NA,NA,226245,NA,NA,NA,NA,NA,1344636,NA,NA,NA,NA,NA
+"56","4025","Chatham Area Transit Authority","N","FB","DO","General Administration",NA,3673,1100,124,NA,NA,358,493,NA,NA,NA,NA,NA,NA,NA,NA
+"57","4025","Chatham Area Transit Authority","N","FB","DO","Non-Vehicle Maintenance",NA,1075,279,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"58","4025","Chatham Area Transit Authority","N","FB","DO","Total",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,107247,NA
+"59","4025","Chatham Area Transit Authority","N","FB","DO","Vehicle Maintenance",NA,5784,1503,20705,951,NA,7153,NA,9864,NA,NA,NA,NA,NA,NA,NA
+"60","4025","Chatham Area Transit Authority","N","FB","DO","Vehicle Operations",32010,1600,9359,NA,11216,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"61","4025","Chatham Area Transit Authority","N","FB","PT","General Administration",NA,NA,NA,20228,NA,NA,NA,4639,NA,NA,38463,NA,NA,NA,NA,NA
+"62","4025","Chatham Area Transit Authority","N","FB","PT","Non-Vehicle Maintenance",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,124586,NA,NA,NA,NA,NA
+"63","4025","Chatham Area Transit Authority","N","FB","PT","Total",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,860682,NA
+"64","4025","Chatham Area Transit Authority","N","FB","PT","Vehicle Maintenance",NA,NA,NA,NA,6657,NA,NA,NA,72695,NA,194819,NA,NA,NA,NA,NA
+"65","4025","Chatham Area Transit Authority","N","FB","PT","Vehicle Operations",NA,NA,NA,NA,97233,NA,NA,NA,NA,NA,301362,NA,NA,NA,NA,NA
+"66","4025","Chatham Area Transit Authority","N","MB","DO","General Administration",NA,77802,21785,50062,NA,NA,4495,17497,60215,NA,NA,NA,41209,NA,NA,NA
+"67","4025","Chatham Area Transit Authority","N","MB","DO","Non-Vehicle Maintenance",NA,8513,1899,10719,NA,NA,10213,NA,27666,NA,NA,NA,NA,NA,NA,NA
+"68","4025","Chatham Area Transit Authority","N","MB","DO","Total",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,1564829,NA
+"69","4025","Chatham Area Transit Authority","N","MB","DO","Vehicle Maintenance",NA,110576,28749,15937,11631,431,103536,NA,36857,NA,NA,NA,NA,NA,NA,NA
+"70","4025","Chatham Area Transit Authority","N","MB","DO","Vehicle Operations",466909,77101,152323,9082,206993,10718,1911,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"71","4025","Chatham Area Transit Authority","N","MB","PT","General Administration",NA,NA,NA,168453,NA,NA,NA,142675,421578,NA,1255209,NA,9142,NA,NA,NA
+"72","4025","Chatham Area Transit Authority","N","MB","PT","Non-Vehicle Maintenance",NA,NA,NA,NA,NA,NA,NA,NA,193662,NA,195565,NA,NA,NA,NA,NA
+"73","4025","Chatham Area Transit Authority","N","MB","PT","Total",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,12216664,NA
+"74","4025","Chatham Area Transit Authority","N","MB","PT","Vehicle Maintenance",NA,NA,NA,NA,54136,NA,NA,NA,257285,NA,1922077,NA,NA,NA,NA,NA
+"75","4025","Chatham Area Transit Authority","N","MB","PT","Vehicle Operations",NA,NA,NA,NA,1715135,NA,NA,NA,NA,NA,5881747,NA,NA,NA,NA,NA
+"76","4047","Athens Transit System","N","DR","DO","General Administration",NA,32352,10715,NA,NA,NA,436,10385,623,NA,NA,NA,13216,NA,NA,NA
+"77","4047","Athens Transit System","N","DR","DO","Non-Vehicle Maintenance",NA,13265,1643,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"78","4047","Athens Transit System","N","DR","DO","Total",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,413435,413435
+"79","4047","Athens Transit System","N","DR","DO","Vehicle Maintenance",NA,37183,11642,1441,9966,NA,7995,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"80","4047","Athens Transit System","N","DR","DO","Vehicle Operations",137077,9958,58484,3276,34000,8914,5111,NA,NA,1327,NA,NA,4426,NA,NA,NA
+"81","4047","Athens Transit System","N","MB","DO","General Administration",NA,257297,108976,245790,NA,NA,1997,106771,NA,NA,NA,NA,375895,NA,NA,NA
+"82","4047","Athens Transit System","N","MB","DO","Non-Vehicle Maintenance",NA,49513,24813,50937,NA,NA,207,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"83","4047","Athens Transit System","N","MB","DO","Total",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,5208145,NA
+"84","4047","Athens Transit System","N","MB","DO","Vehicle Maintenance",NA,385000,128285,27106,7496,NA,211024,NA,6755,NA,NA,NA,NA,NA,NA,NA
+"85","4047","Athens Transit System","N","MB","DO","Vehicle Operations",1415209,119670,571608,68450,705682,44038,91786,NA,NA,645,NA,NA,203195,NA,NA,NA
+"86","4058","City of Rome Transit Department","N","DR","DO","General Administration",NA,35291,23095,NA,NA,NA,719,9203,14636,250,NA,NA,NA,NA,NA,NA
+"87","4058","City of Rome Transit Department","N","DR","DO","Non-Vehicle Maintenance",NA,17200,5160,NA,NA,NA,387,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"88","4058","City of Rome Transit Department","N","DR","DO","Total",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,388149,388149
+"89","4058","City of Rome Transit Department","N","DR","DO","Vehicle Maintenance",NA,17236,21651,NA,6581,96,1144,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"90","4058","City of Rome Transit Department","N","DR","DO","Vehicle Operations",131454,6148,54059,NA,43425,126,288,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"91","4058","City of Rome Transit Department","N","MB","DO","General Administration",NA,173760,181747,1434,NA,NA,29341,57843,33241,NA,NA,NA,54028,NA,NA,NA
+"92","4058","City of Rome Transit Department","N","MB","DO","Non-Vehicle Maintenance",NA,14696,9226,NA,NA,NA,17296,NA,2292,NA,NA,NA,NA,NA,NA,NA
+"93","4058","City of Rome Transit Department","N","MB","DO","Total",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,2318185,NA
+"94","4058","City of Rome Transit Department","N","MB","DO","Vehicle Maintenance",NA,142168,161553,NA,28352,1014,75799,NA,79089,NA,NA,NA,NA,NA,NA,NA
+"95","4058","City of Rome Transit Department","N","MB","DO","Vehicle Operations",545775,55288,313375,12897,323044,3039,NA,NA,NA,1888,NA,NA,NA,NA,NA,NA
+"96","4078","Cobb County Department of Transportation Authority","N","CB","PT","General Administration",NA,17894,9621,33108,NA,NA,934,41773,NA,NA,663244,NA,31370,NA,NA,NA
+"97","4078","Cobb County Department of Transportation Authority","N","CB","PT","Non-Vehicle Maintenance",NA,1732,931,3204,NA,NA,90,NA,NA,NA,64185,NA,3036,NA,NA,NA
+"98","4078","Cobb County Department of Transportation Authority","N","CB","PT","Total",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,3044723,NA
+"99","4078","Cobb County Department of Transportation Authority","N","CB","PT","Vehicle Maintenance",NA,6927,3724,12816,67643,NA,361,NA,NA,NA,256739,NA,12143,NA,NA,NA
+"100","4078","Cobb County Department of Transportation Authority","N","CB","PT","Vehicle Operations",NA,31170,16758,57673,496049,NA,1626,NA,NA,NA,1155328,NA,54644,NA,NA,NA
+"101","4078","Cobb County Department of Transportation Authority","N","DR","PT","General Administration",NA,26587,11127,36800,NA,NA,1375,44317,NA,NA,751052,NA,61661,NA,NA,NA
+"102","4078","Cobb County Department of Transportation Authority","N","DR","PT","Non-Vehicle Maintenance",NA,2492,1043,3450,NA,NA,129,NA,NA,NA,70411,NA,5781,NA,NA,NA
+"103","4078","Cobb County Department of Transportation Authority","N","DR","PT","Total",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,3418051,3418051
+"104","4078","Cobb County Department of Transportation Authority","N","DR","PT","Vehicle Maintenance",NA,9970,4173,13800,NA,NA,516,NA,NA,NA,281645,NA,23123,NA,NA,NA
+"105","4078","Cobb County Department of Transportation Authority","N","DR","PT","Vehicle Operations",NA,44035,18429,60951,596851,NA,2278,NA,NA,NA,1243930,NA,102125,NA,NA,NA
+"106","4078","Cobb County Department of Transportation Authority","N","MB","PT","General Administration",NA,68419,36784,126591,NA,NA,3569,159719,NA,NA,2535932,NA,119943,NA,NA,NA
+"107","4078","Cobb County Department of Transportation Authority","N","MB","PT","Non-Vehicle Maintenance",NA,6621,3560,12251,NA,NA,345,NA,NA,NA,245413,NA,11607,NA,NA,NA
+"108","4078","Cobb County Department of Transportation Authority","N","MB","PT","Total",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,11641589,NA
+"109","4078","Cobb County Department of Transportation Authority","N","MB","PT","Vehicle Maintenance",NA,26485,14239,49003,366400,NA,1381,NA,NA,NA,981651,NA,46430,NA,NA,NA
+"110","4078","Cobb County Department of Transportation Authority","N","MB","PT","Vehicle Operations",NA,119182,64075,220513,1788895,NA,6217,NA,NA,NA,4417431,NA,208933,NA,NA,NA
+"111","4082","Douglas County Rideshare","N","VP","DO","General Administration",NA,144065,59562,47474,NA,NA,24250,40286,86000,NA,NA,NA,28973,NA,NA,NA
+"112","4082","Douglas County Rideshare","N","VP","DO","Non-Vehicle Maintenance",NA,NA,NA,2716,NA,NA,691,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"113","4082","Douglas County Rideshare","N","VP","DO","Total",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,797364,NA
+"114","4082","Douglas County Rideshare","N","VP","DO","Vehicle Maintenance",NA,30755,12562,NA,3103,11452,25628,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"115","4082","Douglas County Rideshare","N","VP","DO","Vehicle Operations",NA,NA,NA,NA,260036,19811,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"116","4130","Macon-Bibb County Transit Authority","Y","DR","DO","General Administration",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"117","4130","Macon-Bibb County Transit Authority","Y","DR","DO","Non-Vehicle Maintenance",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"118","4130","Macon-Bibb County Transit Authority","Y","DR","DO","Total",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,621614,621614,NA
+"119","4130","Macon-Bibb County Transit Authority","Y","DR","DO","Vehicle Maintenance",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"120","4130","Macon-Bibb County Transit Authority","Y","DR","DO","Vehicle Operations",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"121","4130","Macon-Bibb County Transit Authority","Y","MB","DO","General Administration",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"122","4130","Macon-Bibb County Transit Authority","Y","MB","DO","Non-Vehicle Maintenance",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"123","4130","Macon-Bibb County Transit Authority","Y","MB","DO","Total",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,5312886,5312886,NA
+"124","4130","Macon-Bibb County Transit Authority","Y","MB","DO","Vehicle Maintenance",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"125","4130","Macon-Bibb County Transit Authority","Y","MB","DO","Vehicle Operations",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"126","4135","Georgia Regional Transportation Authority","N","CB","PT","General Administration",NA,597479,216898,975543,NA,NA,23113,295791,NA,NA,987786,NA,18007,NA,NA,NA
+"127","4135","Georgia Regional Transportation Authority","N","CB","PT","Non-Vehicle Maintenance",NA,69000,36899,214381,NA,NA,58333,NA,NA,NA,79556,NA,NA,NA,NA,NA
+"128","4135","Georgia Regional Transportation Authority","N","CB","PT","Total",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,16467047,NA
+"129","4135","Georgia Regional Transportation Authority","N","CB","PT","Vehicle Maintenance",NA,133503,75556,4819,59192,4614,863226,NA,909064,NA,1170596,NA,NA,NA,NA,NA
+"130","4135","Georgia Regional Transportation Authority","N","CB","PT","Vehicle Operations",NA,NA,NA,227094,2609214,181135,NA,NA,NA,NA,6656248,4221073,NA,NA,NA,NA
+"131","4135","Georgia Regional Transportation Authority","N","VP","PT","General Administration",NA,52447,24079,1715,NA,NA,18574,2000,1143,NA,39179,1796396,NA,NA,NA,NA
+"132","4135","Georgia Regional Transportation Authority","N","VP","PT","Non-Vehicle Maintenance",NA,2000,1143,1715,NA,NA,857,NA,NA,NA,2062,52647,NA,NA,NA,NA
+"133","4135","Georgia Regional Transportation Authority","N","VP","PT","Total",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,195775,NA
+"134","4135","Georgia Regional Transportation Authority","N","VP","PT","Vehicle Maintenance",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,4938,225343,NA,NA,NA,NA
+"135","4135","Georgia Regional Transportation Authority","N","VP","PT","Vehicle Operations",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,43923,1054404,NA,NA,NA,NA
+"136","4138","Gwinnett County Board of Commissioners","N","CB","PT","General Administration",NA,107262,52237,31096,NA,NA,4743,28829,896,NA,2233648,NA,NA,NA,NA,NA
+"137","4138","Gwinnett County Board of Commissioners","N","CB","PT","Non-Vehicle Maintenance",NA,NA,NA,1134,NA,NA,161,NA,NA,NA,231356,NA,NA,NA,NA,NA
+"138","4138","Gwinnett County Board of Commissioners","N","CB","PT","Total",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,7230081,NA
+"139","4138","Gwinnett County Board of Commissioners","N","CB","PT","Vehicle Maintenance",NA,NA,NA,393,355,NA,4212,NA,NA,NA,966825,NA,NA,NA,NA,NA
+"140","4138","Gwinnett County Board of Commissioners","N","CB","PT","Vehicle Operations",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,3566934,NA,NA,NA,NA,NA
+"141","4138","Gwinnett County Board of Commissioners","N","DR","PT","General Administration",NA,17343,8446,NA,NA,NA,NA,4661,145,NA,375919,NA,NA,NA,NA,NA
+"142","4138","Gwinnett County Board of Commissioners","N","DR","PT","Non-Vehicle Maintenance",NA,NA,NA,184,NA,NA,26,NA,NA,NA,41069,NA,NA,NA,NA,NA
+"143","4138","Gwinnett County Board of Commissioners","N","DR","PT","Total",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,1726130,1304885
+"144","4138","Gwinnett County Board of Commissioners","N","DR","PT","Vehicle Maintenance",NA,NA,NA,NA,57,NA,NA,NA,NA,NA,246506,NA,NA,NA,NA,NA
+"145","4138","Gwinnett County Board of Commissioners","N","DR","PT","Vehicle Operations",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,1031774,NA,NA,NA,NA,NA
+"146","4138","Gwinnett County Board of Commissioners","N","MB","PT","General Administration",NA,63716,31030,18472,NA,NA,2817,17125,532,NA,1382729,NA,208423,NA,NA,NA
+"147","4138","Gwinnett County Board of Commissioners","N","MB","PT","Non-Vehicle Maintenance",NA,NA,NA,674,NA,NA,96,NA,NA,NA,151062,NA,NA,NA,NA,NA
+"148","4138","Gwinnett County Board of Commissioners","N","MB","PT","Total",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,5328870,NA
+"149","4138","Gwinnett County Board of Commissioners","N","MB","PT","Vehicle Maintenance",NA,NA,NA,233,210,NA,2501,NA,NA,NA,1002502,NA,NA,NA,NA,NA
+"150","4138","Gwinnett County Board of Commissioners","N","MB","PT","Vehicle Operations",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,2446748,NA,NA,NA,NA,NA
+"151","4144","Hall Area Transit","N","DR","DO","General Administration",NA,30362,9395,39534,NA,NA,9962,5305,2400,NA,NA,NA,5329,NA,NA,NA
+"152","4144","Hall Area Transit","N","DR","DO","Non-Vehicle Maintenance",NA,NA,NA,9534,NA,NA,1713,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"153","4144","Hall Area Transit","N","DR","DO","Total",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,613958,214885
+"154","4144","Hall Area Transit","N","DR","DO","Vehicle Maintenance",NA,21282,8093,NA,NA,NA,16794,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"155","4144","Hall Area Transit","N","DR","DO","Vehicle Operations",154445,58605,134658,NA,83685,11786,NA,NA,NA,NA,NA,NA,11076,NA,NA,NA
+"156","4144","Hall Area Transit","N","MB","DO","General Administration",NA,23856,7382,31062,NA,NA,8330,4168,45889,NA,NA,NA,8576,NA,NA,NA
+"157","4144","Hall Area Transit","N","MB","DO","Non-Vehicle Maintenance",NA,NA,NA,7648,NA,NA,1303,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"158","4144","Hall Area Transit","N","MB","DO","Total",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,772929,NA
+"159","4144","Hall Area Transit","N","MB","DO","Vehicle Maintenance",NA,25209,11716,NA,1008,NA,47014,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"160","4144","Hall Area Transit","N","MB","DO","Vehicle Operations",213615,46046,163505,NA,99759,17637,NA,NA,NA,NA,NA,NA,9206,NA,NA,NA
+"161","4153","vRide, Inc. - Atlanta","N","VP","DO","General Administration",NA,223617,62546,102550,NA,NA,1929,17232,303637,71584,NA,NA,1074096,NA,NA,NA
+"162","4153","vRide, Inc. - Atlanta","N","VP","DO","Non-Vehicle Maintenance",NA,NA,NA,6279,NA,NA,NA,NA,295,NA,NA,NA,NA,NA,NA,NA
+"163","4153","vRide, Inc. - Atlanta","N","VP","DO","Total",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,3061175,NA
+"164","4153","vRide, Inc. - Atlanta","N","VP","DO","Vehicle Maintenance",NA,NA,NA,208849,12559,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"165","4153","vRide, Inc. - Atlanta","N","VP","DO","Vehicle Operations",NA,NA,NA,NA,954965,21037,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"166","4161","Cherokee County Board of Commissioners","Y","DR","DO","General Administration",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"167","4161","Cherokee County Board of Commissioners","Y","DR","DO","Non-Vehicle Maintenance",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"168","4161","Cherokee County Board of Commissioners","Y","DR","DO","Total",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,723083,723083,NA
+"169","4161","Cherokee County Board of Commissioners","Y","DR","DO","Vehicle Maintenance",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"170","4161","Cherokee County Board of Commissioners","Y","DR","DO","Vehicle Operations",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"171","4161","Cherokee County Board of Commissioners","Y","MB","DO","General Administration",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"172","4161","Cherokee County Board of Commissioners","Y","MB","DO","Non-Vehicle Maintenance",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"173","4161","Cherokee County Board of Commissioners","Y","MB","DO","Total",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,124764,124764,NA
+"174","4161","Cherokee County Board of Commissioners","Y","MB","DO","Vehicle Maintenance",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"175","4161","Cherokee County Board of Commissioners","Y","MB","DO","Vehicle Operations",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"176","4177","Buckhead Community Improvement District","N","MB","PT","General Administration",NA,4178,1045,38401,NA,NA,10436,12299,3264,NA,34891,NA,NA,NA,NA,NA
+"177","4177","Buckhead Community Improvement District","N","MB","PT","Non-Vehicle Maintenance",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,29906,NA,NA,NA,NA,NA
+"178","4177","Buckhead Community Improvement District","N","MB","PT","Total",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,590957,NA
+"179","4177","Buckhead Community Improvement District","N","MB","PT","Vehicle Maintenance",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,74766,NA,NA,NA,NA,NA
+"180","4177","Buckhead Community Improvement District","N","MB","PT","Vehicle Operations",NA,NA,NA,NA,87693,NA,NA,NA,NA,NA,294078,NA,NA,NA,NA,NA
+"181","4180","University of Georgia Transit System","N","DR","DO","General Administration",NA,15740,10445,NA,NA,NA,2143,8726,1272,NA,NA,NA,10298,NA,NA,NA
+"182","4180","University of Georgia Transit System","N","DR","DO","Non-Vehicle Maintenance",NA,NA,NA,3924,NA,NA,126,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"183","4180","University of Georgia Transit System","N","DR","DO","Total",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,330384,NA
+"184","4180","University of Georgia Transit System","N","DR","DO","Vehicle Maintenance",NA,35335,12157,9213,378,141,585,NA,NA,NA,NA,NA,19,NA,NA,NA
+"185","4180","University of Georgia Transit System","N","DR","DO","Vehicle Operations",136213,35369,21827,623,21081,2225,2156,NA,NA,NA,NA,NA,388,NA,NA,NA
+"186","4180","University of Georgia Transit System","N","MB","DO","General Administration",NA,117586,100176,27660,NA,NA,20861,80255,12257,1036,NA,NA,99257,NA,NA,NA
+"187","4180","University of Georgia Transit System","N","MB","DO","Non-Vehicle Maintenance",NA,NA,NA,46681,NA,NA,5988,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"188","4180","University of Georgia Transit System","N","MB","DO","Total",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,5355484,NA
+"189","4180","University of Georgia Transit System","N","MB","DO","Vehicle Maintenance",NA,340573,117175,73710,3642,1362,254161,NA,NA,NA,NA,NA,709,NA,NA,NA
+"190","4180","University of Georgia Transit System","N","MB","DO","Vehicle Operations",2133775,340897,415265,11691,1047772,66449,32808,NA,NA,3,NA,NA,3735,NA,NA,NA
+"191","4181","Henry County Transit","Y","DR","DO","General Administration",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"192","4181","Henry County Transit","Y","DR","DO","Non-Vehicle Maintenance",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"193","4181","Henry County Transit","Y","DR","DO","Total",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,1646501,1646501,NA
+"194","4181","Henry County Transit","Y","DR","DO","Vehicle Maintenance",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"195","4181","Henry County Transit","Y","DR","DO","Vehicle Operations",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"196","4193","Liberty Transit","Y","MB","PT","General Administration",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"197","4193","Liberty Transit","Y","MB","PT","Non-Vehicle Maintenance",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"198","4193","Liberty Transit","Y","MB","PT","Total",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,699932,699932,NA
+"199","4193","Liberty Transit","Y","MB","PT","Vehicle Maintenance",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"200","4193","Liberty Transit","Y","MB","PT","Vehicle Operations",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"201","4203","Enterprise Rideshare","N","VP","DO","General Administration",NA,111814,20559,6570,NA,NA,NA,480,195760,2994,NA,NA,251035,NA,NA,NA
+"202","4203","Enterprise Rideshare","N","VP","DO","Non-Vehicle Maintenance",NA,NA,NA,997,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"203","4203","Enterprise Rideshare","N","VP","DO","Total",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,1179770,NA
+"204","4203","Enterprise Rideshare","N","VP","DO","Vehicle Maintenance",NA,NA,NA,19398,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"205","4203","Enterprise Rideshare","N","VP","DO","Vehicle Operations",NA,NA,NA,NA,460003,NA,NA,NA,NA,44059,NA,NA,66101,NA,NA,NA

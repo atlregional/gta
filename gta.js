@@ -24,9 +24,14 @@ var geoLayers = {
 };
 var funding = {
     "5310": {},
-    "5311": {}
+    "5311": {},
+    "urban": {}
 };
-var service = {};
+var service = {
+    "5311": {},
+    "urban": {}
+};
+
 getFunding();
 var currentLayer = "";
 var currentProps = "";
@@ -131,6 +136,11 @@ var stats = {
     "VRM": "Vehicle.Revenue.Miles",
     "VRH": "Vehicle.Revenue.Hours"
 };
+var fundCategories = {
+    "Capital": "",
+    "Operations": "",
+    "Other": ""
+}
 var currentStat = "UPT";
 
 addGeographies(geos, map);
@@ -163,6 +173,7 @@ info.update = function (props) {
     // console.log(id);
 
     var fundingData = '';
+    var urbanData = '';
     var serviceData = '';
     // console.log(name);
     
@@ -186,6 +197,7 @@ info.update = function (props) {
             data = '<div style="max-width:272px;"><b>Counties:</b><br />' + data.replace(/,/g,', ') + '</div>';
 
             fundingData = getFundingString("5311", props.counties);
+            urbanData = getUrbanString("5311", props.counties)
             console.log(fundingData);
             // serviceData = getFundingString("5311", props.counties);
         }
@@ -198,10 +210,12 @@ info.update = function (props) {
             data = '<b>Counties:</b><br />' + data.replace(/,/g,', ');
 
             fundingData = getFundingString("5311", counties);
+            urbanData = getUrbanString("5311", counties)
             // serviceData = getFundingString("5311", counties);
         }
         else if (currentLayer == "county"){
             fundingData = getFundingString("5311", [name]);
+            urbanData = getUrbanString("5311", [name])
             // serviceData = getFundingString("5311", [name]);
             if(checkFunding("5310", name)){
                 console.log("5310!");
@@ -224,7 +238,10 @@ info.update = function (props) {
     $('#service-content').html('<select class="form-control" id="stat-select" '+disabled+' onchange="toggleStat(this)">' + // style="position:absolute; right:8px; margin-top:6px;">' + 
                                         statsOptions +
                                 '</select>' +
-                                fundingData);
+                                '<h4>Urban</h4>' +
+                                (urbanData == '' ? 'None' : urbanData) +
+                                '<h4>Rural</h4>' +
+                                (fundingData == '' ? 'None' : fundingData));
     $('#home-content').html();
     $('#info-content').html(data);
 
@@ -718,6 +735,32 @@ function getFunding(){
             .key(function(d) { return d["Funding.Type"]; })
             .map(data);
     });
+    d3.csv('data/ntd/urban/service.csv', function(data){
+        urbanService = d3.nest()
+            .key(function(d) { return d.NTDID; })
+            // .key(function(d) { return d.Mode; })
+            .map(data);
+    });
+    d3.csv('data/ntd/urban/operating.csv', function(data){
+        urbanOperating = d3.nest()
+            .key(function(d) { return d.NTDID; })
+            // .key(function(d) { return d.Mode; })
+            .key(function(d) { return d["Operating.Expense.Category"]; })
+            .map(data);
+    });
+    d3.csv('data/ntd/urban/capital.csv', function(data){
+        urbanOperating = d3.nest()
+            .key(function(d) { return d.NTDID; })
+            // .key(function(d) { return d.Mode; })
+            .key(function(d) { return d["Operating.Expense.Category"]; })
+            .map(data);
+    });
+    d3.csv('data/ntd/urban/info.csv', function(data){
+        urban = d3.nest()
+            .key(function(d) { return d["counties"].replace(/ /g,''); })
+            // .key(function(d) { return d["Funding.Type"]; })
+            .map(data);
+    });
     d3.csv('data/ntd/5311.csv', function(data){
         // console.log(data)
         // funding["5311"].csv = data;
@@ -828,6 +871,62 @@ function toggleStat(select){
     info.update(currentProps);
 }
 
+function getUrbanString(code, counties){
+    console.log("get funding string...");
+    var fundingString = '';
+    var agencies = [];
+    var totalUpt = 0;
+    var totalFunding = 0;
+    console.log(Object.keys(urban).length);
+    console.log(counties);
+    for (var i = counties.length - 1; i >= 0; i--) {
+        if (code === "5311"){
+            if (Object.keys(urban).length > 0){
+                console.log(urban);
+                for (var key in urban) {
+                    // console.log(key);
+                    if (urban.hasOwnProperty(key)) {
+                        // console.log(key + " -> " + urban[key]);
+                        if(key.split(",").indexOf(counties[i]) > -1){
+                            for (var j = urban[key].length - 1; j >= 0; j--) {
+                                // console.log(urban[key][j]);
+                                var upt = 0;
+                                console.log(urbanOperating[urban[key][j]["NTDID"]]);
+                                operations = urbanOperating[urban[key][j]["NTDID"]]["Total"];
+                                if (agencies.indexOf(urban[key][j]["Sub.Recipient.Agency.x"]) > -1){
+                                    continue;
+                                }
+                                if (j === data.length - 1){
+                                    // fundingString += "<br /><b style='font-size:x-large;'>" + county + "</b>";
+                                }
+                                console.log(urban[key][j]["NTDID"])
+                                fundingString += "<b>" + urban[key][j]["Agency"] + "</b><br />";
+                                fundingString += currentStat + ": " + numberWithCommas(urbanService[urban[key][j]["NTDID"]][0][stats[currentStat]]) + "<br />";
+                                upt += +urban[key][j]["Unlinked.Passenger.Trips"];
+                                totalUpt += +urban[key][j][stats[currentStat]];
+                                agencies.push(urban[key][j]["NTDID"]);
+                                if (typeof operations !== "undefined"){
+                                    fundingString += 'Total Operating: $' + numberWithCommas(operations[0]["Total.Modal.Expenses"]) + '<br />';
+                                    // fundingString += "Local Funds: $" + numberWithCommas(operations[0]["Local.Funds"]) + "<br />";
+                                    totalFunding += +operations[0]["Total.Modal.Expenses"];
+                                }
+                            }
+                            if (upt > 0){
+                                // fundingString += "<br /><b>County UPT:</b> " + numberWithCommas(upt);
+                            }
+                        }
+                    }
+                }
+            }
+            else{
+                // showFeature(entity);
+                fundingString = '<button role="button" class="btn btn-default" onclick="showFeature(entity)"><i class="fa fa-home"></i> Refresh</button>';
+            }
+        }
+    }
+    return fundingString ;
+}
+
 function getFundingString(code, counties){
     console.log("get funding string...")
     var fundingString = '';
@@ -876,7 +975,7 @@ function getFundingString(code, counties){
             }
             else{
                 // showFeature(entity);
-                fundingString = '<button role="button" class="btn btn-default" onclick="showFeature(entity)"><i class="fa fa-home"></i> Refresh</button>'
+                fundingString = '<button role="button" class="btn btn-default" onclick="showFeature(entity)"><i class="fa fa-home"></i> Refresh</button>';
             }
         }
     }
