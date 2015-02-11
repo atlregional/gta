@@ -50,6 +50,8 @@ if (typeof geoLayers[params[0]] !== "undefined"){
     currentLayer = params[0];
     // console.log()
     geoLayers[currentLayer].active = "active";
+
+    // Get counties for currentLayer ahead of other county files because we could be loading county data immediately
     if (isDistrict(currentLayer)){
         // console.log(geoLayers[currentLayer]);
         $.getJSON('data/bef/' + currentLayer + '.json', function(data){
@@ -123,16 +125,6 @@ var statesLayer = L.geoJson(state, {
   weight: 0
 }).addTo(map);
 var geojson = {};
-
-for (var i = geoLayers.layers.length - 1; i >= 0; i--) {
-    var geoId = geoLayers.layers[i];
-    if (isDistrict(geoId) && ( currentLayer === '' || geoId !== currentLayer) ){
-        $.getJSON('data/bef/' + geoId + '.json', function(data){
-            geoLayers[geoId].counties = data;
-            console.log(geoLayers[geoId].counties);
-        });
-    }
-}
 
 var stats = {
     "UPT": "Unlinked.Passenger.Trips",
@@ -625,7 +617,16 @@ function checkIntersect(district, set){
 
 function addGeographies(geos, map){
     $.each(geos, function(i, geo){
-        // Set up custom layer data with unique color
+        // // Set up custom layer data with unique color
+        // for (var i = geoLayers.layers.length - 1; i >= 0; i--) {
+            // var geoId = geoLayers.layers[i];
+            if (isDistrict(geo.id) && geo.id !== currentLayer){ //&& ( currentLayer === '' || geoId !== currentLayer) ){
+                $.getJSON('data/bef/' + geo.id + '.json', function(data){
+                    geoLayers[geo.id].counties = data;
+                    console.log(geoLayers[geo.id].counties);
+                });
+            }
+        // }
         var customLayer = L.geoJson(null, {
             style: function (feature) {
                 return {
