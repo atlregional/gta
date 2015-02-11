@@ -893,7 +893,7 @@ function getUrbanString(code, counties){
                                 var upt = 0;
                                 console.log(urbanOperating[urban[key][j]["NTDID"]]);
                                 operations = urbanOperating[urban[key][j]["NTDID"]]["Total"];
-                                if (agencies.indexOf(urban[key][j]["Sub.Recipient.Agency.x"]) > -1){
+                                if (agencies.indexOf(urban[key][j]["NTDID"]) > -1){
                                     continue;
                                 }
                                 if (j === data.length - 1){
