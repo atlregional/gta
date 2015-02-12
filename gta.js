@@ -959,6 +959,7 @@ function getFundingString(code, counties){
                     }
                 }
     }
+
     // Get data for just a few counties
     else{
         for (var i = counties.length - 1; i >= 0; i--) {
@@ -973,10 +974,9 @@ function getFundingString(code, counties){
                                 console.log(info[code][key][j]);
                                 var data = info[code][key][j];
                                 var dataId = data[codeId[code].id];
-                                var upt = 0;
                                 console.log(dataId)
                                 operationsData = funding[code][dataId][codeId[code].operating.parent];
-                                serviceData = service[code][dataId][0];
+                                serviceData = service[code][dataId];
                                 console.log(serviceData)
                                 if (agencies.indexOf(dataId) > -1){
                                     continue;
@@ -987,15 +987,26 @@ function getFundingString(code, counties){
                                 serviceString += "<b>" + data[codeId[code].name] + "</b><br />";
                                 console.log(serviceString)
                                 fundingString += "<b>" + data[codeId[code].name] + "</b><br />";
-                                serviceString += currentStat.service + ": " + numberWithCommas(serviceData[stats.service[currentStat.service]]) + "<br />";
-                                upt += +serviceData["Unlinked.Passenger.Trips"];
-                                totalUpt += +serviceData[stats.service[currentStat.service]].replace(/,/g,'');
-                                console.log(serviceData[stats.service[currentStat.service]])
+                                var serviceByAgency = 0;
+                                var fundingByAgency = 0;
+                                for (var k = serviceData.length - 1; k >= 0; k--) {
+                                    serviceByAgency += +serviceData[k][stats.service[currentStat.service]].replace(/,/g,'');
+                                };
+                                console.log(operationsData)
+                                if(typeof operationsData !== "undefined"){
+                                    for (var k = operationsData.length - 1; k >= 0; k--) {
+                                        fundingByAgency += +operationsData[k][codeId[code].operating.total].replace(/,/g,'');
+                                    };
+                                }
+                                serviceString += currentStat.service + ": " + numberWithCommas(serviceByAgency) + "<br />";
+                                upt += +serviceData[0]["Unlinked.Passenger.Trips"];
+                                totalUpt += serviceByAgency;
+                                console.log(serviceData[0][stats.service[currentStat.service]])
                                 agencies.push(dataId);
                                 if (typeof operationsData !== "undefined"){
-                                    fundingString += 'Total Operating: $' + numberWithCommas(operationsData[0][codeId[code].operating.total]) + '<br />';
+                                    fundingString += 'Total Operating: $' + numberWithCommas(fundingByAgency) + '<br />';
                                     // serviceString += "Local Funds: $" + numberWithCommas(operationsData[0]["Local.Funds"]) + "<br />";
-                                    totalFunding += +operationsData[0][codeId[code].operating.total];
+                                    totalFunding += fundingByAgency;
                                 }
                             }
                         }
