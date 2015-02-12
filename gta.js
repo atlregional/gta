@@ -2,7 +2,9 @@ $('#map-tabs a').click(function (e) {
   e.preventDefault();
   $(this).tab('show');
 });
-
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip();
+});
 
 var params = window.location.hash.substring(1).split('/');
 // restoreFromHash()
@@ -939,7 +941,8 @@ function getFundingString(code, counties){
                                 fundingString += "<b>" + data[codeId[code].name] + "</b><br />";
                                 serviceString += currentStat.service + ": " + numberWithCommas(serviceData[stats.service[currentStat.service]]) + "<br />";
                                 upt += +serviceData["Unlinked.Passenger.Trips"];
-                                totalUpt += +serviceData[stats.service[currentStat.service]];
+                                totalUpt += +serviceData[stats.service[currentStat.service]].replace(/,/g,'');
+                                console.log(serviceData[stats.service[currentStat.service]])
                                 agencies.push(dataId);
                                 if (typeof operationsData !== "undefined"){
                                     fundingString += 'Total Operating: $' + numberWithCommas(operationsData[0][codeId[code].operating.total]) + '<br />';
@@ -959,6 +962,15 @@ function getFundingString(code, counties){
                 serviceString = '<button role="button" class="btn btn-default" onclick="showFeature(entity)"><i class="fa fa-home"></i> Refresh</button>';
             }
     }
+    // if (totalFunding > 0){
+            fundingString = '<span style="font-size:large;"><b>Total Funding:</b> $' + numberWithCommas(totalFunding) + '</span><br />' +
+                            fundingString;
+        // }
+        if ( agencies.length > 0 ){
+            console.log("Total service: " + totalUpt)
+            serviceString = '<span style="font-size:large;"><b>Total '+currentStat.service+':</b> ' + numberWithCommas(totalUpt) + '</span><br />' +
+                            serviceString;
+        }
     console.log(serviceString);
     return {
         "service": serviceString, 
