@@ -244,6 +244,11 @@ info.update = function (props) {
         }
         
     }
+    // Get data for entire state
+    else{
+        ruralString = getFundingString("5311", []);
+        urbanString = getFundingString("urban", []);
+    }
     if (geoLayers.layers.indexOf(currentLayer) > -1){
         // setTimeOut(function(){
             // console.log(geoLayers[currentLayer].select)
@@ -255,16 +260,16 @@ info.update = function (props) {
                                         statsOptions.funding +
                                 '</select>' +
                                 '<h4>Urban</h4>' +
-                                (urbanString.funding == '' ? 'None' : urbanString.funding) +
+                                (urbanString.funding === '' ? 'None' : urbanString.funding) +
                                 '<h4>Rural</h4>' +
-                                (ruralString.funding == '' ? 'None' : ruralString.funding));
+                                (ruralString.funding === '' ? 'None' : ruralString.funding));
     $('#service-content').html('<select class="form-control" id="service-select" '+disabled+' onchange="toggleStat(this)">' + // style="position:absolute; right:8px; margin-top:6px;">' + 
                                         statsOptions.service +
                                 '</select>' +
                                 '<h4>Urban</h4>' +
-                                (urbanString.service == '' ? 'None' : urbanString.service) +
+                                (urbanString.service === '' ? 'None' : urbanString.service) +
                                 '<h4>Rural</h4>' +
-                                (ruralString.service == '' ? 'None' : ruralString.service));
+                                (ruralString.service === '' ? 'None' : ruralString.service));
     $('#home-content').html();
     $('#info-content').html(data);
 
@@ -913,7 +918,50 @@ function getFundingString(code, counties){
     };
     console.log(Object.keys(service).length)
     console.log(counties)
-    for (var i = counties.length - 1; i >= 0; i--) {
+
+    // Get data for the entire state
+    if(counties.length === 0){
+        for (var key in info[code]) {
+                    // console.log(key);
+                    if (info[code].hasOwnProperty(key)) {
+                        // console.log(key + " -> " + service[key]);
+                        // if(key.split(",").indexOf(counties[i]) > -1){
+                            for (var j = info[code][key].length - 1; j >= 0; j--) {
+                                console.log(info[code][key][j]);
+                                var data = info[code][key][j];
+                                var dataId = data[codeId[code].id];
+                                var upt = 0;
+                                console.log(dataId)
+                                operationsData = funding[code][dataId][codeId[code].operating.parent];
+                                serviceData = service[code][dataId][0];
+                                console.log(serviceData)
+                                if (agencies.indexOf(dataId) > -1){
+                                    continue;
+                                }
+                                if (j === data.length - 1){
+                                    // serviceString += "<br /><b style='font-size:x-large;'>" + county + "</b>";
+                                }
+                                serviceString += "<b>" + data[codeId[code].name] + "</b><br />";
+                                console.log(serviceString)
+                                fundingString += "<b>" + data[codeId[code].name] + "</b><br />";
+                                serviceString += currentStat.service + ": " + numberWithCommas(serviceData[stats.service[currentStat.service]]) + "<br />";
+                                upt += +serviceData["Unlinked.Passenger.Trips"];
+                                totalUpt += +serviceData[stats.service[currentStat.service]].replace(/,/g,'');
+                                console.log(serviceData[stats.service[currentStat.service]])
+                                agencies.push(dataId);
+                                if (typeof operationsData !== "undefined"){
+                                    fundingString += 'Total Operating: $' + numberWithCommas(operationsData[0][codeId[code].operating.total]) + '<br />';
+                                    // serviceString += "Local Funds: $" + numberWithCommas(operationsData[0]["Local.Funds"]) + "<br />";
+                                    totalFunding += +operationsData[0][codeId[code].operating.total];
+                                }
+                            }
+                        // }
+                    }
+                }
+    }
+    // Get data for just a few counties
+    else{
+        for (var i = counties.length - 1; i >= 0; i--) {
             if (Object.keys(service[code]).length > 0){
                 // console.log(service[code]);
                 for (var key in info[code]) {
@@ -950,9 +998,6 @@ function getFundingString(code, counties){
                                     totalFunding += +operationsData[0][codeId[code].operating.total];
                                 }
                             }
-                            if (upt > 0){
-                                // serviceString += "<br /><b>County UPT:</b> " + numberWithCommas(upt);
-                            }
                         }
                     }
                 }
@@ -961,16 +1006,18 @@ function getFundingString(code, counties){
                 // showFeature(entity);
                 serviceString = '<button role="button" class="btn btn-default" onclick="showFeature(entity)"><i class="fa fa-home"></i> Refresh</button>';
             }
-    }
-    // if (totalFunding > 0){
-            fundingString = '<span style="font-size:large;"><b>Total Funding:</b> $' + numberWithCommas(totalFunding) + '</span><br />' +
-                            fundingString;
-        // }
-        if ( agencies.length > 0 ){
-            console.log("Total service: " + totalUpt)
-            serviceString = '<span style="font-size:large;"><b>Total '+currentStat.service+':</b> ' + numberWithCommas(totalUpt) + '</span><br />' +
-                            serviceString;
         }
+    }
+    
+    // if (totalFunding > 0){
+        fundingString = '<span style="font-size:large;"><b>Total Funding:</b> $' + numberWithCommas(totalFunding) + '</span><br />' +
+                        fundingString;
+    // }
+    if ( agencies.length > 0 ){
+        console.log("Total service: " + totalUpt)
+        serviceString = '<span style="font-size:large;"><b>Total '+currentStat.service+':</b> ' + numberWithCommas(totalUpt) + '</span><br />' +
+                        serviceString;
+    }
     console.log(serviceString);
     return {
         "service": serviceString, 
