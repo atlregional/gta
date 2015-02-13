@@ -10,6 +10,7 @@
         <link rel="stylesheet" type="text/css" href="stylesheets/styles.css">
         <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.2/css/bootstrap.min.css"/>
         <link rel="stylesheet" href="stylesheets/leaflet-sidebar.css" />
+        <link rel="stylesheet" href="stylesheets/c3.min.css" />
         <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
 
         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
@@ -21,6 +22,8 @@
         <script src="javascripts/leaflet-sidebar.js"></script>
 
         <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+        <script src="javascripts/c3.min.js" charset="utf-8"></script>
+
         <script src='https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-omnivore/v0.2.0/leaflet-omnivore.min.js'></script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.2.0/js/button.min.js"></script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.2/js/bootstrap.min.js"></script>
@@ -50,7 +53,7 @@
                         <div id="district-selects"></div>
                     </form>
                     <div id="home-content"></div>
-                    <p class="large">3. Choose a <a href="#" data-toggle="tooltip" title="" data-original-title="All data are for FY 2013">data</a> category.</p>
+                    <p class="large">3. Choose a <span data-toggle="tooltip" style="cursor:help;border-bottom: 1px dotted #000;text-decoration: none;" data-original-title="All data are for FY 2013">data</span> category.</p>
                     <button id="service-button" role="button" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Service data" onclick="toggleTab(this)"><i class="fa fa-bar-chart"></i></button>
                     <button id="funding-button" role="button" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Funding data" onclick="toggleTab(this)"><i class="fa fa-usd"></i></button>
                     <button id="people-button" role="button" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Demographics data" onclick="toggleTab(this)"><i class="fa fa-users"></i></button>
@@ -63,12 +66,15 @@
                     <button id="back-button" role="button" style="position:relative; top:-50px;" class="btn visible-xs pull-right btn-default" onclick="sidebar.open('home')"><i class="fa fa-home"></i></button>
                     <button id="map-button" role="button" style="position:relative; top:-50px;" class="btn visible-xs btn-default pull-right" onclick="sidebar.close()"><i class="fa fa-globe"></i></button>
                     <div id="service-content"></div>
+                    <div id="service-chart"></div>
                 </div>
                 <div class="sidebar-pane" id="funding">
                     <h3>Funding</h3>
                     <button id="back-button" role="button" style="position:relative; top:-50px;" class="btn visible-xs pull-right btn-default" onclick="sidebar.open('home')"><i class="fa fa-home"></i></button>
                     <button id="map-button" role="button" style="position:relative; top:-50px;" class="btn visible-xs btn-default pull-right" onclick="sidebar.close()"><i class="fa fa-globe"></i></button>
                     <div id="funding-content"></div>
+                    <div id="urban-funding-chart"></div>
+                    <div id="rural-funding-chart"></div>
                 </div>
                 <div class="sidebar-pane" id="people">
                     <h3>Demographics</h3>
