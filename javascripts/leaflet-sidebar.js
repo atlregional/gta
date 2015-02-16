@@ -128,10 +128,13 @@ L.Control.Sidebar = L.Control.extend({
         // history.pushState(null, null, this.firstChild.hash.slice(1));
         var params = window.location.hash.substring(1).split('/');
         window.location.hash = '#' + params[0] + '/' + (typeof params[1] !== "undefined" ? params[1] : '[blank]') + '/' + this.firstChild.hash.slice(1);
-        if (L.DomUtil.hasClass(this, 'active'))
+        if (L.DomUtil.hasClass(this, 'active')){
             this._sidebar.close();
-        else
+        }
+        else{
             this._sidebar.open(this.firstChild.hash.slice(1));
+            info.update(currentProps);
+        }
 
     }
 });

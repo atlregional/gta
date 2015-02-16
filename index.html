@@ -53,7 +53,7 @@
                         <div id="district-selects"></div>
                     </form>
                     <div id="home-content"></div>
-                    <p class="large">3. Choose a <span data-toggle="tooltip" style="cursor:help;border-bottom: 1px dotted #000;text-decoration: none;" data-original-title="All data are for FY 2013">data</span> category.</p>
+                    <p class="large">3. Choose a <span data-toggle="tooltip" class="dotted" data-original-title="All data are for FY 2013">data</span> category.</p>
                     <button id="service-button" role="button" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Service data" onclick="toggleTab(this)"><i class="fa fa-bar-chart"></i></button>
                     <button id="funding-button" role="button" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Funding data" onclick="toggleTab(this)"><i class="fa fa-usd"></i></button>
                     <button id="people-button" role="button" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Demographics data" onclick="toggleTab(this)"><i class="fa fa-users"></i></button>
@@ -62,19 +62,21 @@
                     <button role="button" class="btn btn-default" onclick="window.location.hash='#rc/arc/service';location.reload();">View Service for ARC</button>
                 </div>
                 <div class="sidebar-pane" id="service">
-                    <h3>Service</h3>
+                    <h3><span data-toggle="tooltip" class="dotted" data-placement="right" data-original-title="All data are for FY 2013">Service</span></h3>
                     <button id="back-button" role="button" style="position:relative; top:-50px;" class="btn visible-xs pull-right btn-default" onclick="sidebar.open('home')"><i class="fa fa-home"></i></button>
                     <button id="map-button" role="button" style="position:relative; top:-50px;" class="btn visible-xs btn-default pull-right" onclick="sidebar.close()"><i class="fa fa-globe"></i></button>
+                    <select class="form-control format-select" id="format-service" onchange="toggleFormat(this)"></select>
                     <div id="service-content"></div>
-                    <div id="service-chart"></div>
+                    <div id="urban-service-chart"></div>
                 </div>
                 <div class="sidebar-pane" id="funding">
-                    <h3>Funding</h3>
+                    <h3><span data-toggle="tooltip" class="dotted" data-placement="right" data-original-title="All data are for FY 2013">Funding</span></h3>
                     <button id="back-button" role="button" style="position:relative; top:-50px;" class="btn visible-xs pull-right btn-default" onclick="sidebar.open('home')"><i class="fa fa-home"></i></button>
                     <button id="map-button" role="button" style="position:relative; top:-50px;" class="btn visible-xs btn-default pull-right" onclick="sidebar.close()"><i class="fa fa-globe"></i></button>
+                    <select class="form-control format-select" id="format-funding" onchange="toggleFormat(this)"></select>
                     <div id="funding-content"></div>
                     <div id="urban-funding-chart"></div>
-                    <div id="rural-funding-chart"></div>
+                    <!-- <div id="rural-funding-chart"></div> -->
                 </div>
                 <div class="sidebar-pane" id="people">
                     <h3>Demographics</h3>

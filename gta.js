@@ -37,45 +37,7 @@ var info = {
     "5311": {},
     "urban": {}
 };
-var codeId = {
-        "5311": {
-            "id": "Sub.Recipient.ID",
-            "name": "Sub.Recipient.Agency.x",
-            "Operations": {
-                // "total": "Total.Annual.Expenses",
-                "Local Government": "Local.Funds",
-                "State Government": "State.Funds",
-                "Federal Government": "Federal",
-                "Directly Generated": "Fare.Revenues",
-                "Other": "Other.Funds"
-            },
-            "Capital": {
-                // "total": "Total.Annual.Expenses",
-                "Local Government": "Local.Funds",
-                "State Government": "State.Funds",
-                "Federal Government": "Federal",
-                "Directly Generated": "Fare.Revenues",
-                "Other": "Other.Funds"
-            }
-        },
-        "urban": {
-            "id": "NTDID",
-            "name": "Agency",
-            "Operations": {
-                "parent": "Funds Expended on Operations",
-                "total": "Total.Federal.Funds"
-            },
-            "Capital": {
-                "parent": "Funds Expended on Capital",
-                "total": "Total.Federal.Funds"
-            },
-            "Local Government": "Total.tax.source.type",
-            "State Government": "Total.tax.source.type",
-            "Federal Government": "Total.Federal.Funds",
-            "Directly Generated": "Total.Revenue",
-            "Dedicated to Transit at Source": "Total.tax.source.type"
-        }
-    };
+
 var fundingOrder = [
     "Local Government",
     "State Government",
@@ -194,10 +156,23 @@ var stats = {
         "Operations": "Operations Funds"
     }
 };
-
+var formats = {
+    "service": {
+        "Chart": "Chart",
+        "Table": "Table",
+        "VRH": "Vehicle.Revenue.Hours"
+        },
+    "funding": {
+        "Chart": "Chart",
+        "Table": "Table"
+        // ,
+        // "Operations": "Operations Funds"
+    }
+};
 var currentStat = {
     "service": "UPT",
-    "funding": "Capital and Operations"
+    "funding": "Capital and Operations",
+    "format": "Chart"
 };
 
 addGeographies(geos, map);
@@ -223,6 +198,7 @@ info.update = function (props) {
     var name = getName(props);
     var id = getId(props);
     var statsOptions = {};
+     formatsOptions = {};
     var disabled = '';
     if (typeof id == "undefined" ){
         id = entity;
@@ -250,6 +226,17 @@ info.update = function (props) {
                 }
                 if (stats[stat].hasOwnProperty(key)) {
                     statsOptions[stat] += '<option value="' + key + '" ' + selected + '>' + stats[stat][key].replace(/\./g,' ') + '</option>';
+                }
+            }
+        }
+        for (var format in formats) {
+            for (var key in formats[format]) {
+                var selected = '';
+                if (currentStat.format === key){
+                    selected = 'selected';
+                }
+                if (formats[format].hasOwnProperty(key)) {
+                    formatsOptions[format] += '<option value="' + key + '" ' + selected + '>' + formats[format][key].replace(/\./g,' ') + '</option>';
                 }
             }
         }
@@ -302,6 +289,8 @@ info.update = function (props) {
     }
     // this._div.innerHTML = 
     console.log(urbanString);
+
+    // Process Funding data into chart columns
     urbanString.fundingCol = [];
     for (var i = 0; i < urbanString.agencies.length; i++) {
         for (var j = 0; j < fundingOrder.length; j++){
@@ -318,7 +307,7 @@ info.update = function (props) {
         }
         
     }
-    if (typeof urbanString.fundingCol[0] !== 'undefined'){
+    if (typeof urbanString.fundingCol[0] !== 'undefined' && currentStat.format == "Chart"){
         urbanString.fundingCol[0].splice(0, 0, 'x');
         console.log(urbanString)
         var chart = c3.generate({
@@ -342,11 +331,90 @@ info.update = function (props) {
                     }
                   }
             },
-            size: {
-              height: 480
+            tooltip: {
+                contents: function(d, defaultTitleFormat, defaultValueFormat, color) {
+                  var out, row, total, x, _i, _len;
+                  total = 0;
+                  x = d[0].x;
+                  out = '';
+                  first = '';
+                  for (_i = 0, _len = d.length; _i < _len; _i++) {
+                    row = d[_i];
+                    total += row.value;
+                    out += '<tr class="c3-tooltip-name-' + row.id + '"><td class="name">';
+                    out += '<span style="background-color:' + color(row.id) + '"></span>' + row.name + '</td>';
+                    out += '<td class="value">' + defaultValueFormat(row.value) + '</td></tr>';
+                  }
+                  first += '<table class="c3-tooltip"><tbody><tr><th colspan="2">' + defaultTitleFormat(x) + '</th></tr>';
+                  first += '<tr class="c3-tooltip-name-total"><td class="name"><strong>Total</strong></td>';
+                  first += '<td class="value"><strong>' + defaultValueFormat(total) + '</strong></td></tr>';
+                  out += '</tbody></table>';
+                  return first + out;
+                }
             }
+
+            // ,
+            // size: {
+            //   height: 480
+            // }
         });
     }
+    else{
+        $('#urban-funding-chart').empty();
+    }
+    if (typeof urbanString.serviceCol[0] !== 'undefined' && currentStat.format == "Chart"){
+        // urbanString.serviceCol.splice(0, 0, 'x');
+        console.log(urbanString)
+        var chart = c3.generate({
+            bindto: '#urban-service-chart',
+            data: {
+                columns: urbanString.serviceCol,
+                type: 'bar'
+            },
+            axis: {
+                x: {
+                    type: 'category',
+                    categories: [stats.service[currentStat.service].replace(/\./g,' ')]
+                },
+                y : {
+                    tick: {
+                        format: d3.format(",")
+        //                format: function (d) { return "$" + d; }
+                    }
+                }
+            },
+            tooltip: {
+                contents: function(d, defaultTitleFormat, defaultValueFormat, color) {
+                  var out, row, total, x, _i, _len;
+                  total = 0;
+                  x = d[0].x;
+                  out = '';
+                  first = '';
+                  for (_i = 0, _len = d.length; _i < _len; _i++) {
+                    row = d[_i];
+                    total += row.value;
+                    out += '<tr class="c3-tooltip-name-' + row.id + '"><td class="name">';
+                    out += '<span style="background-color:' + color(row.id) + '"></span>' + row.name + '</td>';
+                    out += '<td class="value">' + defaultValueFormat(row.value) + '</td></tr>';
+                  }
+                  first += '<table class="c3-tooltip"><tbody><tr><th colspan="2">' + defaultTitleFormat(x) + '</th></tr>';
+                  first += '<tr class="c3-tooltip-name-total"><td class="name"><strong>Total</strong></td>';
+                  first += '<td class="value"><strong>' + defaultValueFormat(total) + '</strong></td></tr>';
+                  out += '</tbody></table>';
+                  return first + out;
+                }
+            }
+
+            // ,
+            // size: {
+            //   height: 480
+            // }
+        });
+    }
+    else{
+        $('#urban-service-chart').empty();
+    }
+    
     // if (typeof ruralString.fundingCol[0] !== 'undefined'){
     //     ruralString.fundingCol[0].splice(0, 0, 'x');
     //     console.log(ruralString)
@@ -373,7 +441,7 @@ info.update = function (props) {
     //         }
     //     });
     // }
-    
+    $('.format-select').html(formatsOptions.funding);
     $('#funding-content').html('<select class="form-control" id="funding-select" '+disabled+' onchange="toggleStat(this)">' + // style="position:absolute; right:8px; margin-top:6px;">' + 
                                         statsOptions.funding +
                                 '</select>' +
@@ -383,6 +451,7 @@ info.update = function (props) {
                                 // '<h4>Rural</h4>' +
                                 // (ruralString.funding === '' ? 'None' : ruralString.funding)
                                 );
+    
     $('#service-content').html('<select class="form-control" id="service-select" '+disabled+' onchange="toggleStat(this)">' + // style="position:absolute; right:8px; margin-top:6px;">' + 
                                         statsOptions.service +
                                 '</select>' +
@@ -394,7 +463,15 @@ info.update = function (props) {
                                 );
     $('#home-content').html();
     $('#info-content').html(data);
+    if (currentStat.format == "Table"){
+        $('#funding-content').append(urbanString.fundingString);
+        $('#service-content').append(urbanString.serviceString);
+    }
 
+    // Activate new tooltips
+    $(function () {
+      $('[data-toggle="tooltip"]').tooltip();
+    });
 };
 
 info.addTo(map);
@@ -1019,6 +1096,14 @@ function toggleStat(select){
     info.update(currentProps);
 }
 
+function toggleFormat(select){
+    console.log(select.value);
+    console.log(select.id.split('-')[0])
+    currentStat[select.id.split('-')[0]] = select.value;
+    load = true;
+    info.update(currentProps);
+}
+
 function getDataString(counties){
     console.log("get funding string...")
     var serviceString = '';
@@ -1026,14 +1111,55 @@ function getDataString(counties){
     var agencies = [];
     var agenciesData = {
         "funding": {},
-        "service": {}
+        "service": {},
+        "serviceCol": []
     };
     // agenciesData.funding.list = [];
     var totalUpt = 0;
     var totalFunding = 0;
     // console.log(Object.keys(service).length)
     // console.log(counties)
-
+    var codeId = {
+        "5311": {
+            "id": "Sub.Recipient.ID",
+            "name": "Sub.Recipient.Agency.x",
+            "abbr": "Abbr",
+            "Operations": {
+                // "total": "Total.Annual.Expenses",
+                "Local Government": "Local.Funds",
+                "State Government": "State.Funds",
+                "Federal Government": "Federal",
+                "Directly Generated": "Fare.Revenues",
+                "Other": "Other.Funds"
+            },
+            "Capital": {
+                // "total": "Total.Annual.Expenses",
+                "Local Government": "Local.Funds",
+                "State Government": "State.Funds",
+                "Federal Government": "Federal",
+                "Directly Generated": "Fare.Revenues",
+                "Other": "Other.Funds"
+            }
+        },
+        "urban": {
+            "id": "NTDID",
+            "name": "Agency",
+            "abbr": "Abbr",
+            "Operations": {
+                "parent": "Funds Expended on Operations",
+                "total": "Total.Federal.Funds"
+            },
+            "Capital": {
+                "parent": "Funds Expended on Capital",
+                "total": "Total.Federal.Funds"
+            },
+            "Local Government": "Total.tax.source.type",
+            "State Government": "Total.tax.source.type",
+            "Federal Government": "Total.Federal.Funds",
+            "Directly Generated": "Total.Revenue",
+            "Dedicated to Transit at Source": "Total.tax.source.type"
+        }
+    };
     // Get data for the entire state
     if(counties.length === 0){
         for (var key in info[code]) {
@@ -1045,7 +1171,11 @@ function getDataString(counties){
                                 // console.log(info[code][key][j]);
                                 var data = info[code][key][j];
                                 var dataId = data[codeId[code].id];
-                                var name = data[codeId[code].name]
+                                var name = data[codeId[code].abbr];
+                                
+                                if (name === "NA" || name === "" || name === "N/A"){
+                                    name = data[codeId[code].name];
+                                }
                                 var upt = 0;
                                 // console.log(dataId)
                                 fundingData = funding[code][dataId][codeId[code][currentStat.funding]];
@@ -1060,6 +1190,7 @@ function getDataString(counties){
                                 serviceString += "<b>" + name + "</b><br />";
                                 // console.log(serviceString)
                                 fundingString += "<b>" + name + "</b><br />";
+                                console.log(agenciesData.serviceCol);
                                 serviceString += currentStat.service + ": " + numberWithCommas(serviceData[stats.service[currentStat.service]]) + "<br />";
                                 upt += +serviceData["Unlinked.Passenger.Trips"];
                                 totalUpt += +serviceData[stats.service[currentStat.service]].replace(/,/g,'');
@@ -1088,11 +1219,16 @@ function getDataString(counties){
                         if (info[code].hasOwnProperty(key)) {
                             // console.log(key + " -> " + service[key]);
                             if(key.split(",").indexOf(counties[i]) > -1){
+                                // Loop through agencies
                                 for (var j = info[code][key].length - 1; j >= 0; j--) {
                                     console.log(info[code][key][j]);
                                     var data = info[code][key][j];
                                     var dataId = data[codeId[code].id];
-                                    var name = data[codeId[code].name];
+                                    var fullName = data[codeId[code].name];
+                                    var name = data[codeId[code].abbr];
+                                    if (name === "NA" || name === "" || name === "N/A"){
+                                        name = data[codeId[code].name]
+                                    }
                                     // Skip this loop if we've already counted the agency
                                     if (agencies.indexOf(name) > -1){
                                         continue;
@@ -1108,14 +1244,17 @@ function getDataString(counties){
                                     if (j === data.length - 1){
                                         // serviceString += "<br /><b style='font-size:x-large;'>" + county + "</b>";
                                     }
-                                    serviceString += "<b>" + name + "</b><br />";
+                                    serviceString += '<b><span data-toggle="tooltip" class="dotted" data-placement="right" data-original-title="' + fullName + '">' + name + '</span></b> ('+code+')<br />';;
                                     // console.log(serviceString)
                                     var serviceByAgency = 0;
                                     var fundingByAgency = 0;
+
+                                    // Loop through ?
                                     for (var k = serviceData.length - 1; k >= 0; k--) {
                                         serviceByAgency += +serviceData[k][stats.service[currentStat.service]].replace(/,/g,'');
                                     };
                                     agenciesData.service[name] = serviceByAgency;
+                                    agenciesData.serviceCol.push([name, serviceByAgency]);
                                     serviceString += currentStat.service + ": " + numberWithCommas(serviceByAgency) + "<br />";
                                     upt += +serviceData[0]["Unlinked.Passenger.Trips"];
                                     totalUpt += serviceByAgency;
@@ -1219,8 +1358,9 @@ function getDataString(counties){
                                         console.log(agencyFunding);
                                     }
                                     var agencyTotal = 0;
+                                    console.log(fullName);
                                     // fundingString += "<tr><td><b>" + name + "</b></td>";
-                                    fundingString += "<b>" + name + "</b><br />";
+                                    fundingString += '<b><span data-toggle="tooltip" class="dotted" data-placement="right" data-original-title="' + fullName + '">' + name + '</span></b> ('+code+')<br />';
                                     // Populate Funding string
                                     // agenciesData.funding[dataId] = {};
                                     agenciesData.funding[name] = agencyFunding;
@@ -1277,6 +1417,8 @@ function getDataString(counties){
     // console.log(serviceString);
     agenciesData.agencies = agencies;
     console.log(agenciesData.agencies);
+    agenciesData.fundingString = fundingString;
+    agenciesData.serviceString = serviceString;
     return agenciesData;
     // return {
     //     "service": serviceString, 
