@@ -414,6 +414,10 @@ info.update = function (props) {
                   out += '</tbody></table>';
                   return first + out;
                 }
+            },
+            size: {
+              width: 640,
+              height: 500
             }
 
             // ,
