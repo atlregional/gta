@@ -67,6 +67,8 @@ var geogSelect = '';
 // Checks if pdf output
 if (params[3] === "pdf"){
     pdf = true;
+    console.log("pdf");
+    $('.pdf-hide').hide();
 }
 
 if (typeof geoLayers[params[0]] !== "undefined"){
