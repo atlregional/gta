@@ -351,6 +351,10 @@ info.update = function (props) {
                   out += '</tbody></table>';
                   return first + out;
                 }
+            },
+            size: {
+              width: 640,
+              height: 500
             }
 
             // ,
@@ -414,7 +418,11 @@ info.update = function (props) {
     else{
         $('#urban-service-chart').empty();
     }
-    
+    var currentPane = $(sidebar._sidebar).find('div.active.sidebar-pane').attr('id');
+    console.log(currentPane)
+    if (currentPane === "pdf"){
+        makePDF(urbanString.serviceString);
+    }
     // if (typeof ruralString.fundingCol[0] !== 'undefined'){
     //     ruralString.fundingCol[0].splice(0, 0, 'x');
     //     console.log(ruralString)
@@ -1086,6 +1094,7 @@ function toggleTab(tab){
     var id = tab.id.split('-')[0];
     console.log(id);
     sidebar.open(id);
+    info.update(currentProps);
 }
 
 function toggleStat(select){
@@ -1436,3 +1445,69 @@ function isDistrict(id){
         return false;
     }
 }
+
+function makePDF(lorem) {
+  // create a document and pipe to a blob
+  var iframe = document.querySelector('iframe');
+  // var lorem = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam in suscipit purus. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Vivamus nec hendrerit felis. Morbi aliquam facilisis risus eu lacinia. Sed eu leo in turpis fringilla hendrerit. Ut nec accumsan nisl. Suspendisse rhoncus nisl posuere tortor tempus et dapibus elit porta. Cras leo neque, elementum a rhoncus ut, vestibulum non nibh. Phasellus pretium justo turpis. Etiam vulputate, odio vitae tincidunt ultricies, eros odio dapibus nisi, ut tincidunt lacus arcu eu elit. Aenean velit erat, vehicula eget lacinia ut, dignissim non tellus. Aliquam nec lacus mi, sed vestibulum nunc. Suspendisse potenti. Curabitur vitae sem turpis. Vestibulum sed neque eget dolor dapibus porttitor at sit amet sem. Fusce a turpis lorem. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae;\nMauris at ante tellus. Vestibulum a metus lectus. Praesent tempor purus a lacus blandit eget gravida ante hendrerit. Cras et eros metus. Sed commodo malesuada eros, vitae interdum augue semper quis. Fusce id magna nunc. Curabitur sollicitudin placerat semper. Cras et mi neque, a dignissim risus. Nulla venenatis porta lacus, vel rhoncus lectus tempor vitae. Duis sagittis venenatis rutrum. Curabitur tempor massa tortor.';
+  var doc = new PDFDocument();
+  var stream = doc.pipe(blobStream());
+  
+  // draw some text
+  doc.fontSize(25)
+     .text('Here is some vector graphics...', 100, 80);
+     
+  // some vector graphics
+  doc.save()
+     .moveTo(100, 150)
+     .lineTo(100, 250)
+     .lineTo(200, 250)
+     .fill("#FF3300");
+     
+  doc.circle(280, 200, 50)
+     .fill("#6600FF");
+     
+  // an SVG path
+  doc.scale(0.6)
+     .translate(470, 130)
+     .path('M 250,75 L 323,301 131,161 369,161 177,301 z')
+     .fill('red', 'even-odd')
+     .restore();
+     
+  // and some justified text wrapped into columns
+  doc.text('And here is some wrapped text...', 100, 300)
+     .font('Times-Roman', 13)
+     .moveDown()
+     .text(lorem, {
+       width: 412,
+       align: 'justify',
+       indent: 30,
+       columns: 2,
+       height: 300,
+       ellipsis: true
+     });
+     
+  // end and display the document in the iframe to the right
+  doc.end();
+  stream.on('finish', function() {
+    iframe.src = stream.toBlobURL('application/pdf');
+  });
+}
+
+require_baseUrl_override = '../..';
+    require(['../../libs/require/config'], function(){
+    require(['html2pdf'], function(){
+
+        var pdf = new jsPDF('p', 'pt', 'letter');
+        pdf.canvas.height = 72 * 11;
+        pdf.canvas.width = 72 * 8.5;
+        
+        //html2pdf(document.documentElement.innerHTML, pdf, function(pdf){
+        html2pdf(document.body, pdf, function(pdf){
+                var iframe = document.createElement('iframe');
+                iframe.setAttribute('style','position:absolute;right:0; top:0; bottom:0; height:100%; width:500px');
+                document.body.appendChild(iframe);
+                iframe.src = pdf.output('datauristring');
+        });
+      }); // require
+      }); // require
