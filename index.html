@@ -37,7 +37,7 @@
     <body>
         <div id="sidebar" class="sidebar collapsed">
             <!-- Nav tabs -->
-            <ul class="sidebar-tabs" role="tablist">
+            <ul class="sidebar-tabs pdf-hide" role="tablist">
                 <li><a href="#home" role="tab"><i class="fa fa-home"></i></a></li>
                 <li><a href="#service" role="tab"><i class="fa fa-bar-chart"></i></a></li>
                 <li><a href="#funding" role="tab"><i class="fa fa-usd"></i></a></li>
@@ -53,7 +53,7 @@
                 <div class="sidebar-pane" id="home">
                     <h3>Transit in Georgia</h3>
                     <a role="button" id="github-link" class="btn visible-lg btn-default pull-right" style="position:relative; top:-50px; z-index:1000;" href="https://github.com/atlregional/gta"><i class="fa fa-github"></i> Source</a>
-                    <button id="map-button" role="button" style="position:relative; top:-50px;" class="btn visible-xs btn-default pull-right" onclick="sidebar.close()"><i class="fa fa-globe"></i></button>
+                    <!-- <button id="map-button" role="button" style="position:relative; top:-50px;" class="btn visible-xs pdf-hide btn-default pull-right" onclick="sidebar.close()"><i class="fa fa-globe"></i></button> -->
                     <span class="large">1. Choose a layer to view districts.</span>
                     <form id="home-form" class="form-inline">
                         <div id="district-selects"></div>
@@ -69,16 +69,16 @@
                 </div>
                 <div class="sidebar-pane" id="service">
                     <h3><span data-toggle="tooltip" class="dotted" data-placement="right" data-original-title="All data are for FY 2013">Service</span></h3>
-                    <button id="back-button" role="button" style="position:relative; top:-50px;" class="btn visible-xs pull-right btn-default" onclick="sidebar.open('home')"><i class="fa fa-home"></i></button>
-                    <button id="map-button" role="button" style="position:relative; top:-50px;" class="btn visible-xs btn-default pull-right" onclick="sidebar.close()"><i class="fa fa-globe"></i></button>
+                    <!-- <button id="back-button" role="button" style="position:relative; top:-50px;" class="btn visible-xs pdf-hide pull-right btn-default" onclick="sidebar.open('home')"><i class="fa fa-home"></i></button> -->
+                    <!-- <button id="map-button" role="button" style="position:relative; top:-50px;" class="btn visible-xs pdf-hide btn-default pull-right" onclick="sidebar.close()"><i class="fa fa-globe"></i></button> -->
                     <select class="form-control format-select" id="format-service" onchange="toggleFormat(this)"></select>
                     <div id="service-content"></div>
                     <div id="urban-service-chart"></div>
                 </div>
                 <div class="sidebar-pane" id="funding">
                     <h3><span data-toggle="tooltip" class="dotted" data-placement="right" data-original-title="All data are for FY 2013">Funding</span></h3>
-                    <button id="back-button" role="button" style="position:relative; top:-50px;" class="btn visible-xs pull-right btn-default" onclick="sidebar.open('home')"><i class="fa fa-home"></i></button>
-                    <button id="map-button" role="button" style="position:relative; top:-50px;" class="btn visible-xs btn-default pull-right" onclick="sidebar.close()"><i class="fa fa-globe"></i></button>
+                    <!-- <button id="back-button" role="button" style="position:relative; top:-50px;" class="btn visible-xs pdf-hide pull-right btn-default" onclick="sidebar.open('home')"><i class="fa fa-home"></i></button> -->
+                    <!-- <button id="map-button" role="button" style="position:relative; top:-50px;" class="btn visible-xs pdf-hide btn-default pull-right" onclick="sidebar.close()"><i class="fa fa-globe"></i></button> -->
                     <select class="form-control format-select" id="format-funding" onchange="toggleFormat(this)"></select>
                     <div id="funding-content"></div>
                     <div id="urban-funding-chart"></div>
@@ -86,39 +86,39 @@
                 </div>
                 <div class="sidebar-pane" id="people">
                     <h3>Demographics</h3>
-                    <button id="back-button" role="button" style="position:relative; top:-50px;" class="btn visible-xs pull-right btn-default" onclick="sidebar.open('home')"><i class="fa fa-home"></i></button>
-                    <button id="map-button" role="button" style="position:relative; top:-50px;" class="btn visible-xs btn-default pull-right" onclick="sidebar.close()"><i class="fa fa-globe"></i></button>
+                    <!-- <button id="back-button" role="button" style="position:relative; top:-50px;" class="btn visible-xs pdf-hide pull-right btn-default" onclick="sidebar.open('home')"><i class="fa fa-home"></i></button> -->
+                    <!-- <button id="map-button" role="button" style="position:relative; top:-50px;" class="btn visible-xs pdf-hide btn-default pull-right" onclick="sidebar.close()"><i class="fa fa-globe"></i></button> -->
                     <div id="people-content"></div>
                 </div>
                 <div class="sidebar-pane" id="fleet">
                     <h3>Fleet</h3>
-                    <button id="back-button" role="button" style="position:relative; top:-50px;" class="btn visible-xs pull-right btn-default" onclick="sidebar.open('home')"><i class="fa fa-home"></i></button>
-                    <button id="map-button" role="button" style="position:relative; top:-50px;" class="btn visible-xs btn-default pull-right" onclick="sidebar.close()"><i class="fa fa-globe"></i></button>
+                    <!-- <button id="back-button" role="button" style="position:relative; top:-50px;" class="btn visible-xs pdf-hide pull-right btn-default" onclick="sidebar.open('home')"><i class="fa fa-home"></i></button> -->
+                    <!-- <button id="map-button" role="button" style="position:relative; top:-50px;" class="btn visible-xs pdf-hide btn-default pull-right" onclick="sidebar.close()"><i class="fa fa-globe"></i></button> -->
                     <div id="fleet-content"></div>
                 </div>
                 <div class="sidebar-pane" id="info">
                     <h3>District Info</h3>
-                    <button id="back-button" role="button" style="position:relative; top:-50px;" class="btn visible-xs pull-right btn-default" onclick="sidebar.open('home')"><i class="fa fa-home"></i></button>
-                    <button id="map-button" role="button" style="position:relative; top:-50px;" class="btn visible-xs btn-default pull-right" onclick="sidebar.close()"><i class="fa fa-globe"></i></button>
+                    <!-- <button id="back-button" role="button" style="position:relative; top:-50px;" class="btn visible-xs pdf-hide pull-right btn-default" onclick="sidebar.open('home')"><i class="fa fa-home"></i></button> -->
+                    <!-- <button id="map-button" role="button" style="position:relative; top:-50px;" class="btn visible-xs pdf-hide btn-default pull-right" onclick="sidebar.close()"><i class="fa fa-globe"></i></button> -->
                     <div id="info-content"></div>
                 </div> 
                 <div class="sidebar-pane" id="pdf">
                     <h3>District Info</h3>
-                    <button id="back-button" role="button" style="position:relative; top:-50px;" class="btn visible-xs pull-right btn-default" onclick="sidebar.open('home')"><i class="fa fa-home"></i></button>
-                    <button id="map-button" role="button" style="position:relative; top:-50px;" class="btn visible-xs btn-default pull-right" onclick="sidebar.close()"><i class="fa fa-globe"></i></button>
+                    <!-- <button id="back-button" role="button" style="position:relative; top:-50px;" class="btn visible-xs pdf-hide pull-right btn-default" onclick="sidebar.open('home')"><i class="fa fa-home"></i></button> -->
+                    <!-- <button id="map-button" role="button" style="position:relative; top:-50px;" class="btn visible-xs pdf-hide btn-default pull-right" onclick="sidebar.close()"><i class="fa fa-globe"></i></button> -->
                     <div id="pdf-content"></div>
                     <!-- <iframe width="100%" height="100%" src="hello_world"></iframe> -->
                 </div>
                 <div class="sidebar-pane" id="settings">
                     <h3>Settings</h3>
-                    <button id="back-button" role="button" style="position:relative; top:-50px;" class="btn visible-xs pull-right btn-default" onclick="sidebar.open('home')"><i class="fa fa-home"></i></button>
-                    <button id="map-button" role="button" style="position:relative; top:-50px;" class="btn visible-xs btn-default pull-right" onclick="sidebar.close()"><i class="fa fa-globe"></i></button>
+                    <!-- <button id="back-button" role="button" style="position:relative; top:-50px;" class="btn visible-xs pdf-hide pull-right btn-default" onclick="sidebar.open('home')"><i class="fa fa-home"></i></button> -->
+                    <!-- <button id="map-button" role="button" style="position:relative; top:-50px;" class="btn visible-xs pdf-hide btn-default pull-right" onclick="sidebar.close()"><i class="fa fa-globe"></i></button> -->
                     <div id="settings-content"></div>
                 </div>
             </div>
         </div>
 
-        <div id="map"></div>
+        <div id="map" class="pdf-hide"></div>
     </body>
     <script type="text/javascript" src="gta.js"></script>
 </html>

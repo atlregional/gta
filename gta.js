@@ -50,7 +50,7 @@ var currentLayer = "";
 var currentProps = "";
 
 var entity = "";
-
+var pdf = false;
 console.log(params);
 var map;
 var ePrev = null;
@@ -63,6 +63,11 @@ var zoom = null;
 var load = true;
 var nameSelect = '' ;
 var geogSelect = '';
+
+// Checks if pdf output
+if (params[3] === "pdf"){
+    pdf = true;
+}
 
 if (typeof geoLayers[params[0]] !== "undefined"){
     currentLayer = params[0];
@@ -502,6 +507,7 @@ if (params[1]){
         $('#'+currentLayer+'-name-select').val(id);
     }
 }
+
 function showFeature(select){
     var e;
     if (typeof e == "undefined"){
