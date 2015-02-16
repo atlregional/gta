@@ -172,7 +172,7 @@ var formats = {
 var currentStat = {
     "service": "UPT",
     "funding": "Capital and Operations",
-    "format": "Table"
+    "format": "Chart"
 };
 
 addGeographies(geos, map);
