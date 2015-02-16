@@ -1494,20 +1494,20 @@ function makePDF(lorem) {
   });
 }
 
-require_baseUrl_override = '../..';
-    require(['../../libs/require/config'], function(){
-    require(['html2pdf'], function(){
+// require_baseUrl_override = '../..';
+//     require(['../../libs/require/config'], function(){
+//     require(['html2pdf'], function(){
 
-        var pdf = new jsPDF('p', 'pt', 'letter');
-        pdf.canvas.height = 72 * 11;
-        pdf.canvas.width = 72 * 8.5;
+//         var pdf = new jsPDF('p', 'pt', 'letter');
+//         pdf.canvas.height = 72 * 11;
+//         pdf.canvas.width = 72 * 8.5;
         
-        //html2pdf(document.documentElement.innerHTML, pdf, function(pdf){
-        html2pdf(document.body, pdf, function(pdf){
-                var iframe = document.createElement('iframe');
-                iframe.setAttribute('style','position:absolute;right:0; top:0; bottom:0; height:100%; width:500px');
-                document.body.appendChild(iframe);
-                iframe.src = pdf.output('datauristring');
-        });
-      }); // require
-      }); // require
+//         //html2pdf(document.documentElement.innerHTML, pdf, function(pdf){
+//         html2pdf(document.body, pdf, function(pdf){
+//                 var iframe = document.createElement('iframe');
+//                 iframe.setAttribute('style','position:absolute;right:0; top:0; bottom:0; height:100%; width:500px');
+//                 document.body.appendChild(iframe);
+//                 iframe.src = pdf.output('datauristring');
+//         });
+//       }); // require
+//       }); // require
