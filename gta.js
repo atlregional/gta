@@ -369,7 +369,7 @@ info.update = function (props) {
             //   height: 480
             // }
         });
-var pdfChart = c3.generate({
+        var pdfChart = c3.generate({
             bindto: '#pdf-funding-chart',
             data: {
                 x : 'x',
@@ -427,9 +427,54 @@ var pdfChart = c3.generate({
     }
     if (typeof urbanString.serviceCol[0] !== 'undefined' && currentStat.format == "Chart"){
         // urbanString.serviceCol.splice(0, 0, 'x');
-        console.log(urbanString)
-         chart = c3.generate({
+        console.log(urbanString);
+         var chart = c3.generate({
             bindto: '#urban-service-chart',
+            data: {
+                columns: urbanString.serviceCol,
+                type: 'bar'
+            },
+            axis: {
+                x: {
+                    type: 'category',
+                    categories: [stats.service[currentStat.service].replace(/\./g,' ')]
+                },
+                y : {
+                    tick: {
+                        format: d3.format(",")
+        //                format: function (d) { return "$" + d; }
+                    }
+                }
+            },
+            tooltip: {
+                contents: function(d, defaultTitleFormat, defaultValueFormat, color) {
+                  var out, row, total, x, _i, _len;
+                  total = 0;
+                  x = d[0].x;
+                  out = '';
+                  first = '';
+                  for (_i = 0, _len = d.length; _i < _len; _i++) {
+                    row = d[_i];
+                    total += row.value;
+                    out += '<tr class="c3-tooltip-name-' + row.id + '"><td class="name">';
+                    out += '<span style="background-color:' + color(row.id) + '"></span>' + row.name + '</td>';
+                    out += '<td class="value">' + defaultValueFormat(row.value) + '</td></tr>';
+                  }
+                  first += '<table class="c3-tooltip"><tbody><tr><th colspan="2">' + defaultTitleFormat(x) + '</th></tr>';
+                  first += '<tr class="c3-tooltip-name-total"><td class="name"><strong>Total</strong></td>';
+                  first += '<td class="value"><strong>' + defaultValueFormat(total) + '</strong></td></tr>';
+                  out += '</tbody></table>';
+                  return first + out;
+                }
+            }
+
+            // ,
+            // size: {
+            //   height: 480
+            // }
+        });
+        var pdfChart = c3.generate({
+            bindto: '#pdf-service-chart',
             data: {
                 columns: urbanString.serviceCol,
                 type: 'bar'
