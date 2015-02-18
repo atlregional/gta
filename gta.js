@@ -69,6 +69,10 @@ if (params[3] === "pdf"){
     pdf = true;
     console.log("pdf");
     $('.pdf-hide').hide();
+    
+}
+else{
+    $('#pdf').hide();
 }
 
 if (typeof geoLayers[params[0]] !== "undefined"){
@@ -257,8 +261,9 @@ info.update = function (props) {
             console.log(urbanService);
             // serviceData = getDataString(propsunties);
         }
-        else if ((currentLayer === "senate" || currentLayer === "house" || currentLayer === "congress") && typeof geoLayers[currentLayer].counties !== "undefined") {
+        else if (isDistrict(currentLayer) && typeof geoLayers[currentLayer].counties !== "undefined") {
         	$('#'+currentLayer+'-name-select').val(name);
+            getDistrictData(currentLayer, +id);
             console.log("getting funding string for district")
             console.log(geoLayers[currentLayer].counties);
             counties = getCounties(geoLayers[currentLayer].counties[name]);
@@ -358,6 +363,53 @@ info.update = function (props) {
                   out += '</tbody></table>';
                   return first + out;
                 }
+            }
+            // ,
+            // size: {
+            //   height: 480
+            // }
+        });
+var pdfChart = c3.generate({
+            bindto: '#pdf-funding-chart',
+            data: {
+                x : 'x',
+                columns: urbanString.fundingCol,
+                groups: [
+                    urbanString.agencies
+                ],
+                type: 'bar'
+            },
+            axis: {
+                x: {
+                    type: 'category' // this needed to load string x value
+                },
+                y: {
+                    tick: {
+                      format: d3.format('$,')
+                      //or format: function (d) { return '$' + d; }
+                    }
+                  }
+            },
+            tooltip: {
+                contents: function(d, defaultTitleFormat, defaultValueFormat, color) {
+                  var out, row, total, x, _i, _len;
+                  total = 0;
+                  x = d[0].x;
+                  out = '';
+                  first = '';
+                  for (_i = 0, _len = d.length; _i < _len; _i++) {
+                    row = d[_i];
+                    total += row.value;
+                    out += '<tr class="c3-tooltip-name-' + row.id + '"><td class="name">';
+                    out += '<span style="background-color:' + color(row.id) + '"></span>' + row.name + '</td>';
+                    out += '<td class="value">' + defaultValueFormat(row.value) + '</td></tr>';
+                  }
+                  first += '<table class="c3-tooltip"><tbody><tr><th colspan="2">' + defaultTitleFormat(x) + '</th></tr>';
+                  first += '<tr class="c3-tooltip-name-total"><td class="name"><strong>Total</strong></td>';
+                  first += '<td class="value"><strong>' + defaultValueFormat(total) + '</strong></td></tr>';
+                  out += '</tbody></table>';
+                  return first + out;
+                }
             },
             size: {
               width: 640,
@@ -376,7 +428,7 @@ info.update = function (props) {
     if (typeof urbanString.serviceCol[0] !== 'undefined' && currentStat.format == "Chart"){
         // urbanString.serviceCol.splice(0, 0, 'x');
         console.log(urbanString)
-        var chart = c3.generate({
+         chart = c3.generate({
             bindto: '#urban-service-chart',
             data: {
                 columns: urbanString.serviceCol,
@@ -552,7 +604,7 @@ function showFeature(select){
                     dashArray: '',
                     opacity: 0.3
                 });
-            geojson.resetStyle(ePrev.target);
+            // geojson.resetStyle(ePrev.target);
             if (ePrev.target){
                 geoLayers[currentLayer].data.resetStyle(ePrev.target);
             }
@@ -909,7 +961,7 @@ function addGeographies(geos, map){
                                 geoLayers[geo.id].select.geog.push([name, id]);
                                 // console.log([name, id]);
                                 if (geo.id === "senate" || geo.id === "house" || geo.id === "congress"){  //typeof props.DISTRICT !== "undefined" ){
-                                    geoLayers[geo.id].select.name.push([toTitleCase(props.last) + ', ' + toTitleCase(props.first) + ' (' + props.party[0] + ')',props.DISTRICT]);
+                                    geoLayers[geo.id].select.name.push([toTitleCase(props.last_name) + ', ' + toTitleCase(props.first_name) + ' (' + props.party[0] + ')',props.DISTRICT]);
                                     // geoLayers[geo.id].select.name.push("blue")
                                 }
                                 var e;
@@ -1504,6 +1556,29 @@ function makePDF(lorem) {
   stream.on('finish', function() {
     iframe.src = stream.toBlobURL('application/pdf');
   });
+}
+
+function getDistrictData(house, id){
+    var key = 'e12a53ac5536495e9f73315773634a56';
+    var url = 'http://openstates.org/api/v1/legislators/';
+    var chamber = '';
+    // var districtData;
+    if (house === 'senate'){
+        chamber = 'upper';
+    }
+    else{
+        chamber = 'lower';
+    }
+    var params = {
+        'state': 'ga',
+        'chamber': chamber,
+        'active': 'true',
+        'district': id,
+        'apikey': key
+    };
+    $.getJSON(url, params, function(data){
+        $('#info-content').append(JSON.stringify(data[0]));
+    });
 }
 
 // require_baseUrl_override = '../..';
