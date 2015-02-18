@@ -412,7 +412,7 @@ info.update = function (props) {
                 }
             },
             size: {
-              width: 600,
+              width: 500,
               height: 300
             }
 
@@ -513,7 +513,7 @@ info.update = function (props) {
                 }
             },
             size: {
-              width: 600,
+              width: 500,
               height: 300
             }
 
