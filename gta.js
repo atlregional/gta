@@ -322,7 +322,7 @@ info.update = function (props) {
     if (typeof urbanString.fundingCol[0] !== 'undefined' && currentStat.format == "Chart"){
         urbanString.fundingCol[0].splice(0, 0, 'x');
         console.log(urbanString)
-        var chart = c3.generate({
+        var fundingChart = c3.generate({
             bindto: '#urban-funding-chart',
             data: {
                 x : 'x',
@@ -369,7 +369,7 @@ info.update = function (props) {
             //   height: 480
             // }
         });
-        var pdfChart = c3.generate({
+        var pdfFundingChart = c3.generate({
             bindto: '#pdf-funding-chart',
             data: {
                 x : 'x',
@@ -377,7 +377,8 @@ info.update = function (props) {
                 groups: [
                     urbanString.agencies
                 ],
-                type: 'bar'
+                type: 'bar',
+                labels: true
             },
             axis: {
                 x: {
@@ -385,7 +386,8 @@ info.update = function (props) {
                 },
                 y: {
                     tick: {
-                      format: d3.format('$,')
+                      format: d3.format('$,'),
+                      outer: false
                       //or format: function (d) { return '$' + d; }
                     }
                   }
@@ -414,7 +416,13 @@ info.update = function (props) {
             size: {
               width: 500,
               height: 300
-            }
+            },
+            padding: {
+                // top: 40,
+                // right: 100,
+                // bottom: 40,
+                left: 60,
+            },
 
             // ,
             // size: {
@@ -428,7 +436,7 @@ info.update = function (props) {
     if (typeof urbanString.serviceCol[0] !== 'undefined' && currentStat.format == "Chart"){
         // urbanString.serviceCol.splice(0, 0, 'x');
         console.log(urbanString);
-         var chart = c3.generate({
+         var serviceChart = c3.generate({
             bindto: '#urban-service-chart',
             data: {
                 columns: urbanString.serviceCol,
@@ -473,7 +481,7 @@ info.update = function (props) {
             //   height: 480
             // }
         });
-        var pdfChart = c3.generate({
+        var pdfServiceChart = c3.generate({
             bindto: '#pdf-service-chart',
             data: {
                 columns: urbanString.serviceCol,
@@ -515,7 +523,13 @@ info.update = function (props) {
             size: {
               width: 500,
               height: 300
-            }
+            },
+            padding: {
+                // top: 40,
+                // right: 100,
+                // bottom: 40,
+                left: 60,
+            },
 
             // ,
             // size: {
