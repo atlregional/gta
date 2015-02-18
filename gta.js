@@ -377,8 +377,7 @@ info.update = function (props) {
                 groups: [
                     urbanString.agencies
                 ],
-                type: 'bar',
-                labels: true
+                type: 'bar'
             },
             axis: {
                 x: {
