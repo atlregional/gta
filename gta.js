@@ -1672,11 +1672,11 @@ function getDistrictData(house, id){
         $('.district-data').append(
             d.chamber !== 'house' ?
                 '<h4>District</h4>' +
-                '<img width="100" src="' + d.photo_url + '">' +
-                '<p>' + title + ': ' + d.first_name + ' ' + d.last_name + ' (' + d.party[0] +') <a href="mailto:' + d.email + '">email</a></p>' +
+                '<div class="row"><div class="col-sm-2"><img width="100" src="' + d.photo_url + '"></div>' +
+                '<div class="col-sm-10"><p>' + title + ' ' + d.first_name + ' ' + d.last_name + ' (' + d.party[0] +') <a href="mailto:' + d.email + '">email</a></p>' +
                 '<p><i class="fa fa-envelope-o"></i> <a href="mailto:' + d.email + '">'+d.email+'</a></p>' +
                 '<p><i class="fa fa-external-link"></i> <a href="' + d.url + '">'+d.url+'</a></p>' +
-                ''
+                '</div></div>'
             :
                 '<h4>District</h4>' +
                 // '<img width="100" src="' + d.photo_url + '">' +
