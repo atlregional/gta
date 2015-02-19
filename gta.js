@@ -253,8 +253,8 @@ info.update = function (props) {
         }
         if (currentLayer == "rc"){
         	console.log(props.counties);
-            data = props.counties.toString();
-            data = '<div style="max-width:272px;"><b>Counties:</b><br />' + data.replace(/,/g,', ') + '</div>';
+            data = toSentence(props.counties);
+            data = '<h4>Counties</h4><p>'+name+' contains some or all of the following counties: ' + data + '.</p>';
 
             ruralString = getDataString(props.counties);
             urbanString = getDataString(props.counties);
@@ -267,8 +267,8 @@ info.update = function (props) {
             console.log("getting funding string for district")
             console.log(geoLayers[currentLayer].counties);
             counties = getCounties(geoLayers[currentLayer].counties[name]);
-        	data = counties.toString();
-            data = '<b>Counties:</b><br />' + data.replace(/,/g,', ');
+        	data = toSentence(counties);
+            data = '<h4>Counties</h4><p>'+geoLayers[currentLayer].name_sing+ ' ' + name +' contains some or all of the following counties: ' + data + '.</p>';
 
             ruralString = getDataString(counties);
             urbanString = getDataString(counties);
@@ -330,7 +330,8 @@ info.update = function (props) {
                 groups: [
                     urbanString.agencies
                 ],
-                type: 'bar'
+                type: 'bar',
+                // labels: true
             },
             axis: {
                 x: {
@@ -420,7 +421,7 @@ info.update = function (props) {
                 // top: 40,
                 // right: 100,
                 // bottom: 40,
-                left: 60,
+                left: 100,
             },
 
             // ,
@@ -493,7 +494,8 @@ info.update = function (props) {
                 },
                 y : {
                     tick: {
-                        format: d3.format(",")
+                        format: d3.format(","),
+                        outer: false
         //                format: function (d) { return "$" + d; }
                     }
                 }
@@ -527,7 +529,7 @@ info.update = function (props) {
                 // top: 40,
                 // right: 100,
                 // bottom: 40,
-                left: 60,
+                left: 100,
             },
 
             // ,
@@ -570,6 +572,7 @@ info.update = function (props) {
     //         }
     //     });
     // }
+    // $('.districtname').html(name);
     $('.format-select').html(formatsOptions.funding);
     $('#funding-content').html('<select class="form-control" id="funding-select" '+disabled+' onchange="toggleStat(this)">' + // style="position:absolute; right:8px; margin-top:6px;">' + 
                                         statsOptions.funding +
@@ -591,7 +594,11 @@ info.update = function (props) {
                                 // (ruralString.service === '' ? 'None' : ruralString.service)
                                 );
     $('#home-content').html();
-    $('#info-content').html(data);
+    $('.info-content').empty();
+    $('.info-content').append(data);
+    $('.name-sing').html(geoLayers[currentLayer].name_sing);
+    $('.name').html(typeof +name !== 'undefined'  ? +name : name);
+    $('.agency-list').html(makeUL(urbanString.agencyNames, urbanString.agencies));
     if (currentStat.format == "Table"){
         $('#funding-content').append(urbanString.fundingString);
         $('#service-content').append(urbanString.serviceString);
@@ -652,7 +659,7 @@ function showFeature(select){
         // console.log(layer)
         var props = layer.feature.properties;
         var id = getId(layer.feature.properties);
-        if (id == entity){
+        if (id === entity || +id === +entity){
             map.fitBounds(L.geoJson(layer.feature).getBounds());
             info.update(props);
             zoom = layer;
@@ -1033,7 +1040,7 @@ function addGeographies(geos, map){
                                     mouseout: resetHighlight,
                                     click: zoomToFeature
                                 });
-                                if (entity !== "" && entity == getId(props)){
+                                if (entity !== "" && (entity === getId(props) || +entity === +getId(props))){
                                     map.fitBounds(L.geoJson(feature).getBounds());
                                     // info.update(props);
                                     currentProps = props;
@@ -1243,7 +1250,8 @@ function getDataString(counties){
     var agenciesData = {
         "funding": {},
         "service": {},
-        "serviceCol": []
+        "serviceCol": [],
+        "agencyNames": []
     };
     // agenciesData.funding.list = [];
     var totalUpt = 0;
@@ -1366,6 +1374,7 @@ function getDataString(counties){
                                     }
                                     // Count the agency
                                     agencies.push(name);
+                                    agenciesData.agencyNames.push(fullName);
                                     
                                     // console.log(funding[code][dataId])
                                     fundingData = funding[code][dataId];
@@ -1618,27 +1627,98 @@ function makePDF(lorem) {
 
 function getDistrictData(house, id){
     var key = 'e12a53ac5536495e9f73315773634a56';
-    var url = 'http://openstates.org/api/v1/legislators/';
+    var url;
     var chamber = '';
+    var chamberName;
     // var districtData;
-    if (house === 'senate'){
+    if (house === 'senate') {
         chamber = 'upper';
+        url = 'http://openstates.org/api/v1/legislators/';
     }
-    else{
+    else if (house === 'house') {
         chamber = 'lower';
+        url = 'http://openstates.org/api/v1/legislators/';
+    }
+    else if (house ==='congress') {
+        chamber = 'house';
+        url = 'http://congress.api.sunlightfoundation.com/legislators';
     }
     var params = {
-        'state': 'ga',
+        'state': 'GA',
         'chamber': chamber,
-        'active': 'true',
         'district': id,
         'apikey': key
     };
+    if (house === 'senate' || house === 'house'){
+        params.active = 'true';
+    }
     $.getJSON(url, params, function(data){
-        $('#info-content').append(JSON.stringify(data[0]));
+        var string = JSON.stringify(data[0]);
+        var d; 
+        var title;
+        if (house === 'senate' || house === 'house'){
+            d = data[0];
+        }
+        else{
+            d = data.results[0]
+        }
+        if (chamber === "senate"){
+            title = 'Senator';
+        }
+        else{
+            title = 'Representative';
+        }
+        console.log(d)
+        $('.district-data').append(
+            d.chamber !== 'house' ?
+                '<h4>District</h4>' +
+                '<img width="100" src="' + d.photo_url + '">' +
+                '<p>' + title + ': ' + d.first_name + ' ' + d.last_name + ' (' + d.party[0] +') <a href="mailto:' + d.email + '">email</a></p>' +
+                '<p><i class="fa fa-envelope-o"></i> <a href="mailto:' + d.email + '">'+d.email+'</a></p>' +
+                '<p><i class="fa fa-external-link"></i> <a href="' + d.url + '">'+d.url+'</a></p>' +
+                ''
+            :
+                '<h4>District</h4>' +
+                // '<img width="100" src="' + d.photo_url + '">' +
+                '<p>' + title + ': ' + d.first_name + ' ' + d.last_name + ' (' + d.party[0] +') <a href="mailto:' + d.oc_email + '">email</a></p>' +
+                '<p><i class="fa fa-envelope-o"></i> <a href="mailto:' + d.oc_email + '">'+d.oc_email+'</a></p>' +
+                '<p><i class="fa fa-external-link"></i> <a href="' + d.website + '">'+d.website+'</a></p>' +
+                ''
+        );
     });
 }
 
+
+function toSentence(arr){
+    var s = arr.slice(0, arr.length - 1).join(', ') + ", and " + arr.slice(-1);
+    return s;
+}
+
+function makeUL(array, array2) {
+    // Create the list element:
+    var list = document.createElement('ul');
+
+    for(var i = 0; i < array.length; i++) {
+        // Create the list item:
+        var item = document.createElement('li');
+
+        // Set its contents:
+        var text;
+        if (array[i] !== array2[i]){
+            text = array[i] + ' (' + array2[i] + ')';
+        }
+        else{
+            text = array[i];
+        }
+        item.appendChild(document.createTextNode(text));
+
+        // Add it to the list:
+        list.appendChild(item);
+    }
+
+    // Finally, return the constructed list:
+    return list;
+}
 // require_baseUrl_override = '../..';
 //     require(['../../libs/require/config'], function(){
 //     require(['html2pdf'], function(){
