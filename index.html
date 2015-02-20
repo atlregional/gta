@@ -11,7 +11,7 @@
         <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.2/css/bootstrap.min.css"/>
         <link rel="stylesheet" href="stylesheets/leaflet-sidebar.css" />
         <link rel="stylesheet" href="stylesheets/c3.min.css" />
-        <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+        <link href="stylesheets/font-awesome-4.3.0/css/font-awesome.min.css" rel="stylesheet">
 
         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
         <!-- <script src='javascripts/require/require.js'></script> -->
@@ -23,6 +23,7 @@
         <script src="javascripts/leaflet-sidebar.js"></script>
 
         <script src="javascripts/d3.min.js" charset="utf-8"></script>
+        <script src="javascripts/topojson.min.js"></script>
         <script src="javascripts/c3.min.js" charset="utf-8"></script>
         <script src="javascripts/pdfkit.js" charset="utf-8"></script>
         <script src="javascripts/blob-stream.js" charset="utf-8"></script>
@@ -31,7 +32,7 @@
         <script src='https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-omnivore/v0.2.0/leaflet-omnivore.min.js'></script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.2.0/js/button.min.js"></script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.2/js/bootstrap.min.js"></script>
-        <script type="text/javascript" src="https:////api.tiles.mapbox.com/mapbox.js/plugins/turf/v1.3.0/turf.min.js"></script>
+        <script type="text/javascript" src="https://api.tiles.mapbox.com/mapbox.js/plugins/turf/v1.3.0/turf.min.js"></script>
 
     </head>
     <body>
@@ -116,6 +117,9 @@
         <div id="pdf">
             <h2><span class="name-sing"></span>: <span class="name"></span></h2>
             <h3>Info</h3>
+            <div class="pdf-map">
+                <h4>Map</h4>
+            </div>
             <div class="info-content"></div>
             <div class="district-data"></div>
             <div class="counties"></div>

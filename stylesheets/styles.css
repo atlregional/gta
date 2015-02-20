@@ -6,6 +6,16 @@ html, body, #map {
     height: 100%;
     /*width: 100%;*/
 }
+path {
+  fill: #ccc;
+  stroke: #fff;
+  stroke-width: .5px;
+}
+
+path:hover {
+  fill: red;
+}
+.color { fill:rgb(8,48,107); }
 .info {
     padding: 6px 8px;
     background: white;

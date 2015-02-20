@@ -69,6 +69,54 @@ if (params[3] === "pdf"){
     pdf = true;
     console.log("pdf");
     $('.pdf-hide').hide();
+
+    var width = 700,
+        height = 400;
+
+    var projection = d3.geo.transverseMercator()
+        .rotate([82.16666666666667, -30]);
+
+    // var projection = d3.geo.conicConformal()
+    //     .rotate([98, 0])
+    //     .center([83 + 30/60, 0])
+    //     .parallels([31 + 25/60, 34 + 17/60])
+    //     .scale(200)
+        // .translate([width / 2, height / 2])
+        // .precision(.1);
+    // var projection = d3.geo.conicConformal()
+    //     .rotate([98, 0])
+    //     .center([83 + 30/60, 0])
+    //     .parallels([29.5, 45.5])
+    //     .scale(1000)
+    //     .translate([width / 2, height / 2])
+    //     .precision(.1);
+    var layer = params[0];
+    var path = d3.geo.path()
+        .projection(projection);
+    var svg = d3.select(".pdf-map").append("svg")
+        .attr("width", width)
+        .attr("height", height);
+
+    d3.json("/data/topo/"+layer+".json", function(error, topology) {
+        var tracts = topojson.feature(topology, topology.objects[layer]);
+        projection
+      .scale(1)
+      .translate([0, 0]);
+        var b = path.bounds(tracts),
+            s = .95 / Math.max((b[1][0] - b[0][0]) / width, (b[1][1] - b[0][1]) / height),
+            t = [(width - s * (b[1][0] + b[0][0])) / 2, (height - s * (b[1][1] + b[0][1])) / 2];
+
+        projection
+            .scale(s)
+            .translate(t);
+
+      svg.selectAll("path")
+          .data(tracts.features)
+        .enter().append("path")
+          .attr("class", function(d) { return getId(d.properties) === params[1] ? 'color' : ''; })
+          .attr("d", path);
+    });
+    d3.select(self.frameElement).style("height", height + "px");
     
 }
 else{
@@ -263,7 +311,7 @@ info.update = function (props) {
         }
         else if (isDistrict(currentLayer) && typeof geoLayers[currentLayer].counties !== "undefined") {
         	$('#'+currentLayer+'-name-select').val(name);
-            getDistrictData(currentLayer, +id);
+            grabDistrictData(props);
             console.log("getting funding string for district")
             console.log(geoLayers[currentLayer].counties);
             counties = getCounties(geoLayers[currentLayer].counties[name]);
@@ -1688,6 +1736,33 @@ function getDistrictData(house, id){
     });
 }
 
+
+function grabDistrictData(d){
+    var title;
+    if (currentLayer === "senate"){
+        title = 'Senator';
+    }
+    else{
+        title = 'Representative';
+    }
+    console.log(d)
+    $('.district-data').append(
+        d.chamber !== 'house' ?
+            '<h4>District</h4>' +
+            '<div class="row"><div class="col-sm-2 col-xs-2"><img width="100" src="' + d.photo_url + '"></div>' +
+            '<div class="col-sm-10 col-xs-10"><h5>' + title + ' ' + d.first_name + ' ' + d.last_name + ' (' + d.party[0] +')</h5>' +
+            '<p><i class="fa fa-envelope-o"></i> <a href="mailto:' + d.email + '">'+d.email+'</a></p>' +
+            '<p><i class="fa fa-external-link"></i> <a href="' + d.url + '">'+d.url+'</a></p>' +
+            '</div></div>'
+        :
+            '<h4>District</h4>' +
+            // '<img width="100" src="' + d.photo_url + '">' +
+            '<p>' + title + ': ' + d.first_name + ' ' + d.last_name + ' (' + d.party[0] +') <a href="mailto:' + d.oc_email + '">email</a></p>' +
+            '<p><i class="fa fa-envelope-o"></i> <a href="mailto:' + d.oc_email + '">'+d.oc_email+'</a></p>' +
+            '<p><i class="fa fa-external-link"></i> <a href="' + d.website + '">'+d.website+'</a></p>' +
+            ''
+    );
+}
 
 function toSentence(arr){
     var s = arr.slice(0, arr.length - 1).join(', ') + ", and " + arr.slice(-1);
