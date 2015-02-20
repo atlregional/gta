@@ -97,7 +97,7 @@ if (params[3] === "pdf"){
         .attr("width", width)
         .attr("height", height);
 
-    d3.json("/data/topo/"+layer+".json", function(error, topology) {
+    d3.json("data/topo/"+layer+".json", function(error, topology) {
         var tracts = topojson.feature(topology, topology.objects[layer]);
         projection
       .scale(1)
