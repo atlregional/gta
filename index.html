@@ -115,21 +115,55 @@
             </div>
         </div>
         <div id="pdf">
-            <h2><span class="name-sing"></span>: <span class="name"></span></h2>
-            <h3>Info</h3>
-            <div class="pdf-map">
-                <h4>Map</h4>
+            
+            <h2>
+                <span class="name-sing"></span>: 
+                <span class="name"></span>
+                </h2>
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h3 class="panel-title">District Info</h3>
+              </div>
+              <div class="panel-body">
+                <div class="row">
+                    <div class="pdf-map col-xs-4">
+                        <!-- <h4>Map</h4> -->
+                    </div>
+                    <div class="col-xs-8">
+                        <div class="info-content"></div>
+                        <div class="district-data"></div>
+                        <div class="counties"></div>
+                    </div>
+                </div>
+              </div>
             </div>
-            <div class="info-content"></div>
-            <div class="district-data"></div>
-            <div class="counties"></div>
-            <h4>Agencies</h4>
-            <p>The following transit agencies operate in the <span class="name-sing"></span> of <span class="name"></span>:</p>
-            <div class="agency-list"></div>
-            <h3>Service</h3>
-            <div id="pdf-service-chart"></div>
-            <h3>Funding</h3>
-            <div id="pdf-funding-chart"></div>
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h3 class="panel-title">Agencies</h3>
+              </div>
+              <div class="panel-body">
+                <p>The following transit agencies operate in the <span class="name-sing"></span> of <span class="name"></span>:</p>
+                <div class="agency-list"></div>
+              </div>
+            </div>
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h3 class="panel-title">Service</h3>
+              </div>
+              <div class="panel-body">
+                <div id="pdf-service-chart"></div>
+              </div>
+            </div>
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h3 class="panel-title">Funding</h3>
+              </div>
+              <div class="panel-body">
+                <div id="pdf-funding-chart"></div>
+                <!-- <img src="stylesheets/images/gta.png" class="pull-right" style="position:relative; bottom:107px" width="200px"> -->
+              </div>
+            </div>
+
         </div>
         <div id="map" class="pdf-hide"></div>
     </body>

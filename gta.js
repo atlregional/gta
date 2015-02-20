@@ -70,8 +70,8 @@ if (params[3] === "pdf"){
     console.log("pdf");
     $('.pdf-hide').hide();
 
-    var width = 700,
-        height = 400;
+    var width = 240,
+        height = 300;
 
     var projection = d3.geo.transverseMercator()
         .rotate([82.16666666666667, -30]);
@@ -113,7 +113,7 @@ if (params[3] === "pdf"){
       svg.selectAll("path")
           .data(tracts.features)
         .enter().append("path")
-          .attr("class", function(d) { return getId(d.properties) === params[1] ? 'color' : ''; })
+          .attr("class", function(d) { return getId(d.properties) === params[1] ? 'color' : 'no-color'; })
           .attr("d", path);
     });
     d3.select(self.frameElement).style("height", height + "px");
@@ -316,6 +316,7 @@ info.update = function (props) {
             console.log(geoLayers[currentLayer].counties);
             counties = getCounties(geoLayers[currentLayer].counties[name]);
         	data = toSentence(counties);
+            name = +name;
             data = '<h4>Counties</h4><p>'+geoLayers[currentLayer].name_sing+ ' ' + name +' contains some or all of the following counties: ' + data + '.</p>';
 
             ruralString = getDataString(counties);
@@ -645,7 +646,7 @@ info.update = function (props) {
     $('.info-content').empty();
     $('.info-content').append(data);
     $('.name-sing').html(geoLayers[currentLayer].name_sing);
-    $('.name').html(typeof +name !== 'undefined'  ? +name : name);
+    $('.name').html(getLongName(name));
     $('.agency-list').html(makeUL(urbanString.agencyNames, urbanString.agencies));
     if (currentStat.format == "Table"){
         $('#funding-content').append(urbanString.fundingString);
@@ -1673,68 +1674,68 @@ function makePDF(lorem) {
   });
 }
 
-function getDistrictData(house, id){
-    var key = 'e12a53ac5536495e9f73315773634a56';
-    var url;
-    var chamber = '';
-    var chamberName;
-    // var districtData;
-    if (house === 'senate') {
-        chamber = 'upper';
-        url = 'http://openstates.org/api/v1/legislators/';
-    }
-    else if (house === 'house') {
-        chamber = 'lower';
-        url = 'http://openstates.org/api/v1/legislators/';
-    }
-    else if (house ==='congress') {
-        chamber = 'house';
-        url = 'http://congress.api.sunlightfoundation.com/legislators';
-    }
-    var params = {
-        'state': 'GA',
-        'chamber': chamber,
-        'district': id,
-        'apikey': key
-    };
-    if (house === 'senate' || house === 'house'){
-        params.active = 'true';
-    }
-    $.getJSON(url, params, function(data){
-        var string = JSON.stringify(data[0]);
-        var d; 
-        var title;
-        if (house === 'senate' || house === 'house'){
-            d = data[0];
-        }
-        else{
-            d = data.results[0]
-        }
-        if (chamber === "senate"){
-            title = 'Senator';
-        }
-        else{
-            title = 'Representative';
-        }
-        console.log(d)
-        $('.district-data').append(
-            d.chamber !== 'house' ?
-                '<h4>District</h4>' +
-                '<div class="row"><div class="col-sm-2 col-xs-2"><img width="100" src="' + d.photo_url + '"></div>' +
-                '<div class="col-sm-10 col-xs-10"><h5>' + title + ' ' + d.first_name + ' ' + d.last_name + ' (' + d.party[0] +')</h5>' +
-                '<p><i class="fa fa-envelope-o"></i> <a href="mailto:' + d.email + '">'+d.email+'</a></p>' +
-                '<p><i class="fa fa-external-link"></i> <a href="' + d.url + '">'+d.url+'</a></p>' +
-                '</div></div>'
-            :
-                '<h4>District</h4>' +
-                // '<img width="100" src="' + d.photo_url + '">' +
-                '<p>' + title + ': ' + d.first_name + ' ' + d.last_name + ' (' + d.party[0] +') <a href="mailto:' + d.oc_email + '">email</a></p>' +
-                '<p><i class="fa fa-envelope-o"></i> <a href="mailto:' + d.oc_email + '">'+d.oc_email+'</a></p>' +
-                '<p><i class="fa fa-external-link"></i> <a href="' + d.website + '">'+d.website+'</a></p>' +
-                ''
-        );
-    });
-}
+// function getDistrictData(house, id){
+//     var key = 'e12a53ac5536495e9f73315773634a56';
+//     var url;
+//     var chamber = '';
+//     var chamberName;
+//     // var districtData;
+//     if (house === 'senate') {
+//         chamber = 'upper';
+//         url = 'http://openstates.org/api/v1/legislators/';
+//     }
+//     else if (house === 'house') {
+//         chamber = 'lower';
+//         url = 'http://openstates.org/api/v1/legislators/';
+//     }
+//     else if (house ==='congress') {
+//         chamber = 'house';
+//         url = 'http://congress.api.sunlightfoundation.com/legislators';
+//     }
+//     var params = {
+//         'state': 'GA',
+//         'chamber': chamber,
+//         'district': id,
+//         'apikey': key
+//     };
+//     if (house === 'senate' || house === 'house'){
+//         params.active = 'true';
+//     }
+//     $.getJSON(url, params, function(data){
+//         var string = JSON.stringify(data[0]);
+//         var d; 
+//         var title;
+//         if (house === 'senate' || house === 'house'){
+//             d = data[0];
+//         }
+//         else{
+//             d = data.results[0]
+//         }
+//         if (chamber === "senate"){
+//             title = 'Senator';
+//         }
+//         else{
+//             title = 'Representative';
+//         }
+//         console.log(d)
+//         $('.district-data').append(
+//             d.chamber !== 'house' ?
+//                 '<h4>District</h4>' +
+//                 '<div class="row"><div class="col-sm-2 col-xs-2"><img width="100" src="' + d.photo_url + '"></div>' +
+//                 '<div class="col-sm-10 col-xs-10"><h5>' + title + ' ' + d.first_name + ' ' + d.last_name + ' (' + d.party[0] +')</h5>' +
+//                 '<p><i class="fa fa-envelope-o"></i> <a href="mailto:' + d.email + '">'+d.email+'</a></p>' +
+//                 '<p><i class="fa fa-external-link"></i> <a href="' + d.url + '">'+d.url+'</a></p>' +
+//                 '</div></div>'
+//             :
+//                 '<h4>District</h4>' +
+//                 // '<img width="100" src="' + d.photo_url + '">' +
+//                 '<p>' + title + ': ' + d.first_name + ' ' + d.last_name + ' (' + d.party[0] +') <a href="mailto:' + d.oc_email + '">email</a></p>' +
+//                 '<p><i class="fa fa-envelope-o"></i> <a href="mailto:' + d.oc_email + '">'+d.oc_email+'</a></p>' +
+//                 '<p><i class="fa fa-external-link"></i> <a href="' + d.website + '">'+d.website+'</a></p>' +
+//                 ''
+//         );
+//     });
+// }
 
 
 function grabDistrictData(d){
@@ -1745,23 +1746,48 @@ function grabDistrictData(d){
     else{
         title = 'Representative';
     }
-    console.log(d)
+    console.log(d);
     $('.district-data').append(
         d.chamber !== 'house' ?
             '<h4>District</h4>' +
-            '<div class="row"><div class="col-sm-2 col-xs-2"><img width="100" src="' + d.photo_url + '"></div>' +
-            '<div class="col-sm-10 col-xs-10"><h5>' + title + ' ' + d.first_name + ' ' + d.last_name + ' (' + d.party[0] +')</h5>' +
-            '<p><i class="fa fa-envelope-o"></i> <a href="mailto:' + d.email + '">'+d.email+'</a></p>' +
-            '<p><i class="fa fa-external-link"></i> <a href="' + d.url + '">'+d.url+'</a></p>' +
+            '<div class="row"><div class="col-xs-3"><img width="100" src="' + d.photo_url + '"></div>' +
+            '<div class="col-xs-9"><h5>' + title + ' ' + d.first_name + ' ' + d.last_name + ' (' + d.party[0] +')</h5>' +
+            '<p>email: <a href="mailto:' + d.email + '">'+d.email+'</a></p>' +
+            '<p>phone: <a href="tel:' + d.phone + '">'+toPhone(d.phone)+'</a></p>' +
+            '<p>web: <a href="' + d.url + '">'+d.url+'</a></p>' +
             '</div></div>'
         :
             '<h4>District</h4>' +
             // '<img width="100" src="' + d.photo_url + '">' +
             '<p>' + title + ': ' + d.first_name + ' ' + d.last_name + ' (' + d.party[0] +') <a href="mailto:' + d.oc_email + '">email</a></p>' +
-            '<p><i class="fa fa-envelope-o"></i> <a href="mailto:' + d.oc_email + '">'+d.oc_email+'</a></p>' +
-            '<p><i class="fa fa-external-link"></i> <a href="' + d.website + '">'+d.website+'</a></p>' +
+            '<p>email: <a href="mailto:' + d.oc_email + '">'+d.oc_email+'</a></p>' +
+            '<p>phone: <a href="tel:' + d.phone + '">'+toPhone(d.phone)+'</a></p>' +
+            '<p>web: <a href="' + d.website + '">'+d.website+'</a></p>' +
             ''
     );
+}
+function toPhone(text){
+    text = text.replace(/(\d{3})(\d{3})(\d{4})/, "$1-$2-$3");
+    return text;
+}
+
+function getOrdinal(n) {
+   var s=["th","st","nd","rd"],
+       v=n%100;
+   return n+(s[(v-20)%10]||s[v]||s[0]);
+}
+
+function getLongName(name){
+    if (isDistrict(currentLayer)){
+        name = 'the ' + getOrdinal(+name) + ' ' + geoLayers[currentLayer].name_sing;
+    }
+    else if (currentLayer === 'rc'){
+        name = 'the ' + name;
+    }
+    else {
+        name = name + ' County';
+    }
+    return name;
 }
 
 function toSentence(arr){

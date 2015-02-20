@@ -8,21 +8,21 @@ topojson \
 	-e data/reps/sunlight/congress.csv \
 	--id-property=+DISTRICT,+district \
 	-o data/topo/congress.json data/shp/geojsonCONGPROP2_new.geojson \
-	-p DISTRICT -d district -p last_name -p first_name -p party -p website -p oc_email \
+	-p DISTRICT -d district -p last_name -p first_name -p party -p website -p oc_email -p phone \
 	-s 1e-9
 
 topojson \
 	-e data/reps/sunlight/senate.csv \
 	--id-property=+DISTRICT,+district \
 	-o data/topo/senate.json data/shp/geojsonSENATE14-Shape_new.geojson \
-	-p DISTRICT -d district -p last_name -p first_name -p party -p photo_url -p email -p url \
+	-p DISTRICT -d district -p last_name -p first_name -p party -p photo_url -p email -p url -p phone \
 	-s 1e-9
 
 topojson \
 	-e data/reps/sunlight/house.csv \
 	--id-property=+DISTRICT,+district \
 	-o data/topo/house.json data/shp/geojsonHouse12re_new.geojson \
-	-p DISTRICT -d district -p last_name -p first_name -p party -p photo_url -p email -p url \
+	-p DISTRICT -d district -p last_name -p first_name -p party -p photo_url -p email -p url -p phone \
 	-s 1e-9
 
 
