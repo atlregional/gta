@@ -1095,7 +1095,7 @@ function addGeographies(geos, map){
                                     mouseout: resetHighlight,
                                     click: zoomToFeature
                                 });
-                                if (entity !== "" && (entity === getId(props) || +entity === +getId(props))){
+                                if (geo.id === currentLayer && entity !== "" && (entity === getId(props) || +entity === +getId(props))){
                                     map.fitBounds(L.geoJson(feature).getBounds());
                                     // info.update(props);
                                     currentProps = props;
@@ -1754,7 +1754,7 @@ function grabDistrictData(d){
     }
     console.log(d);
     $('.district-data').append(
-        d.chamber !== 'house' ?
+        currentLayer !== 'congress' ?
             '<h4>District</h4>' +
             '<div class="row"><div class="col-xs-3"><img width="100" src="' + d.photo_url + '"></div>' +
             '<div class="col-xs-9"><h5>' + title + ' ' + d.first_name + ' ' + d.last_name + ' (' + d.party[0] +')</h5>' +
