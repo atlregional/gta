@@ -327,13 +327,13 @@ info.update = function (props) {
             ruralString = getDataString([name]);
             urbanString = getDataString([name]);
             // serviceData = getDataString(
-            if(checkFunding("5310", name)){
-                console.log("5310!");
-                ruralFunding = "5310 in this county<br />" + ruralFunding;
-            }
-            if (checkMultipleFunding("5311", [name])[name].length === 0){
-                disabled = 'disabled';
-            }
+            // if(checkFunding("5310", name)){
+            //     console.log("5310!");
+            //     ruralFunding = "5310 in this county<br />" + ruralFunding;
+            // }
+            // if (checkMultipleFunding("5311", [name])[name].length === 0){
+            //     disabled = 'disabled';
+            // }
         }
         
     }
