@@ -115,19 +115,58 @@
             </div>
         </div>
         <div id="pdf">
-            
-            <h2>
-                <span class="name-sing"></span>: 
-                <span class="name"></span>
-                </h2>
-            <div class="panel panel-default">
+            <!-- <img src="stylesheets/images/gta.png" style="position:absolute; right:30px;" width="200px"> -->
+            <h2><span class="name"></span></h2>
+            <h3>District information</h3>
+            <div class="row">
+                <div class="pdf-map col-xs-4">
+                    <!-- <h4>Map</h4> -->
+                </div>
+                <div class="col-xs-8">
+                    <div class="info-content"></div>
+                    <div class="district-data"></div>
+                    <div class="counties"></div>
+                </div>
+            </div>
+            <h4>What transit providers are in your district?</h4>
+            <p>The following transit agencies operate in <span class="name"></span>:</p>
+            <div class="agency-list"></div>
+            <h3>How is transit used in your district?</h3>
+            <p>
+                Transit in Georgia includes rail, buses, vans, meeting 
+                the needs of hundreds of thousands of Georgians every day. <strong>In <span class="name"></span>
+                alone, transit operators provide <span class="total-trips">1,000,000</span> trips annually.</strong>
+                These services are especially important to the <span class="total-elderly">500,000</span> 
+                elderly and <span class="total-disabled">200,000</span> disabled riders that depend on transit
+                in this district.
+            </p>
+            <p>
+                The figure below shows the breakdown of unlinked passenger trips in <span class="name"></span>. 
+                 For a detailed breakdown of this and other service data, please visit <a class="service-url"></a>.
+            </p>
+            <div id="pdf-service-chart"></div>
+            <h3>How much does transit cost in your district?</h3>
+            <p>
+                Transit expenses are divided into two types capital and operating. Capital expenses include 
+                infrastructure and equipment, such as buses and vans (or "rolling stock"), facilities, and 
+                technology. Operating expenses include the day-to-day activities required to operate the 
+                system, such as salaries for bus operators and mechanics, regular vehicle and system maintenance, 
+                and general administrative costs. <strong>Meeting operating expenses has traditionally been one of the most 
+                significant challenges facing transit systems in Georgia.</strong>
+            </p>
+            <p>
+                The figure below shows all funding (both capital and operating) categorized by funding source. For a 
+                detailed breakdown of this funding data, please visit <a class="funding-url"></a>.
+            </p>
+            <div id="pdf-funding-chart"></div>
+        </div>
+        <!-- <div class="panel panel-default">
               <div class="panel-heading">
                 <h3 class="panel-title">District Info</h3>
               </div>
               <div class="panel-body">
                 <div class="row">
                     <div class="pdf-map col-xs-4">
-                        <!-- <h4>Map</h4> -->
                     </div>
                     <div class="col-xs-8">
                         <div class="info-content"></div>
@@ -160,11 +199,8 @@
               </div>
               <div class="panel-body">
                 <div id="pdf-funding-chart"></div>
-                <!-- <img src="stylesheets/images/gta.png" class="pull-right" style="position:relative; bottom:107px" width="200px"> -->
               </div>
-            </div>
-
-        </div>
+            </div> -->
         <div id="map" class="pdf-hide"></div>
     </body>
     <script type="text/javascript" src="gta.js"></script>

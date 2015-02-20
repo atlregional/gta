@@ -11,7 +11,9 @@ html, body, #map {
   stroke: #fff;
   stroke-width: .5px;
 }
-
+.url{
+    color:#337ab7;
+}
 .color { fill:rgb(8,48,107); }
 .info {
     padding: 6px 8px;

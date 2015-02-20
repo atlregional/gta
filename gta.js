@@ -647,6 +647,12 @@ info.update = function (props) {
     $('.info-content').append(data);
     $('.name-sing').html(geoLayers[currentLayer].name_sing);
     $('.name').html(getLongName(name));
+    var fundingUrl = 'http://atlregional.github.io/gta/#' + currentLayer + '/' + id + '/funding';
+    $('.funding-url').html(fundingUrl);
+    $('.funding-url').attr('href', fundingUrl);
+    var serviceUrl = 'http://atlregional.github.io/gta/#' + currentLayer + '/' + id + '/service';
+    $('.service-url').html(serviceUrl);
+    $('.service-url').attr('href', serviceUrl);
     $('.agency-list').html(makeUL(urbanString.agencyNames, urbanString.agencies));
     if (currentStat.format == "Table"){
         $('#funding-content').append(urbanString.fundingString);
