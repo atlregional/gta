@@ -20,9 +20,9 @@ var geoLayers = {
     "layers" : ["county","rc","congress","senate","house"],
     "county" : {"select": {"geog": [], "name": []}, "data": null, "name_sing":"County", "name":"Counties","color":"#ff0","active":""},
     "rc" : {"select": {"geog": [], "name": []}, "data": null, "name_sing":"Regional Commission", "name":"Regional Commissions","color":"#0ff","active":""},
-    "congress" : {"select": {"geog": [], "name": []}, "data": null, "counties": null, "name_sing":"Congressional District", "name":"US Congress","color":"#f0f","active":""},
+    "congress" : {"select": {"geog": [], "name": []}, "data": null, "counties": null, "name_sing":"US Congressional District", "name":"US Congress","color":"#f0f","active":""},
     "senate" : {"select": {"geog": [], "name": []}, "data": null, "counties": null, "name_sing":"State Senate District", "name":"State Senate","color":"#f00","active":""},
-    "house" : {"select": {"geog": [], "name": []}, "data": null, "counties": null, "name_sing":"House District", "name":"State House","color":"#0f0","active":""}
+    "house" : {"select": {"geog": [], "name": []}, "data": null, "counties": null, "name_sing":"State House District", "name":"State House","color":"#0f0","active":""}
 };
 var funding = {
     "5310": {},
@@ -1753,7 +1753,7 @@ function grabDistrictData(d){
         title = 'Representative';
     }
     console.log(d);
-    $('.district-data').append(
+    $('.district-data').html(
         currentLayer !== 'congress' ?
             '<h4>District</h4>' +
             '<div class="row"><div class="col-xs-3"><img width="100" src="' + d.photo_url + '"></div>' +
@@ -1765,7 +1765,7 @@ function grabDistrictData(d){
         :
             '<h4>District</h4>' +
             // '<img width="100" src="' + d.photo_url + '">' +
-            '<p>' + title + ': ' + d.first_name + ' ' + d.last_name + ' (' + d.party[0] +') <a href="mailto:' + d.oc_email + '">email</a></p>' +
+            '<h5>' + title + ' ' + d.first_name + ' ' + d.last_name + ' (' + d.party[0] +')</h5>' +
             '<p>email: <a href="mailto:' + d.oc_email + '">'+d.oc_email+'</a></p>' +
             '<p>phone: <a href="tel:' + d.phone + '">'+toPhone(d.phone)+'</a></p>' +
             '<p>web: <a href="' + d.website + '">'+d.website+'</a></p>' +
