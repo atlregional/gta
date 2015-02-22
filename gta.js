@@ -730,7 +730,7 @@ info.update = function (props) {
             console.log("getting funding string for district")
             console.log(geoLayers[currentLayer].counties);
             counties = getCounties(geoLayers[currentLayer].counties[name]);
-        	data = toSentence(counties);
+        	  data = toSentence(counties);
             name = +name;
             data = '<h4>Counties</h4><p>'+geoLayers[currentLayer].name_sing+ ' ' + name +' contains some or all of the following counties: ' + data + '.</p>';
 
@@ -739,6 +739,7 @@ info.update = function (props) {
             // serviceData = getDataString(counties)
         }
         else if (currentLayer == "county"){
+            getCensusData(id, currentLayer);
             ruralString = getDataString([name]);
             urbanString = getDataString([name]);
             // serviceData = getDataString(
@@ -2352,7 +2353,11 @@ function getCensusData(id, layer){
     var d;
     for (var i = data.length - 1; i >= 0; i--) {
         var row = data[i];
-        if (row[row.length - 1] === id){
+        var rowId = row[row.length - 1];
+        if (layer === 'congress'){
+          rowId = '0' + rowId;
+        }
+        if (rowId === id){
             d = row;
         }
     };
