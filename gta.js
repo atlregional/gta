@@ -2357,6 +2357,9 @@ function getCensusData(id, layer){
         if (layer === 'congress'){
           rowId = '0' + rowId;
         }
+        else if (layer === 'county'){
+          rowId = '13' + rowId;
+        }
         if (rowId === id){
             d = row;
         }
