@@ -310,6 +310,7 @@ info.update = function (props) {
             // serviceData = getDataString(propsunties);
         }
         else if (isDistrict(currentLayer) && typeof geoLayers[currentLayer].counties !== "undefined") {
+            getCensusData(id, currentLayer);
         	$('#'+currentLayer+'-name-select').val(name);
             grabDistrictData(props);
             console.log("getting funding string for district")
@@ -1828,6 +1829,21 @@ function makeUL(array, array2) {
 }
 
 function getCensusData(id, layer){
+    var dataCat = {
+        "B09020_001E" : "65 years older",
+        "B21001_005E" : "Veterans",
+        "B06012_001E" : "poverty status",
+        "B18101_001E" : "total disability",
+        "B01003_001E" : "TOTAL POPULATION",
+        "B02009_001E" : "BLACK OR AFRICAN AMERICAN ALONE OR IN COMBINATION WITH ONE OR MORE OTHER RACES",
+        "B08203_014E" : "1 worker no vehicle",
+        "B08203_020E" : "2 workers no vehicles",
+        "B08203_021E" : "2 workers 1 vehicle",
+        "B08203_026M" : "3 or more workers no vehicle",
+        "B08203_027E" : "3 or more workers 1 vehicle",
+        "B08203_028E" : "3 or more workers 2 vehicle",
+        "B08301_010E" : "public transportation"
+    }
     jQuery.support.cors = true;
     var key = 'ae0a36244578b82533c25a3aea85bb66052aecfc';
     var url = 'http://api.census.gov/data/2013/acs5';
@@ -1835,25 +1851,55 @@ function getCensusData(id, layer){
     var chamberName;
     // var districtData;
     if (layer === 'senate') {
-        geog = 'state+legislative+district+(upper+chamber):' + id;
+        geog = 'state legislative district (upper chamber):' + id;
     }
     else if (layer === 'house') {
-        geog = 'state+legislative+district+(lower+chamber):' + id;
+        geog = 'state legislative district (lower chamber):' + id;
     }
     else if (layer ==='congress') {
-        geog = 'state+legislative+district+(upper+chamber):' + id;
+        geog = 'congressional district:' + id;
     }
     else if (layer ==='county') {
         geog = 'county:' + id.substr(2);
     }
     var params = {
-        'get': 'NAME,B09020_001E,B21001_005E,B06012_001E,B18101_001E,B01003_001E,B02009_001E,B08203_014E,B08203_020E,B08203_021E,B08203_026M,B08203_027E,B08203_028E,B08301_010E',
+        'get': 'B09020_001E,B21001_005E,B06012_001E,B18101_001E,B01003_001E,B02009_001E,B08203_014E,B08203_020E,B08203_021E,B08203_026M,B08203_027E,B08203_028E,B08301_010E',
         'for': geog,
         'in': 'state:13',
         'key': key
     };
     $.getJSON(url, params, function(data){
-        console.log(data)
+        console.log(data);
+        var cat = data[0];
+        var d = data[1];
+        var carless = 0;
+        var peopleTable = document.createElement('table');
+        peopleTable.className = 'table';
+        for (var i = cat.length - 1; i >= 0; i--) {
+            // console.log(cat[i]);
+            // console.log(dataCat[cat[i]]);
+            if (/(B08203)\w+/.test(cat[i])){
+                carless += +d[i];
+            }
+            else{
+                $('.' + cat[i]).html(numberWithCommas(+d[i]));
+            }
+            if (i === 0){
+                console.log(carless)
+                $('.B08203').html(numberWithCommas(carless));
+            }
+            // var newRow = document.createElement('tr');
+            // var cellCat = document.createElement('td');
+            // var cellVal = document.createElement('td');
+            // cellCat.innerHTML = dataCat[cat[i]];
+            // cellVal.innerHTML = d[i];
+            // newRow.appendChild(cellCat);
+            // newRow.appendChild(cellVal);
+            // peopleTable.appendChild(newRow);
+        };
+        $('.people-content').html(
+            // peopleTable
+            // data[1].toString()
         // $('.district-data').append(
         //     d.chamber !== 'house' ?
         //         '<h4>District</h4>' +
@@ -1869,6 +1915,10 @@ function getCensusData(id, layer){
         //         '<p><i class="fa fa-envelope-o"></i> <a href="mailto:' + d.oc_email + '">'+d.oc_email+'</a></p>' +
         //         '<p><i class="fa fa-external-link"></i> <a href="' + d.website + '">'+d.website+'</a></p>' +
         //         ''
-        // );
+        );
     });
+}
+
+function test(data){
+    console.log(data);
 }

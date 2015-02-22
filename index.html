@@ -43,10 +43,10 @@
                 <li><a href="#service" role="tab"><i class="fa fa-bar-chart"></i></a></li>
                 <li><a href="#funding" role="tab"><i class="fa fa-usd"></i></a></li>
                 <li><a href="#people" role="tab"><i class="fa fa-users"></i></a></li>
-                <li><a href="#fleet" role="tab"><i class="fa fa-bus"></i></a></li>
+                <!-- <li><a href="#fleet" role="tab"><i class="fa fa-bus"></i></a></li> -->
                 <li><a href="#info" role="tab"><i class="fa fa-info"></i></a></li>
                 <!-- <li><a href="#pdf" role="tab"><i class="fa fa-file-pdf-o"></i></a></li> -->
-                <li><a href="#settings" role="tab"><i class="fa fa-gear"></i></a></li>
+                <!-- <li><a href="#settings" role="tab"><i class="fa fa-gear"></i></a></li> -->
             </ul>
 
             <!-- Tab panes -->
@@ -87,16 +87,48 @@
                 </div>
                 <div class="sidebar-pane" id="people">
                     <h3>Demographics</h3>
-                    <!-- <button id="back-button" role="button" style="position:relative; top:-50px;" class="btn visible-xs pdf-hide pull-right btn-default" onclick="sidebar.open('home')"><i class="fa fa-home"></i></button> -->
-                    <!-- <button id="map-button" role="button" style="position:relative; top:-50px;" class="btn visible-xs pdf-hide btn-default pull-right" onclick="sidebar.close()"><i class="fa fa-globe"></i></button> -->
-                    <div id="people-content"></div>
+                    <p>Populations that rely on transit to get around are often referred to as transit dependent.</p>
+                    <table class="table">
+                        <tr>
+                            <td class="B01003_001E-label">Total population</td>
+                            <td class="B01003_001E text-right"></td>
+                        </tr>
+                        <tr>
+                            <td class="B08301_010E-label">Commutes on public transit</td>
+                            <td class="B08301_010E text-right"></td>
+                        </tr>
+                        <tr>
+                            <td class="B09020_001E-label">65 years older</td>
+                            <td class="B09020_001E text-right"></td>
+                        </tr>
+                        <tr>
+                            <td class="B21001_005E-label">Veterans</td>
+                            <td class="B21001_005E text-right"></td>
+                        </tr>
+                        <tr>
+                            <td class="B06012_001E-label">Living in poverty</td>
+                            <td class="B06012_001E text-right"></td>
+                        </tr>
+                        <tr>
+                            <td class="B18101_001E-label">Living with a disability</td>
+                            <td class="B18101_001E text-right"></td>
+                        </tr>
+                        
+                        <tr>
+                            <td class="B02009_001E-label">African American</td>
+                            <td class="B02009_001E text-right"></td>
+                        </tr>
+                        <tr>
+                            <td class="B08203-label">Less than one car per worker</td>
+                            <td class="B08203 text-right"></td>
+                        </tr>
+                    </table>
+                    <div class="people-content"></div>
                 </div>
-                <div class="sidebar-pane" id="fleet">
+                <!-- <div class="sidebar-pane" id="fleet">
                     <h3>Fleet</h3>
-                    <!-- <button id="back-button" role="button" style="position:relative; top:-50px;" class="btn visible-xs pdf-hide pull-right btn-default" onclick="sidebar.open('home')"><i class="fa fa-home"></i></button> -->
-                    <!-- <button id="map-button" role="button" style="position:relative; top:-50px;" class="btn visible-xs pdf-hide btn-default pull-right" onclick="sidebar.close()"><i class="fa fa-globe"></i></button> -->
                     <div id="fleet-content"></div>
-                </div>
+                </div> -->
                 <div class="sidebar-pane" id="info">
                     <h3>District Info</h3>
                     <!-- <button id="back-button" role="button" style="position:relative; top:-50px;" class="btn visible-xs pdf-hide pull-right btn-default" onclick="sidebar.open('home')"><i class="fa fa-home"></i></button> -->
@@ -108,12 +140,10 @@
                 <!-- <div class="sidebar-pane" id="pdf">
                     <h3>District Info</h3>
                 </div> -->
-                <div class="sidebar-pane" id="settings">
+                <!-- <div class="sidebar-pane" id="settings">
                     <h3>Settings</h3>
-                    <!-- <button id="back-button" role="button" style="position:relative; top:-50px;" class="btn visible-xs pdf-hide pull-right btn-default" onclick="sidebar.open('home')"><i class="fa fa-home"></i></button> -->
-                    <!-- <button id="map-button" role="button" style="position:relative; top:-50px;" class="btn visible-xs pdf-hide btn-default pull-right" onclick="sidebar.close()"><i class="fa fa-globe"></i></button> -->
                     <div id="settings-content"></div>
-                </div>
+                </div> -->
             </div>
         </div>
         <div id="pdf">
