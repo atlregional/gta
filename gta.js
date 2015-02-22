@@ -1826,20 +1826,49 @@ function makeUL(array, array2) {
     // Finally, return the constructed list:
     return list;
 }
-// require_baseUrl_override = '../..';
-//     require(['../../libs/require/config'], function(){
-//     require(['html2pdf'], function(){
 
-//         var pdf = new jsPDF('p', 'pt', 'letter');
-//         pdf.canvas.height = 72 * 11;
-//         pdf.canvas.width = 72 * 8.5;
-        
-//         //html2pdf(document.documentElement.innerHTML, pdf, function(pdf){
-//         html2pdf(document.body, pdf, function(pdf){
-//                 var iframe = document.createElement('iframe');
-//                 iframe.setAttribute('style','position:absolute;right:0; top:0; bottom:0; height:100%; width:500px');
-//                 document.body.appendChild(iframe);
-//                 iframe.src = pdf.output('datauristring');
-//         });
-//       }); // require
-//       }); // require
+function getCensusData(id, layer){
+    jQuery.support.cors = true;
+    var key = 'ae0a36244578b82533c25a3aea85bb66052aecfc';
+    var url = 'http://api.census.gov/data/2013/acs5';
+    var chamber = '';
+    var chamberName;
+    // var districtData;
+    if (layer === 'senate') {
+        geog = 'state+legislative+district+(upper+chamber):' + id;
+    }
+    else if (layer === 'house') {
+        geog = 'state+legislative+district+(lower+chamber):' + id;
+    }
+    else if (layer ==='congress') {
+        geog = 'state+legislative+district+(upper+chamber):' + id;
+    }
+    else if (layer ==='county') {
+        geog = 'county:' + id.substr(2);
+    }
+    var params = {
+        'get': 'NAME,B09020_001E,B21001_005E,B06012_001E,B18101_001E,B01003_001E,B02009_001E,B08203_014E,B08203_020E,B08203_021E,B08203_026M,B08203_027E,B08203_028E,B08301_010E',
+        'for': geog,
+        'in': 'state:13',
+        'key': key
+    };
+    $.getJSON(url, params, function(data){
+        console.log(data)
+        // $('.district-data').append(
+        //     d.chamber !== 'house' ?
+        //         '<h4>District</h4>' +
+        //         '<div class="row"><div class="col-sm-2 col-xs-2"><img width="100" src="' + d.photo_url + '"></div>' +
+        //         '<div class="col-sm-10 col-xs-10"><h5>' + title + ' ' + d.first_name + ' ' + d.last_name + ' (' + d.party[0] +')</h5>' +
+        //         '<p><i class="fa fa-envelope-o"></i> <a href="mailto:' + d.email + '">'+d.email+'</a></p>' +
+        //         '<p><i class="fa fa-external-link"></i> <a href="' + d.url + '">'+d.url+'</a></p>' +
+        //         '</div></div>'
+        //     :
+        //         '<h4>District</h4>' +
+        //         // '<img width="100" src="' + d.photo_url + '">' +
+        //         '<p>' + title + ': ' + d.first_name + ' ' + d.last_name + ' (' + d.party[0] +') <a href="mailto:' + d.oc_email + '">email</a></p>' +
+        //         '<p><i class="fa fa-envelope-o"></i> <a href="mailto:' + d.oc_email + '">'+d.oc_email+'</a></p>' +
+        //         '<p><i class="fa fa-external-link"></i> <a href="' + d.website + '">'+d.website+'</a></p>' +
+        //         ''
+        // );
+    });
+}
