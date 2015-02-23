@@ -715,6 +715,7 @@ info.update = function (props) {
         }
         if (currentLayer == "rc"){
         	console.log(props.counties);
+          getCensusData(props.counties, currentLayer);
             data = toSentence(props.counties);
             data = '<h4>Counties</h4><p>'+name+' contains some or all of the following counties: ' + data + '.</p>';
 
@@ -2333,6 +2334,19 @@ function makeUL(array, array2) {
 //         );
 //     });
 // }
+function getCountyIds(names){
+  var counties = geoLayers.county.data.toGeoJSON().features;
+  var geoIds = [];
+  for (var i = names.length - 1; i >= 0; i--) {
+    for (var j = counties.length - 1; j >= 0; j--) {
+      if (names[i] === counties[j].properties.name){
+        geoIds.push(counties[j].properties.GEOID10);
+      }
+    }
+  }
+  return geoIds;
+}
+
 function getCensusData(id, layer){
     var dataCat = {
         "B09020_001E" : "65 years older",
@@ -2349,7 +2363,15 @@ function getCensusData(id, layer){
         "B08203_028E" : "3 or more workers 2 vehicle",
         "B08301_010E" : "public transportation"
     }
-    var data = geoLayers[layer].census;
+    var data;
+    var ids;
+    if(layer !== 'rc'){
+      data = geoLayers[layer].census;
+    }
+    else{
+      data = geoLayers.county.census;
+      ids = getCountyIds(id);
+    }
     var d;
     for (var i = data.length - 1; i >= 0; i--) {
         var row = data[i];
@@ -2359,6 +2381,20 @@ function getCensusData(id, layer){
         }
         else if (layer === 'county'){
           rowId = '13' + rowId;
+        }
+        else if (layer === 'rc'){
+          rowId = '13' + rowId;
+          if(ids.indexOf(rowId) > -1){
+            if(typeof d === 'undefined'){
+              d = row;
+            }
+            else{
+              for (var j = row.length - 1; j >= 0; j--) {
+                d[j] = (+d[j]) + (+row[j]);
+              }
+            }
+            continue;
+          }
         }
         if (rowId === id){
             d = row;
