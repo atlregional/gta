@@ -1031,13 +1031,7 @@ info.update = function (props) {
       $('.name').html(currentLayer === 'rc' ? id.toUpperCase() : getLongName(name));
       $('.name-title').html(getLongNameTitle(name));
       var url = 'atlregional.github.io/gta/#' + currentLayer + '/' + id;
-      var pdfUrl;
-      if(typeof window.location.path !== 'undefined'){
-        pdfUrl = window.location.origin + window.location.path +  'pdf/' + currentLayer + '/' + id + '.pdf';
-      }
-      else{
-        pdfUrl = window.location.origin + '/pdf/' + currentLayer + '/' + id + '.pdf';
-      }
+      var pdfUrl = window.location.origin + window.location.pathname +  'pdf/' + currentLayer + '/' + id + '.pdf';
       console.log(pdfUrl);
       var fundingUrl = url + '/funding';
       $('.funding-url').html(fundingUrl);
