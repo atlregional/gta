@@ -84,7 +84,7 @@
                     </p>
                     <div id="urban-service-chart"></div>
                                 <p style="font-size:x-small; position:relative; bottom:5px;">Source: National Transit Database (NTD) 2013 Urban Service; NTD Rural 2013 Subrecipient Service Data</p>
-            <p style="font-size:x-small; position:relative; bottom:10px;">Note: Transit data are aggregated by county and subject to overestimation in small districts. Demographics are reported for the district alone.</p>
+            <p style="font-size:x-small; position:relative; bottom:15px;">Note: Transit data are aggregated by county and subject to overestimation in small districts. Demographics are reported for the district alone.</p>
 
                 </div>
                 <div class="sidebar-pane" id="funding">
@@ -111,7 +111,7 @@
                     </p>
                     <div id="urban-funding-chart"></div>
                                 <p style="font-size:x-small; position:relative; bottom:5px;">Source: National Transit Database (NTD) 2013 Urban Tax Funds, Directly Generated Funds; NTD Rural 2013 Subrecipient Financial Data</p>
-            <p style="font-size:x-small; position:relative; bottom:10px;">Note: Transit data are aggregated by county and subject to overestimation in small districts. Demographics are reported for the district alone.</p>
+            <p style="font-size:x-small; position:relative; bottom:15px;">Note: Transit data are aggregated by county and subject to overestimation in small districts. Demographics are reported for the district alone.</p>
 
                 </div>
                 <div class="sidebar-pane" id="people">
@@ -130,43 +130,47 @@
                         appointments all depend daily on their local transit systems.
                     </p>
                     <table class="table table-condensed col-xs-6 col-sm-6" style="font-size:small">
-                        <tr>
-                            <td style="font-weight:bold;" class="B01003-label"></td>
-                            <td style="font-weight:bold;" class="B01003 text-right"></td>
-                        </tr>
-                        <tr>
-                            <!-- <td class="B08301-label"></td>
-                            <td class="B08301 text-right"></td> -->
-                        </tr>
-                        <tr>
-                            <td class="B01001-label"></td>
-                            <td class="B01001 text-right"></td>
-                        </tr>
-                        <tr>
-                            <td class="B09020-label"></td>
-                            <td class="B09020 text-right"></td>
-                        </tr>
-                        <tr>
-                            <td class="B21001-label"></td>
-                            <td class="B21001 text-right"></td>
-                        </tr>
-                        <tr>
-                            <td class="B06012-label"></td>
-                            <td class="B06012 text-right"></td>
-                        </tr>
-                        <tr>
-                            <td class="B99181-label"></td>
-                            <td class="B99181 text-right"></td>
-                        </tr>
-                        
-                        <tr>
-                            <!-- <td class="B02009-label"></td>
-                            <td class="B02009 text-right"></td> -->
-                        </tr>
-                        <tr>
-                            <td class="B08203-label"></td>
-                            <td class="B08203 text-right"></td>
-                        </tr>
+                        <thead>
+                            <tr>
+                                <th class="B01003-label"></th>
+                                <th class="B01003 text-right"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <!-- <td class="B08301-label"></td>
+                                <td class="B08301 text-right"></td> -->
+                            </tr>
+                            <tr>
+                                <td class="B01001-label"></td>
+                                <td class="B01001 text-right"></td>
+                            </tr>
+                            <tr>
+                                <td class="B09020-label"></td>
+                                <td class="B09020 text-right"></td>
+                            </tr>
+                            <tr>
+                                <td class="B21001-label"></td>
+                                <td class="B21001 text-right"></td>
+                            </tr>
+                            <tr>
+                                <td class="B06012-label"></td>
+                                <td class="B06012 text-right"></td>
+                            </tr>
+                            <tr>
+                                <td class="B99181-label"></td>
+                                <td class="B99181 text-right"></td>
+                            </tr>
+                            
+                            <tr>
+                                <!-- <td class="B02009-label"></td>
+                                <td class="B02009 text-right"></td> -->
+                            </tr>
+                            <tr>
+                                <td class="B08203-label"></td>
+                                <td class="B08203 text-right"></td>
+                            </tr>
+                        </tbody>
                     </table>
                     <div class="people-content"></div>
                 </div>
@@ -181,9 +185,12 @@
                     <div class="district-data"></div>
                     <div class="counties"></div>
                     <h4>Transit agencies</h4>
-                    <p>The following transit agencies operate in <span class="name"></span>:</p>
-                    <table class="table table-condensed agency-list" style="font-size:small"></table>
-                    <!-- <div class="agency-list"></div> -->
+                    <!-- <p>The following transit agencies operate in <span class="name"></span>:</p> -->
+                    <table class="table table-borderless table-condensed agency-list" style="font-size:small"></table>
+                    <!-- <div class="agency-list row">
+                        <div class="col-xs-6 agency-list-0" style="padding-right:0px"></div>
+                        <div class="col-xs-6 agency-list-1" style="padding-left:0px"></div>
+                    </div> -->
                 </div> 
                 <!-- <div class="sidebar-pane" id="pdf">
                     <h3>District Info</h3>
@@ -209,7 +216,7 @@
                 </div>
             </div>
             <div class="people-info">
-                <h4>Who lives in your district?</h4>
+                <h4>Who lives in <span class="name"></span>?</h4>
                     <p>
                         More and more travellers are choosing transit. Millenials in particular are opting for transit passes instead of driver's licenses. According to the 
                         <a href="http://transitcenter.org/ourwork/mobility-attitudes-survey/">Who’s On Board: 
@@ -224,51 +231,58 @@
                         appointments all depend daily on their local transit systems.
                     </p>
                     <table class="table table-condensed col-xs-6 col-sm-6" style="font-size:small">
-                        <tr>
-                            <td style="font-weight:bold;" class="B01003-label"></td>
-                            <td style="font-weight:bold;" class="B01003 text-right"></td>
-                        </tr>
-                        <tr>
-                            <!-- <td class="B08301-label"></td>
-                            <td class="B08301 text-right"></td> -->
-                        </tr>
-                        <tr>
-                            <td class="B01001-label"></td>
-                            <td class="B01001 text-right"></td>
-                        </tr>
-                        <tr>
-                            <td class="B09020-label"></td>
-                            <td class="B09020 text-right"></td>
-                        </tr>
-                        <tr>
-                            <td class="B21001-label"></td>
-                            <td class="B21001 text-right"></td>
-                        </tr>
-                        <tr>
-                            <td class="B06012-label"></td>
-                            <td class="B06012 text-right"></td>
-                        </tr>
-                        <tr>
-                            <td class="B99181-label"></td>
-                            <td class="B99181 text-right"></td>
-                        </tr>
-                        
-                        <tr>
-                            <!-- <td class="B02009-label"></td>
-                            <td class="B02009 text-right"></td> -->
-                        </tr>
-                        <tr>
-                            <td class="B08203-label"></td>
-                            <td class="B08203 text-right"></td>
-                        </tr>
+                        <thead>
+                            <tr>
+                                <th class="B01003-label"></th>
+                                <th class="B01003 text-right"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <!-- <td class="B08301-label"></td>
+                                <td class="B08301 text-right"></td> -->
+                            </tr>
+                            <tr>
+                                <td class="B01001-label"></td>
+                                <td class="B01001 text-right"></td>
+                            </tr>
+                            <tr>
+                                <td class="B09020-label"></td>
+                                <td class="B09020 text-right"></td>
+                            </tr>
+                            <tr>
+                                <td class="B21001-label"></td>
+                                <td class="B21001 text-right"></td>
+                            </tr>
+                            <tr>
+                                <td class="B06012-label"></td>
+                                <td class="B06012 text-right"></td>
+                            </tr>
+                            <tr>
+                                <td class="B99181-label"></td>
+                                <td class="B99181 text-right"></td>
+                            </tr>
+                            
+                            <tr>
+                                <!-- <td class="B02009-label"></td>
+                                <td class="B02009 text-right"></td> -->
+                            </tr>
+                            <tr>
+                                <td class="B08203-label"></td>
+                                <td class="B08203 text-right"></td>
+                            </tr>
+                        </tbody>
                     </table>
                     <p style="font-size:x-small; position:relative; bottom:20px;">Source: American Community Survey 2013 5-year estimates</p>
             </div>
-            <h4>What transit providers operate in your district?</h4>
-            <p>The following transit agencies operate in <span class="name"></span>:</p>
-            <table class="table table-condensed agency-list" style="font-size:small"></table>
-            <!-- <div class="agency-list"></div> -->
-            <h3>How is transit used in your district?</h3>
+            <h4>What transit providers operate in <span class="name"></span>?</h4>
+            <!-- <p>The following transit agencies operate in <span class="name"></span>:</p> -->
+            <table class="table table-borderless table-condensed agency-list" style="font-size:small"></table>
+            <!-- <div class="agency-list row">
+                <div class="col-xs-6 agency-list-0" style="padding-right:0px"></div>
+                <div class="col-xs-6 agency-list-1" style="padding-left:0px"></div>
+            </div> -->
+            <h3>How is transit used in the area?</h3>
             <p>
                 Transit in Georgia serves hundreds of thousands of Georgians every day. <strong>Transit agencies operating in <span class="name"></span> provide <span class="total-trips"></span> trips annually.</strong>
                 These services are especially important to the <strong><span class="B09020"></span> 
@@ -281,8 +295,8 @@
             </p>
             <div id="pdf-service-chart"></div>
             <p style="font-size:x-small; position:relative; bottom:5px;">Source: National Transit Database (NTD) 2013 Urban Service; NTD Rural 2013 Subrecipient Service Data</p>
-            <p style="font-size:x-small; position:relative; bottom:10px;">Note: Transit data are aggregated by county and subject to overestimation in small districts. Demographics are reported for the district alone.</p>
-            <h3>How much does transit cost in your district?</h3>
+            <p style="font-size:x-small; position:relative; bottom:15px;">Note: Transit data are aggregated by county and subject to overestimation in small districts. Demographics are reported for the district alone.</p>
+            <h3>How much does transit cost in the area?</h3>
             <p>
                 Transit expenses are divided into:
                 <ul>
@@ -301,7 +315,7 @@
             </p>
             <div id="pdf-funding-chart"></div>
             <p style="font-size:x-small; position:relative; bottom:5px;">Source: National Transit Database (NTD) 2013 Urban Tax Funds, Directly Generated Funds; NTD Rural 2013 Subrecipient Financial Data</p>
-            <p style="font-size:x-small; position:relative; bottom:10px;">Note: Transit data are aggregated by county and subject to overestimation in small districts. Demographics are reported for the district alone.</p>
+            <p style="font-size:x-small; position:relative; bottom:15px;">Note: Transit data are aggregated by county and subject to overestimation in small districts. Demographics are reported for the district alone.</p>
 
             <!-- <div class="footnotes">
                 <p><strong>References</strong></p>

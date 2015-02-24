@@ -14,10 +14,20 @@ html, body, #map {
 .url{
     color:#337ab7;
 }
-.agency-list {page-break-after: always;
-    -webkit-column-count: 2; /* Chrome, Safari, Opera */
-    -moz-column-count: 2; /* Firefox */
-    column-count: 2;}
+.agency-list {
+    page-break-after: always;
+    /*-webkit-column-count: 2; 
+    -moz-column-count: 2; 
+    column-count: 2;*/
+}
+/*.agency-list ul {
+    list-style-type: none;
+    padding-left: 10px;
+    -webkit-column-count: 2; 
+    -moz-column-count: 2; 
+    column-count: 2;
+}*/
+.table-borderless td, .table-borderless th { border: 0 !important; }
 .color { fill:rgb(8,48,107); }
 .info {
     padding: 6px 8px;

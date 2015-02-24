@@ -1039,6 +1039,8 @@ info.update = function (props) {
       $('.service-url').html(serviceUrl);
       $('.service-url').attr('href', 'http://' + serviceUrl);
       $('.agency-list').html(populateTable(urbanString.agencyNames, urbanString.agencies));
+      // $('.agency-list-0').html(makeUL(urbanString.agencyNames.slice(0, Math.floor(urbanString.agencyNames.length/2)), urbanString.agencies.slice(0, Math.floor(urbanString.agencies.length/2))));
+      // $('.agency-list-1').html(makeUL(urbanString.agencyNames.slice(Math.floor(urbanString.agencyNames.length/2), urbanString.agencies.length - 1), urbanString.agencies.slice(Math.floor(urbanString.agencies.length/2), urbanString.agencies.length - 1)));
       if (currentStat.format == "Table"){
           $('#funding-content').append(urbanString.fundingString);
           $('#service-content').append(urbanString.serviceString);
