@@ -51,7 +51,7 @@
 
             <!-- Tab panes -->
             <div class="sidebar-content active">
-            <a role="button" class="download-pdf btn btn-default pull-right" title="Download pdf summary" style="margin-top:22px; margin-right:20px;" href=""><i class="fa fa-download"></i></a>
+            <a role="button" class="download-pdf btn btn-default pull-right" title="Download pdf summary" style="margin-top:22px; margin-right:20px;" href=""><i class="fa fa-file-pdf-o"></i></a>
                 <div class="sidebar-pane" id="home">
                     <!-- <button role="button" style="position:relative; top:-50px;" class="download-pdf btn pull-right btn-default" onclick="sidebar.open('home')"><i class="fa fa-home"></i></button> -->
                     <h3>Transit in Georgia</h3>
@@ -63,9 +63,13 @@
                     </form>
                     <div id="home-content"></div>
                     <p class="large">3. Choose a <span data-toggle="tooltip" class="dotted" data-original-title="All data are for FY 2013">data</span> category.</p>
-                    <button id="service-button" role="button" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Service data" onclick="toggleTab(this)"><i class="fa fa-bar-chart"></i></button>
-                    <button id="funding-button" role="button" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Funding data" onclick="toggleTab(this)"><i class="fa fa-usd"></i></button>
-                    <button id="people-button" role="button" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Demographics data" onclick="toggleTab(this)"><i class="fa fa-users"></i></button>
+                    <!-- <div class="row"> -->
+                        <button id="service-button" role="button" class="btn btn-default" title="Service data" onclick="toggleTab(this)"><i class="fa fa-bar-chart"></i></button>
+                        <button id="funding-button" role="button" class="btn btn-default" title="Funding data" onclick="toggleTab(this)"><i class="fa fa-usd"></i></button>
+                        <button id="people-button" role="button" class="btn btn-default" title="Demographics data" onclick="toggleTab(this)"><i class="fa fa-users"></i></button>
+                        <button id="people-button" role="button" class="btn btn-default" title="District info" onclick="toggleTab(this)"><i class="fa fa-info"></i></button>
+                        <a role="button" class="download-pdf btn btn-default pull-right" style="padding-top:3px; padding-bottom:3px;" title="Download pdf summary" href="">Download summary <i class="fa fa-file-pdf-o"></i></a>
+                    <!-- </div> -->
                     <h4>Examples</h4>
                     <button role="button" class="btn btn-default" onclick="window.location.hash='#congress/010/funding';location.reload();">View Funding for Senate 10</button>
                     <button role="button" class="btn btn-default" onclick="window.location.hash='#rc/arc/service';location.reload();">View Service for ARC</button>
@@ -174,6 +178,7 @@
                             </tr>
                         </tbody>
                     </table>
+                    <p style="font-size:x-small; position:relative; bottom:20px;">Source: American Community Survey 2013 5-year estimates</p>
                     <div class="people-content"></div>
                 </div>
                 <!-- <div class="sidebar-pane" id="fleet">
