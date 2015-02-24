@@ -14,7 +14,10 @@ html, body, #map {
 .url{
     color:#337ab7;
 }
-/*#pdf-service-chart {page-break-after: always;}*/
+.agency-list {page-break-after: always;
+    -webkit-column-count: 2; /* Chrome, Safari, Opera */
+    -moz-column-count: 2; /* Firefox */
+    column-count: 2;}
 .color { fill:rgb(8,48,107); }
 .info {
     padding: 6px 8px;

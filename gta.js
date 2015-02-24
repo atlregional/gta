@@ -1027,7 +1027,7 @@ info.update = function (props) {
       $('.info-content').empty();
       $('.counties').html(data);
       $('.name-sing').html(geoLayers[currentLayer].name_sing);
-      $('.name').html(getLongName(name));
+      $('.name').html(currentLayer === 'rc' ? id.toUpperCase() : getLongName(name));
       $('.name-title').html(getLongNameTitle(name));
       var url = 'atlregional.github.io/gta/#' + currentLayer + '/' + id;
       var fundingUrl = url + '/funding';
@@ -1038,7 +1038,7 @@ info.update = function (props) {
       var serviceUrl = url + '/service';
       $('.service-url').html(serviceUrl);
       $('.service-url').attr('href', 'http://' + serviceUrl);
-      $('.agency-list').html(makeUL(urbanString.agencyNames, urbanString.agencies));
+      $('.agency-list').html(populateTable(urbanString.agencyNames, urbanString.agencies));
       if (currentStat.format == "Table"){
           $('#funding-content').append(urbanString.fundingString);
           $('#service-content').append(urbanString.serviceString);
@@ -1824,7 +1824,7 @@ function getDataString(counties){
                                     var fullName = data[codeId[code].name];
                                     var name = data[codeId[code].abbr];
                                     if (name === "NA" || name === "" || name === "N/A"){
-                                        name = data[codeId[code].name]
+                                        name = data[codeId[code].name].split(' ')[0];
                                     }
                                     // Skip this loop if we've already counted the agency
                                     if (agencies.indexOf(name) > -1){
@@ -2213,8 +2213,17 @@ function getLongNameTitle(name){
 }
 
 function toSentence(arr){
-    var s = arr.slice(0, arr.length - 1).join(', ') + ", and " + arr.slice(-1);
-    return s;
+  var s;
+  if (arr.length === 1){
+    s = arr.join();
+  }
+  else if (arr.length === 2){
+    s = arr.join(' and ')
+  }
+  else{
+    s = arr.slice(0, arr.length - 1).join(', ') + ", and " + arr.slice(-1);
+  }
+  return s;
 }
 
 function makeUL(array, array2) {
@@ -2241,6 +2250,48 @@ function makeUL(array, array2) {
 
     // Finally, return the constructed list:
     return list;
+}
+function populateTable(array, array2) {
+  // Create the tbody element:
+  var tbody = document.createElement('tbody');
+    for(var i = 0; i < array.length; i++) {
+      // Create the row element:
+      var row = document.createElement('tr');
+        // Create the row item:
+        if (i % 2 === 0){
+          var item = document.createElement('td');
+          var item2 = document.createElement('td');
+          // Set its contents:
+          var text;
+          if (array[i] !== array2[i]){
+              text = array[i] + ' (' + array2[i] + ')';
+          }
+          else{
+              text = array[i];
+          }
+          var odd = array[i + 1];
+          var oddAbbr = array2[i + 1];
+          item.appendChild(document.createTextNode(text));
+          if(typeof odd !== 'undefined'){
+            var text;
+            if (odd !== oddAbbr){
+                text = odd + ' (' + oddAbbr + ')';
+            }
+            else{
+                text = odd;
+            }
+            item2.appendChild(document.createTextNode(text));
+          }
+          // Add it to the row:
+          row.appendChild(item);
+          row.appendChild(item2);
+          tbody.appendChild(row);
+        }
+        
+    }
+
+    // Finally, return the constructed list:
+    return tbody;
 }
 
 // function getCensusData(id, layer){
@@ -2344,6 +2395,12 @@ function getCountyIds(names){
     }
   }
   return geoIds;
+}
+
+function getAcronym(word){
+  var abbrev = word.match(/\b([A-Z])/g).join('');
+
+  return abbrev;
 }
 
 function getCensusData(id, layer){
