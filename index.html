@@ -70,14 +70,17 @@
                 </div>
                 <div class="sidebar-pane" id="service">
                     <h3><span data-toggle="tooltip" class="dotted" data-placement="right" data-original-title="All data are for FY 2013">Service</span></h3>
-                    <select class="form-control format-select" id="format-service" onchange="toggleFormat(this)"></select>
-                    <div id="service-content"></div>
+                    <form class="form-inline">
+                    <div class="form-group">
+                        <select class="form-control format-select" id="format-service" onchange="toggleFormat(this)"></select>
+                        <select class="form-control" id="service-select" onchange="toggleStat(this)"></select>
+                    </div>
+                    </form>
                     <p>
-                        Transit in Georgia includes rail, buses, vans, meeting 
-                        the needs of hundreds of thousands of Georgians every day. <strong>In <span class="name"></span>
-                        alone, transit operators provide <span class="total-trips">1,000,000</span> trips annually.</strong>
-                        These services are especially important to the <span class="B09020"></span> 
-                        elderly and <span class="B99181"></span> disabled riders that depend on transit
+                        Transit in Georgia includes rail, buses, and vans, meeting 
+                        the needs of hundreds of thousands of Georgians every day. <strong>Transit agencies operating in <span class="name"></span> provide <span class="total-trips"></span> trips annually.</strong>
+                        These services are especially important to the <strong><span class="B09020"></span> 
+                        elderly and <span class="B99181"></span> disabled riders</strong> that depend on transit
                         in this district.
                     </p>
                     <div id="urban-service-chart"></div>
@@ -87,15 +90,25 @@
                 </div>
                 <div class="sidebar-pane" id="funding">
                     <h3><span data-toggle="tooltip" class="dotted" data-placement="right" data-original-title="All data are for FY 2013">Funding</span></h3>
-                    <select class="form-control format-select" id="format-funding" onchange="toggleFormat(this)"></select>
+                    <form class="form-inline">
+                        <div class="form-group">
+                            <select class="form-control format-select" id="format-funding" onchange="toggleFormat(this)"></select>
+                            <select class="form-control" id="funding-select" onchange="toggleStat(this)"></select>
+                        </div>
+                    </form>
                     <div id="funding-content"></div>
                     <p>
-                        Transit expenses are divided into two types capital and operating. Capital expenses include 
-                        infrastructure and equipment, such as buses and vans (or "rolling stock"), facilities, and 
-                        technology. Operating expenses include the day-to-day activities required to operate the 
-                        system, such as salaries for bus operators and mechanics, regular vehicle and system maintenance, 
-                        and general administrative costs. <strong>Meeting operating expenses has traditionally been one of the most 
-                        significant challenges facing transit systems in Georgia.</strong>
+                        Transit expenses are divided into:
+                        <ul>
+                            <li>
+                                <strong>Capital</strong> - includes infrastructure and equipment, such as buses and vans (rolling stock), facilities, and technology. 
+                            </li>
+                            <li><strong>Operating</strong> - includes daily costs required to operate the 
+                                        system, such as salaries for bus operators and mechanics, regular vehicle and system maintenance, 
+                                        and general administrative costs. 
+                            </li>
+                        </ul>
+                    <!-- <strong>Meeting operating expenses has historically been challenging for many transit systems in Georgia.</strong> -->
                     </p>
                     <div id="urban-funding-chart"></div>
                                 <p style="font-size:x-small; position:relative; bottom:5px;">Source: National Transit Database 2013 Urban Tax Funds; National Transit Database 2013 Urban Directly Generated Funds; National Transit Database Rural 2013 Subrecipient Financial Data</p>
@@ -105,8 +118,7 @@
                 <div class="sidebar-pane" id="people">
                     <h3>Demographics</h3>
                     <p>
-                        While some folks have no choice but to ride transit, more and more are 
-                        riding transit by choice. In particular, the Millenial generation has generally opted to delay acquiring 
+                        While some ride transit out of necessity, more and more ride transit by choice. In particular, Millenials have opted to delay acquiring 
                         driver's licenses, choosing transit instead. According to the 
                         <a href="http://transitcenter.org/ourwork/mobility-attitudes-survey/">Who’s On Board: 
                         2014 Mobility Attitudes Survey</a>, in the South alone <strong>20% of people 
@@ -115,7 +127,7 @@
                     </p>
                     <p>
                         Still, some ride transit not because of its conveniences, but because it's the only way
-                        they can get around. Aging adults or persons with disabilities, folks
+                        they can get around. Aging adults or persons with disabilities, those
                         who cannot afford the costs of car ownership, and veterans that need transport to medical
                         appointments all depend daily on their local transit systems.
                     </p>
@@ -170,6 +182,9 @@
                     <!-- <button id="map-button" role="button" style="position:relative; top:-50px;" class="btn visible-xs pdf-hide btn-default pull-right" onclick="sidebar.close()"><i class="fa fa-globe"></i></button> -->
                     <div class="district-data"></div>
                     <div class="counties"></div>
+                    <h4>Transit agencies</h4>
+                    <p>The following transit agencies operate in <span class="name"></span>:</p>
+                    <div class="agency-list"></div>
                 </div> 
                 <!-- <div class="sidebar-pane" id="pdf">
                     <h3>District Info</h3>
@@ -181,8 +196,9 @@
             </div>
         </div>
         <div id="pdf">
-            <!-- <img src="stylesheets/images/gta.png" style="position:absolute; right:30px;" width="200px"> -->
+            <img src="stylesheets/images/gta.png" style="position:absolute; right:30px; z-index:-1000;" width="200px">
             <h2><span class="name-title"></span></h2>
+            <p><a class="url"></a></p>
             <h3>District information</h3>
             <div class="row">
                 <div class="pdf-map col-xs-4">
@@ -196,8 +212,7 @@
             <div class="people-info">
                 <h4>Who lives in your district?</h4>
                     <p>
-                        While some folks have no choice but to ride transit, more and more are 
-                        riding transit by choice. In particular, the Millenial generation has generally opted to delay acquiring 
+                        While some ride transit out of necessity, more and more ride transit by choice. In particular, Millenials have opted to delay acquiring 
                         driver's licenses, choosing transit instead. According to the 
                         <a href="http://transitcenter.org/ourwork/mobility-attitudes-survey/">Who’s On Board: 
                         2014 Mobility Attitudes Survey</a>, in the South alone <strong>20% of people 
@@ -206,7 +221,7 @@
                     </p>
                     <p>
                         Still, some ride transit not because of its conveniences, but because it's the only way
-                        they can get around. Aging adults or persons with disabilities, folks
+                        they can get around. Aging adults or persons with disabilities, those
                         who cannot afford the costs of car ownership, and veterans that need transport to medical
                         appointments all depend daily on their local transit systems.
                     </p>
@@ -256,32 +271,36 @@
             <div class="agency-list"></div>
             <h3>How is transit used in your district?</h3>
             <p>
-                Transit in Georgia includes rail, buses, vans, meeting 
-                the needs of hundreds of thousands of Georgians every day. <strong>In <span class="name"></span>
-                alone, transit operators provide <span class="total-trips">1,000,000</span> trips annually.</strong>
-                These services are especially important to the <span class="total-elderly">500,000</span> 
-                elderly and <span class="total-disabled">200,000</span> disabled riders that depend on transit
+                Transit in Georgia includes rail, buses, and vans, meeting 
+                the needs of hundreds of thousands of Georgians every day. <strong>Transit agencies operating in <span class="name"></span> provide <span class="total-trips"></span> trips annually.</strong>
+                These services are especially important to the <strong><span class="B09020"></span> 
+                elderly and <span class="B99181"></span> disabled riders</strong> that depend on transit
                 in this district.
             </p>
             <p>
-                The figure below shows the breakdown of unlinked passenger trips in <span class="name"></span>. 
-                 For a detailed breakdown of this and other service data, please visit <a class="service-url"></a>.
+                The figure below shows unlinked passenger trips, or the number of times passengers 
+                board vehicles, by agency in <span class="name"></span>. For details 
+                on this and other service data, visit <a class="service-url"></a>.
             </p>
             <div id="pdf-service-chart"></div>
             <p style="font-size:x-small; position:relative; bottom:5px;">Source: National Transit Database 2013 Urban Service; National Transit Database Rural 2013 Subrecipient Service Data</p>
             <p style="font-size:x-small; position:relative; bottom:10px;">Note: All transit data are for the entirety of the counties in which this district resides and hence subject to overestimation in small districts, whereas demographic data are reported only for <span class="name"></span>.</p>
             <h3>How much does transit cost in your district?</h3>
             <p>
-                Transit expenses are divided into two types capital and operating. Capital expenses include 
-                infrastructure and equipment, such as buses and vans (or "rolling stock"), facilities, and 
-                technology. Operating expenses include the day-to-day activities required to operate the 
-                system, such as salaries for bus operators and mechanics, regular vehicle and system maintenance, 
-                and general administrative costs. <strong>Meeting operating expenses has traditionally been one of the most 
-                significant challenges facing transit systems in Georgia.</strong>
+                Transit expenses are divided into:
+                <ul>
+                    <li>
+                        <strong>Capital</strong> - includes infrastructure and equipment, such as buses and vans (rolling stock), facilities, and technology. 
+                    </li>
+                    <li><strong>Operating</strong> - includes daily costs required to operate the 
+                        system, such as salaries for bus operators and mechanics, regular vehicle and system maintenance, 
+                        and general administrative costs. 
+                    </li>
+                </ul>
+                <!-- <strong>Meeting operating expenses has historically been challenging for many transit systems in Georgia.</strong> -->
             </p>
             <p>
-                The figure below shows all funding (both capital and operating) categorized by funding source. For a 
-                detailed breakdown of this funding data, please visit <a class="funding-url"></a>.
+                The figure below shows all funding (both capital and operating) categorized by funding source. For details on this funding data, visit <a class="funding-url"></a>.
             </p>
             <div id="pdf-funding-chart"></div>
             <p style="font-size:x-small; position:relative; bottom:5px;">Source: National Transit Database 2013 Urban Tax Funds; National Transit Database 2013 Urban Directly Generated Funds; National Transit Database Rural 2013 Subrecipient Financial Data</p>

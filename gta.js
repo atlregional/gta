@@ -786,6 +786,16 @@ info.update = function (props) {
         }
         
     }
+    var serviceTotal = 0;
+    for (var i = urbanString.serviceCol.length - 1; i >= 0; i--) {
+      var row = urbanString.serviceCol[i];
+      for (var j = row.length - 1; j >= 0; j--) {
+        if(!isNaN(row[j])){
+          serviceTotal += row[j];
+        }
+      }
+    }
+    $('.total-trips').html(numberWithCommas(serviceTotal));
     if (typeof urbanString.fundingCol[0] !== 'undefined' && currentStat.format == "Chart"){
         urbanString.fundingCol[0].splice(0, 0, 'x');
         console.log(urbanString)
@@ -939,6 +949,7 @@ info.update = function (props) {
                   first += '<tr class="c3-tooltip-name-total"><td class="name"><strong>Total</strong></td>';
                   first += '<td class="value"><strong>' + defaultValueFormat(total) + '</strong></td></tr>';
                   out += '</tbody></table>';
+                  // $('.total-trips').html(total);
                   return first + out;
                 }
             }
@@ -1010,37 +1021,23 @@ info.update = function (props) {
     }
     if (typeof props !== 'undefined'){
       $('.format-select').html(formatsOptions.funding);
-      $('#funding-content').html('<select class="form-control" id="funding-select" '+disabled+' onchange="toggleStat(this)">' + // style="position:absolute; right:8px; margin-top:6px;">' + 
-                                          statsOptions.funding +
-                                  '</select>' +
-                                  ''
-                                  // '<h4>Urban</h4>' +
-                                  // (urbanString.funding === '' ? 'None' : urbanString.funding) +
-                                  // '<h4>Rural</h4>' +
-                                  // (ruralString.funding === '' ? 'None' : ruralString.funding)
-                                  );
-      
-      $('#service-content').html('<select class="form-control" id="service-select" '+disabled+' onchange="toggleStat(this)">' + // style="position:absolute; right:8px; margin-top:6px;">' + 
-                                          statsOptions.service +
-                                  '</select>' +
-                                  ''
-                                  // '<h4>Urban</h4>' +
-                                  // (urbanString.service === '' ? 'None' : urbanString.service) +
-                                  // '<h4>Rural</h4>' +
-                                  // (ruralString.service === '' ? 'None' : ruralString.service)
-                                  );
+      $('#funding-select').html(statsOptions.funding);
+      $('#service-select').html(statsOptions.service);
       $('#home-content').html();
       $('.info-content').empty();
       $('.counties').html(data);
       $('.name-sing').html(geoLayers[currentLayer].name_sing);
       $('.name').html(getLongName(name));
-      $('.name-title').html(toTitleCase(getLongName(name)));
-      var fundingUrl = 'http://atlregional.github.io/gta/#' + currentLayer + '/' + id + '/funding';
+      $('.name-title').html(getLongNameTitle(name));
+      var url = 'atlregional.github.io/gta/#' + currentLayer + '/' + id;
+      var fundingUrl = url + '/funding';
       $('.funding-url').html(fundingUrl);
-      $('.funding-url').attr('href', fundingUrl);
-      var serviceUrl = 'http://atlregional.github.io/gta/#' + currentLayer + '/' + id + '/service';
+      $('.funding-url').attr('href', 'http://' + fundingUrl);
+      $('.url').html(url);
+      $('.url').attr('href', 'http://' + url);
+      var serviceUrl = url + '/service';
       $('.service-url').html(serviceUrl);
-      $('.service-url').attr('href', serviceUrl);
+      $('.service-url').attr('href', 'http://' + serviceUrl);
       $('.agency-list').html(makeUL(urbanString.agencyNames, urbanString.agencies));
       if (currentStat.format == "Table"){
           $('#funding-content').append(urbanString.fundingString);
@@ -1762,49 +1759,49 @@ function getDataString(counties){
     };
     // Get data for the entire state
     if(counties.length === 0){
-        for (var key in info[code]) {
-                    // console.log(key);
-                    if (info[code].hasOwnProperty(key)) {
-                        // console.log(key + " -> " + service[key]);
-                        // if(key.split(",").indexOf(counties[i]) > -1){
-                            for (var j = info[code][key].length - 1; j >= 0; j--) {
-                                // console.log(info[code][key][j]);
-                                var data = info[code][key][j];
-                                var dataId = data[codeId[code].id];
-                                var name = data[codeId[code].abbr];
+        // for (var key in info[code]) {
+        //             // console.log(key);
+        //             if (info[code].hasOwnProperty(key)) {
+        //                 // console.log(key + " -> " + service[key]);
+        //                 // if(key.split(",").indexOf(counties[i]) > -1){
+        //                     for (var j = info[code][key].length - 1; j >= 0; j--) {
+        //                         // console.log(info[code][key][j]);
+        //                         var data = info[code][key][j];
+        //                         var dataId = data[codeId[code].id];
+        //                         var name = data[codeId[code].abbr];
                                 
-                                if (name === "NA" || name === "" || name === "N/A"){
-                                    name = data[codeId[code].name];
-                                }
-                                var upt = 0;
-                                // console.log(dataId)
-                                fundingData = funding[code][dataId][codeId[code][currentStat.funding]];
-                                serviceData = service[code][dataId][0];
-                                // console.log(fundingData)
-                                if (agencies.indexOf(dataId) > -1){
-                                    continue;
-                                }
-                                if (j === data.length - 1){
-                                    // serviceString += "<br /><b style='font-size:x-large;'>" + county + "</b>";
-                                }
-                                serviceString += "<b>" + name + "</b><br />";
-                                // console.log(serviceString)
-                                fundingString += "<b>" + name + "</b><br />";
-                                console.log(agenciesData.serviceCol);
-                                serviceString += currentStat.service + ": " + numberWithCommas(serviceData[stats.service[currentStat.service]]) + "<br />";
-                                upt += +serviceData["Unlinked.Passenger.Trips"];
-                                totalUpt += +serviceData[stats.service[currentStat.service]].replace(/,/g,'');
-                                // console.log(serviceData[stats.service[currentStat.service]])
-                                agencies.push(dataId);
-                                if (typeof fundingData !== "undefined"){
-                                    fundingString += 'Total Operating: $' + numberWithCommas(fundingData[0][codeId[code][currentStat.funding].total]) + '<br />';
-                                    // serviceString += "Local Funds: $" + numberWithCommas(fundingData[0]["Local.Funds"]) + "<br />";
-                                    totalFunding += +fundingData[0][codeId[code][currentStat.funding].total];
-                                }
-                            }
-                        // }
-                    }
-                }
+        //                         if (name === "NA" || name === "" || name === "N/A"){
+        //                             name = data[codeId[code].name];
+        //                         }
+        //                         var upt = 0;
+        //                         // console.log(dataId)
+        //                         fundingData = funding[code][dataId][codeId[code][currentStat.funding]];
+        //                         serviceData = service[code][dataId][0];
+        //                         // console.log(fundingData)
+        //                         if (agencies.indexOf(dataId) > -1){
+        //                             continue;
+        //                         }
+        //                         if (j === data.length - 1){
+        //                             // serviceString += "<br /><b style='font-size:x-large;'>" + county + "</b>";
+        //                         }
+        //                         serviceString += "<b>" + name + "</b><br />";
+        //                         // console.log(serviceString)
+        //                         fundingString += "<b>" + name + "</b><br />";
+        //                         console.log(agenciesData.serviceCol);
+        //                         serviceString += currentStat.service + ": " + numberWithCommas(serviceData[stats.service[currentStat.service]]) + "<br />";
+        //                         upt += +serviceData["Unlinked.Passenger.Trips"];
+        //                         totalUpt += +serviceData[stats.service[currentStat.service]].replace(/,/g,'');
+        //                         // console.log(serviceData[stats.service[currentStat.service]])
+        //                         agencies.push(dataId);
+        //                         if (typeof fundingData !== "undefined"){
+        //                             fundingString += 'Total Operating: $' + numberWithCommas(fundingData[0][codeId[code][currentStat.funding].total]) + '<br />';
+        //                             // serviceString += "Local Funds: $" + numberWithCommas(fundingData[0]["Local.Funds"]) + "<br />";
+        //                             totalFunding += +fundingData[0][codeId[code][currentStat.funding].total];
+        //                         }
+        //                     }
+        //                 // }
+        //             }
+        //         }
     }
 
     // Get data for just a few counties
@@ -1857,7 +1854,7 @@ function getDataString(counties){
                                     agenciesData.service[name] = serviceByAgency;
                                     agenciesData.serviceCol.push([name, serviceByAgency]);
                                     serviceString += currentStat.service + ": " + numberWithCommas(serviceByAgency) + "<br />";
-                                    upt += +serviceData[0]["Unlinked.Passenger.Trips"];
+                                    // upt += +serviceData[0]["Unlinked.Passenger.Trips"];
                                     totalUpt += serviceByAgency;
 
                                     // console.log(fundingData)
@@ -1874,7 +1871,8 @@ function getDataString(counties){
                                                 for (var source in fundingData){
                                                     var fundingKey;
                                                     if (source === "Dedicated to Transit at Source"){
-                                                        fundingKey = "Other";
+                                                        fundingKey = "Local Government";
+                                                        agencyFunding["Other"] = 0;
                                                     }
                                                     else{
                                                         fundingKey = source;
@@ -2195,6 +2193,18 @@ function getLongName(name){
     }
     else if (currentLayer === 'rc'){
         name = 'the ' + name;
+    }
+    else {
+        name = name + ' County';
+    }
+    return name;
+}
+function getLongNameTitle(name){
+    if (isDistrict(currentLayer)){
+        name = 'The ' + getOrdinal(+name) + ' ' + geoLayers[currentLayer].name_sing;
+    }
+    else if (currentLayer === 'rc'){
+        name = 'The ' + name;
     }
     else {
         name = name + ' County';
