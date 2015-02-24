@@ -1,6 +1,6 @@
 <html>
     <head>
-        <title>Leaflet-hash</title>
+        <title>Transit in GA</title>
         <meta charset="utf-8">
             <link rel="stylesheet" href="http://leafletjs.com/dist/leaflet.css" />
         <!--[if lte IE 8]>
@@ -70,56 +70,91 @@
                 </div>
                 <div class="sidebar-pane" id="service">
                     <h3><span data-toggle="tooltip" class="dotted" data-placement="right" data-original-title="All data are for FY 2013">Service</span></h3>
-                    <!-- <button id="back-button" role="button" style="position:relative; top:-50px;" class="btn visible-xs pdf-hide pull-right btn-default" onclick="sidebar.open('home')"><i class="fa fa-home"></i></button> -->
-                    <!-- <button id="map-button" role="button" style="position:relative; top:-50px;" class="btn visible-xs pdf-hide btn-default pull-right" onclick="sidebar.close()"><i class="fa fa-globe"></i></button> -->
                     <select class="form-control format-select" id="format-service" onchange="toggleFormat(this)"></select>
                     <div id="service-content"></div>
+                    <p>
+                        Transit in Georgia includes rail, buses, vans, meeting 
+                        the needs of hundreds of thousands of Georgians every day. <strong>In <span class="name"></span>
+                        alone, transit operators provide <span class="total-trips">1,000,000</span> trips annually.</strong>
+                        These services are especially important to the <span class="B09020"></span> 
+                        elderly and <span class="B99181"></span> disabled riders that depend on transit
+                        in this district.
+                    </p>
                     <div id="urban-service-chart"></div>
+                                <p style="font-size:x-small; position:relative; bottom:5px;">Source: National Transit Database 2013 Urban Service; National Transit Database Rural 2013 Subrecipient Service Data</p>
+            <p style="font-size:x-small; position:relative; bottom:10px;">Note: All transit data are for the entirety of the counties in which this district resides and hence subject to overestimation in small districts, whereas demographic data are reported only for <span class="name"></span>.</p>
+
                 </div>
                 <div class="sidebar-pane" id="funding">
                     <h3><span data-toggle="tooltip" class="dotted" data-placement="right" data-original-title="All data are for FY 2013">Funding</span></h3>
-                    <!-- <button id="back-button" role="button" style="position:relative; top:-50px;" class="btn visible-xs pdf-hide pull-right btn-default" onclick="sidebar.open('home')"><i class="fa fa-home"></i></button> -->
-                    <!-- <button id="map-button" role="button" style="position:relative; top:-50px;" class="btn visible-xs pdf-hide btn-default pull-right" onclick="sidebar.close()"><i class="fa fa-globe"></i></button> -->
                     <select class="form-control format-select" id="format-funding" onchange="toggleFormat(this)"></select>
                     <div id="funding-content"></div>
+                    <p>
+                        Transit expenses are divided into two types capital and operating. Capital expenses include 
+                        infrastructure and equipment, such as buses and vans (or "rolling stock"), facilities, and 
+                        technology. Operating expenses include the day-to-day activities required to operate the 
+                        system, such as salaries for bus operators and mechanics, regular vehicle and system maintenance, 
+                        and general administrative costs. <strong>Meeting operating expenses has traditionally been one of the most 
+                        significant challenges facing transit systems in Georgia.</strong>
+                    </p>
                     <div id="urban-funding-chart"></div>
-                    <!-- <div id="rural-funding-chart"></div> -->
+                                <p style="font-size:x-small; position:relative; bottom:5px;">Source: National Transit Database 2013 Urban Tax Funds; National Transit Database 2013 Urban Directly Generated Funds; National Transit Database Rural 2013 Subrecipient Financial Data</p>
+            <p style="font-size:x-small; position:relative; bottom:10px;">Note: All transit data are for the entirety of the counties in which this district resides and hence subject to overestimation in small districts, whereas demographic data are reported only for <span class="name"></span>.</p>
+
                 </div>
                 <div class="sidebar-pane" id="people">
                     <h3>Demographics</h3>
-                    <p>Populations that rely on transit to get around are often referred to as transit dependent.</p>
+                    <p>
+                        While some folks have no choice but to ride transit, more and more are 
+                        riding transit by choice. In particular, the Millenial generation has generally opted to delay acquiring 
+                        driver's licenses, choosing transit instead. According to the 
+                        <a href="http://transitcenter.org/ourwork/mobility-attitudes-survey/">Who’s On Board: 
+                        2014 Mobility Attitudes Survey</a>, in the South alone <strong>20% of people 
+                        under 30 use transit at least once a week and 11% use it to commute at least 3-4 times per 
+                        week.</strong> 
+                    </p>
+                    <p>
+                        Still, some ride transit not because of its conveniences, but because it's the only way
+                        they can get around. Aging adults or persons with disabilities, folks
+                        who cannot afford the costs of car ownership, and veterans that need transport to medical
+                        appointments all depend daily on their local transit systems.
+                    </p>
                     <table class="table col-xs-6 col-sm-6">
                         <tr>
-                            <td style="font-weight:bold;" class="B01003_001E-label">Total population</td>
-                            <td style="font-weight:bold;" class="B01003_001E text-right"></td>
+                            <td style="font-weight:bold;" class="B01003-label"></td>
+                            <td style="font-weight:bold;" class="B01003 text-right"></td>
                         </tr>
                         <tr>
-                            <!-- <td class="B08301_010E-label">Commutes on public transit</td>
-                            <td class="B08301_010E text-right"></td> -->
+                            <!-- <td class="B08301-label"></td>
+                            <td class="B08301 text-right"></td> -->
                         </tr>
                         <tr>
-                            <td class="B09020_001E-label">65 years or older</td>
-                            <td class="B09020_001E text-right"></td>
+                            <td class="B01001-label"></td>
+                            <td class="B01001 text-right"></td>
                         </tr>
                         <tr>
-                            <td class="B21001_005E-label">Veterans</td>
-                            <td class="B21001_005E text-right"></td>
+                            <td class="B09020-label"></td>
+                            <td class="B09020 text-right"></td>
                         </tr>
                         <tr>
-                            <td class="B06012_002E-label">Living in poverty</td>
-                            <td class="B06012_002E text-right"></td>
+                            <td class="B21001-label"></td>
+                            <td class="B21001 text-right"></td>
                         </tr>
                         <tr>
-                            <td class="B99181_002E-label">Living with a disability</td>
-                            <td class="B99181_002E text-right"></td>
+                            <td class="B06012-label"></td>
+                            <td class="B06012 text-right"></td>
+                        </tr>
+                        <tr>
+                            <td class="B99181-label"></td>
+                            <td class="B99181 text-right"></td>
                         </tr>
                         
                         <tr>
-                            <!-- <td class="B02009_001E-label">African American</td>
-                            <td class="B02009_001E text-right"></td> -->
+                            <!-- <td class="B02009-label"></td>
+                            <td class="B02009 text-right"></td> -->
                         </tr>
                         <tr>
-                            <td class="B08203-label">Less than one car per worker</td>
+                            <td class="B08203-label"></td>
                             <td class="B08203 text-right"></td>
                         </tr>
                     </table>
@@ -133,7 +168,6 @@
                     <h3>District Info</h3>
                     <!-- <button id="back-button" role="button" style="position:relative; top:-50px;" class="btn visible-xs pdf-hide pull-right btn-default" onclick="sidebar.open('home')"><i class="fa fa-home"></i></button> -->
                     <!-- <button id="map-button" role="button" style="position:relative; top:-50px;" class="btn visible-xs pdf-hide btn-default pull-right" onclick="sidebar.close()"><i class="fa fa-globe"></i></button> -->
-                    <div id="info-content"></div>
                     <div class="district-data"></div>
                     <div class="counties"></div>
                 </div> 
@@ -148,56 +182,76 @@
         </div>
         <div id="pdf">
             <!-- <img src="stylesheets/images/gta.png" style="position:absolute; right:30px;" width="200px"> -->
-            <h2><span class="name"></span></h2>
+            <h2><span class="name-title"></span></h2>
             <h3>District information</h3>
             <div class="row">
                 <div class="pdf-map col-xs-4">
                     <!-- <h4>Map</h4> -->
                 </div>
                 <div class="col-xs-8">
-                    <div class="info-content"></div>
-                    <div class="district-data"></div>
                     <div class="counties"></div>
+                    <div class="district-data"></div>
                 </div>
             </div>
-            <h4>Who lives in your district?</h4>
-                    <p>Populations that rely on transit to get around are often referred to as transit dependent.</p>
+            <div class="people-info">
+                <h4>Who lives in your district?</h4>
+                    <p>
+                        While some folks have no choice but to ride transit, more and more are 
+                        riding transit by choice. In particular, the Millenial generation has generally opted to delay acquiring 
+                        driver's licenses, choosing transit instead. According to the 
+                        <a href="http://transitcenter.org/ourwork/mobility-attitudes-survey/">Who’s On Board: 
+                        2014 Mobility Attitudes Survey</a>, in the South alone <strong>20% of people 
+                        under 30 use transit at least once a week and 11% use it to commute at least 3-4 times per 
+                        week.</strong> 
+                    </p>
+                    <p>
+                        Still, some ride transit not because of its conveniences, but because it's the only way
+                        they can get around. Aging adults or persons with disabilities, folks
+                        who cannot afford the costs of car ownership, and veterans that need transport to medical
+                        appointments all depend daily on their local transit systems.
+                    </p>
                     <table class="table col-xs-6 col-sm-6">
                         <tr>
-                            <td style="font-weight:bold;" class="B01003_001E-label">Total population</td>
-                            <td style="font-weight:bold;" class="B01003_001E text-right"></td>
+                            <td style="font-weight:bold;" class="B01003-label"></td>
+                            <td style="font-weight:bold;" class="B01003 text-right"></td>
                         </tr>
                         <tr>
-                            <!-- <td class="B08301_010E-label">Commutes on public transit</td>
-                            <td class="B08301_010E text-right"></td> -->
+                            <!-- <td class="B08301-label"></td>
+                            <td class="B08301 text-right"></td> -->
                         </tr>
                         <tr>
-                            <td class="B09020_001E-label">65 years or older</td>
-                            <td class="B09020_001E text-right"></td>
+                            <td class="B01001-label"></td>
+                            <td class="B01001 text-right"></td>
                         </tr>
                         <tr>
-                            <td class="B21001_005E-label">Veterans</td>
-                            <td class="B21001_005E text-right"></td>
+                            <td class="B09020-label"></td>
+                            <td class="B09020 text-right"></td>
                         </tr>
                         <tr>
-                            <td class="B06012_002E-label">Living in poverty</td>
-                            <td class="B06012_002E text-right"></td>
+                            <td class="B21001-label"></td>
+                            <td class="B21001 text-right"></td>
                         </tr>
                         <tr>
-                            <td class="B99181_002E-label">Living with a disability</td>
-                            <td class="B99181_002E text-right"></td>
+                            <td class="B06012-label"></td>
+                            <td class="B06012 text-right"></td>
+                        </tr>
+                        <tr>
+                            <td class="B99181-label"></td>
+                            <td class="B99181 text-right"></td>
                         </tr>
                         
                         <tr>
-                            <!-- <td class="B02009_001E-label">African American</td>
-                            <td class="B02009_001E text-right"></td> -->
+                            <!-- <td class="B02009-label"></td>
+                            <td class="B02009 text-right"></td> -->
                         </tr>
                         <tr>
-                            <td class="B08203-label">Less than one car per worker</td>
+                            <td class="B08203-label"></td>
                             <td class="B08203 text-right"></td>
                         </tr>
                     </table>
-            <h4>What transit providers are in your district?</h4>
+                    <p style="font-size:x-small; position:relative; bottom:20px;">Source: American Community Survey 2013 5-year estimates</p>
+            </div>
+            <h4>What transit providers operate in your district?</h4>
             <p>The following transit agencies operate in <span class="name"></span>:</p>
             <div class="agency-list"></div>
             <h3>How is transit used in your district?</h3>
@@ -214,6 +268,8 @@
                  For a detailed breakdown of this and other service data, please visit <a class="service-url"></a>.
             </p>
             <div id="pdf-service-chart"></div>
+            <p style="font-size:x-small; position:relative; bottom:5px;">Source: National Transit Database 2013 Urban Service; National Transit Database Rural 2013 Subrecipient Service Data</p>
+            <p style="font-size:x-small; position:relative; bottom:10px;">Note: All transit data are for the entirety of the counties in which this district resides and hence subject to overestimation in small districts, whereas demographic data are reported only for <span class="name"></span>.</p>
             <h3>How much does transit cost in your district?</h3>
             <p>
                 Transit expenses are divided into two types capital and operating. Capital expenses include 
@@ -228,48 +284,16 @@
                 detailed breakdown of this funding data, please visit <a class="funding-url"></a>.
             </p>
             <div id="pdf-funding-chart"></div>
-        </div>
-        <!-- <div class="panel panel-default">
-              <div class="panel-heading">
-                <h3 class="panel-title">District Info</h3>
-              </div>
-              <div class="panel-body">
-                <div class="row">
-                    <div class="pdf-map col-xs-4">
-                    </div>
-                    <div class="col-xs-8">
-                        <div class="info-content"></div>
-                        <div class="district-data"></div>
-                        <div class="counties"></div>
-                    </div>
-                </div>
-              </div>
-            </div>
-            <div class="panel panel-default">
-              <div class="panel-heading">
-                <h3 class="panel-title">Agencies</h3>
-              </div>
-              <div class="panel-body">
-                <p>The following transit agencies operate in the <span class="name-sing"></span> of <span class="name"></span>:</p>
-                <div class="agency-list"></div>
-              </div>
-            </div>
-            <div class="panel panel-default">
-              <div class="panel-heading">
-                <h3 class="panel-title">Service</h3>
-              </div>
-              <div class="panel-body">
-                <div id="pdf-service-chart"></div>
-              </div>
-            </div>
-            <div class="panel panel-default">
-              <div class="panel-heading">
-                <h3 class="panel-title">Funding</h3>
-              </div>
-              <div class="panel-body">
-                <div id="pdf-funding-chart"></div>
-              </div>
+            <p style="font-size:x-small; position:relative; bottom:5px;">Source: National Transit Database 2013 Urban Tax Funds; National Transit Database 2013 Urban Directly Generated Funds; National Transit Database Rural 2013 Subrecipient Financial Data</p>
+            <p style="font-size:x-small; position:relative; bottom:10px;">Note: All transit data are for the entirety of the counties in which this district resides and hence subject to overestimation in small districts, whereas demographic data are reported only for <span class="name"></span>.</p>
+
+            <!-- <div class="footnotes">
+                <p><strong>References</strong></p>
+                <p id="fn-1"></p>
+                <p id="fn-2">[2] Another footnote.</p>
             </div> -->
+        </div>
+        
         <div id="map" class="pdf-hide"></div>
     </body>
     <script type="text/javascript" src="gta.js"></script>

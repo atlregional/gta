@@ -127,7 +127,9 @@ L.Control.Sidebar = L.Control.extend({
         console.log(this.firstChild.hash.slice(1));
         // history.pushState(null, null, this.firstChild.hash.slice(1));
         var params = window.location.hash.substring(1).split('/');
-        window.location.hash = '#' + params[0] + '/' + (typeof params[1] !== "undefined" ? params[1] : '[blank]') + '/' + this.firstChild.hash.slice(1);
+        params[1] = typeof params[1] !== "undefined" ? params[1] : '[blank]';
+        params[2] = this.firstChild.hash.slice(1);
+        setHash(params);
         if (L.DomUtil.hasClass(this, 'active')){
             this._sidebar.close();
         }
