@@ -14,11 +14,9 @@ do
 		if [ "$i" == "county" ]; then
 			name="name"
 		fi
-		echo $name
 		idVal="$(jq -r ".objects[].geometries[$j].properties.$id" "data/topo/$i.json")"
 		nameVal="$(jq -r ".objects[].geometries[$j].properties.$name" "data/topo/$i.json")"
-		echo $id
-		echo $name
+		echo "$i: $nameVal"
 		wkhtmltopdf --javascript-delay 1000  "127.0.0.1:3000/#$i/$idVal/funding/pdf" "pdf/$i/$nameVal.pdf"; 
 
 	done

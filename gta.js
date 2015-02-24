@@ -1020,6 +1020,7 @@ info.update = function (props) {
         $('#urban-service-chart').empty();
     }
     if (typeof props !== 'undefined'){
+      
       $('.format-select').html(formatsOptions.funding);
       $('#funding-select').html(statsOptions.funding);
       $('#service-select').html(statsOptions.service);
@@ -1030,21 +1031,35 @@ info.update = function (props) {
       $('.name').html(currentLayer === 'rc' ? id.toUpperCase() : getLongName(name));
       $('.name-title').html(getLongNameTitle(name));
       var url = 'atlregional.github.io/gta/#' + currentLayer + '/' + id;
+      var pdfUrl;
+      if(typeof window.location.path !== 'undefined'){
+        pdfUrl = window.location.origin + window.location.path +  'pdf/' + currentLayer + '/' + id + '.pdf';
+      }
+      else{
+        pdfUrl = window.location.origin + '/pdf/' + currentLayer + '/' + id + '.pdf';
+      }
+      console.log(pdfUrl);
       var fundingUrl = url + '/funding';
       $('.funding-url').html(fundingUrl);
       $('.funding-url').attr('href', 'http://' + fundingUrl);
       $('.url').html(url);
       $('.url').attr('href', 'http://' + url);
       var serviceUrl = url + '/service';
+      // $('.download-pdf').addClass('active');
+      $('.download-pdf').removeClass('disabled');
+      $('.download-pdf').attr('href', pdfUrl);
       $('.service-url').html(serviceUrl);
       $('.service-url').attr('href', 'http://' + serviceUrl);
       $('.agency-list').html(populateTable(urbanString.agencyNames, urbanString.agencies));
       // $('.agency-list-0').html(makeUL(urbanString.agencyNames.slice(0, Math.floor(urbanString.agencyNames.length/2)), urbanString.agencies.slice(0, Math.floor(urbanString.agencies.length/2))));
       // $('.agency-list-1').html(makeUL(urbanString.agencyNames.slice(Math.floor(urbanString.agencyNames.length/2), urbanString.agencies.length - 1), urbanString.agencies.slice(Math.floor(urbanString.agencies.length/2), urbanString.agencies.length - 1)));
       if (currentStat.format == "Table"){
-          $('#funding-content').append(urbanString.fundingString);
-          $('#service-content').append(urbanString.serviceString);
+          $('#urban-funding-chart').html(urbanString.fundingString);
+          $('#urban-service-chart').html(urbanString.serviceString);
       }
+    }
+    else{
+      $('.download-pdf').addClass('disabled');
     }
     
 

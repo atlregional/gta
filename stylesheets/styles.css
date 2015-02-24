@@ -27,7 +27,7 @@ html, body, #map {
     -moz-column-count: 2; 
     column-count: 2;
 }*/
-.table-borderless td, .table-borderless th { border: 0 !important; }
+.table-borderless td, .table-borderless th { border: 0 !important; padding:0px !important; }
 .color { fill:rgb(8,48,107); }
 .info {
     padding: 6px 8px;
