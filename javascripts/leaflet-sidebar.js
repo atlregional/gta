@@ -122,9 +122,9 @@ L.Control.Sidebar = L.Control.extend({
     },
 
     _onClick: function(e) {
-        console.log(e);
+        // console.log(e);
         e.preventDefault();
-        console.log(this.firstChild.hash.slice(1));
+        // console.log(this.firstChild.hash.slice(1));
         // history.pushState(null, null, this.firstChild.hash.slice(1));
         var params = window.location.hash.substring(1).split('/');
         params[1] = typeof params[1] !== "undefined" ? params[1] : '[blank]';
