@@ -482,7 +482,7 @@ var geogSelect = '';
 // Checks if pdf output
 if (params[3] === "pdf"){
     pdf = true;
-    console.log("pdf");
+ // console.log("pdf");
     $('.pdf-hide').hide();
 
     var width = 240,
@@ -550,7 +550,7 @@ if (typeof geoLayers[params[0]] !== "undefined"){
         // console.log(geoLayers[currentLayer]);
         $.getJSON('data/bef/' + currentLayer + '.json', function(data){
             geoLayers[currentLayer].counties = data;
-            console.log(geoLayers[currentLayer].counties);
+         // console.log(geoLayers[currentLayer].counties);
         });
     }
 }
@@ -695,7 +695,7 @@ info.update = function (props) {
     
     data = "";
     if (typeof service == "undefined"){
-        console.log("funding undefined")
+     // console.log("funding undefined")
     }
     if (typeof props !== "undefined"){
         for (var stat in stats) {
@@ -721,22 +721,22 @@ info.update = function (props) {
             }
         }
         if (currentLayer == "rc"){
-        	console.log(props.counties);
+        	// console.log(props.counties);
           getCensusData(props.counties, currentLayer);
             data = toSentence(props.counties);
             data = '<h4>Counties</h4><p>'+name+' contains some or all of the following counties: ' + data + '.</p>';
 
             ruralString = getDataString(props.counties);
             urbanString = getDataString(props.counties);
-            console.log(urbanService);
+         // console.log(urbanService);
             // serviceData = getDataString(propsunties);
         }
         else if (isDistrict(currentLayer) && typeof geoLayers[currentLayer].counties !== "undefined") {
             getCensusData(id, currentLayer);
         	$('#'+currentLayer+'-name-select').val(name);
             grabDistrictData(props);
-            console.log("getting funding string for district")
-            console.log(geoLayers[currentLayer].counties);
+         // console.log("getting funding string for district")
+         // console.log(geoLayers[currentLayer].counties);
             counties = getCounties(geoLayers[currentLayer].counties[name]);
         	  data = toSentence(counties);
             name = +name;
@@ -752,7 +752,7 @@ info.update = function (props) {
             urbanString = getDataString([name]);
             // serviceData = getDataString(
             // if(checkFunding("5310", name)){
-            //     console.log("5310!");
+            //  // console.log("5310!");
             //     ruralFunding = "5310 in this county<br />" + ruralFunding;
             // }
             // if (checkMultipleFunding("5311", [name])[name].length === 0){
@@ -773,7 +773,7 @@ info.update = function (props) {
         // },1000)
     }
     // this._div.innerHTML = 
-    console.log(urbanString);
+ // console.log(urbanString);
 
     // Process Funding data into chart columns
     urbanString.fundingCol = [];
@@ -843,7 +843,7 @@ info.update = function (props) {
     $('.total-trips').html(numberWithCommas(serviceTotal));
     if (typeof urbanString.fundingCol[0] !== 'undefined' && currentStat.format == "Chart"){
         urbanString.fundingCol[0].splice(0, 0, 'x');
-        console.log(urbanString)
+     // console.log(urbanString)
         var fundingChart = c3.generate({
             bindto: '#urban-funding-chart',
             data: {
@@ -957,7 +957,7 @@ info.update = function (props) {
     }
     if (typeof urbanString.serviceCol[0] !== 'undefined' && currentStat.format == "Chart"){
         // urbanString.serviceCol.splice(0, 0, 'x');
-        console.log(urbanString);
+     // console.log(urbanString);
          var serviceChart = c3.generate({
             bindto: '#urban-service-chart',
             data: {
@@ -1077,7 +1077,7 @@ info.update = function (props) {
       $('.name-title').html(getLongNameTitle(name));
       var url = 'atlregional.github.io/gta/#' + currentLayer + '/' + id;
       var pdfUrl = window.location.origin + window.location.pathname +  'pdf/' + currentLayer + '/' + id + '.pdf';
-      console.log(pdfUrl);
+   // console.log(pdfUrl);
       var fundingUrl = url + '/funding';
       $('.funding-url').html(fundingUrl);
       $('.funding-url').attr('href', 'http://' + fundingUrl);
@@ -1266,7 +1266,7 @@ function getSelect(layer, id){
         var selectedName = '';
 
         if (load && typeof id !== "undefined" && id == val[1]) {
-            console.log(val[1]);
+         // console.log(val[1]);
             selectedGeog = "selected";
             // load = false;
         }
@@ -1379,7 +1379,7 @@ function highlightFeature(e) {
 
 }
 function resetHighlight(e) {
-    console.log("resetting highlight...");
+ // console.log("resetting highlight...");
     var id = getId(e.target.feature.properties);
         if (zoom !== null && zoom == target){
             return;
@@ -1457,7 +1457,7 @@ function addGeoJSONGeographies(geos, map){
             url: "data/" + geo.id + ".geojson", 
             dataType: "json",
             success: function(data){
-                console.log(data);
+             // console.log(data);
                     geoLayers[geo.id].data = L.geoJson(data, {
                         style: function (feature) {
                             return {
@@ -1522,7 +1522,7 @@ function addGeographies(geos, map){
             if (isDistrict(geo.id) && geo.id !== currentLayer){ //&& ( currentLayer === '' || geoId !== currentLayer) ){
                 $.getJSON('data/bef/' + geo.id + '.json', function(data){
                     geoLayers[geo.id].counties = data;
-                    console.log(geoLayers[geo.id].counties);
+                 // console.log(geoLayers[geo.id].counties);
                 });
             }
         // }
@@ -1589,9 +1589,9 @@ function addGeographies(geos, map){
             }
             
         });
-        console.log(geoLayers[geo.id].data);
+     // console.log(geoLayers[geo.id].data);
         if (geo.active == "active"){
-            console.log("adding data")
+         // console.log("adding data")
             geoLayers[geo.id].data.addTo(map);
             geojson = geoLayers[geo.id].data;
         }
@@ -1678,10 +1678,10 @@ function checkFunding(code, county){
         if (typeof service == "undefined"){
             // getFunding();
             // checkFunding(code, county);
-            console.log("check funding undefined")
+         // console.log("check funding undefined")
         }
         // else{
-        console.log(service);
+     // console.log(service);
             for (var key in service) {
                 // console.log(key);
                 if (service.hasOwnProperty(key)) {
@@ -1715,7 +1715,7 @@ function checkMultipleFunding(code, counties){
             if (typeof service == "undefined"){
                 // getFunding();
                 // checkFunding(code, counties[i]);
-                console.log("check funding undefined")
+             // console.log("check funding undefined")
             }
             // else{
             // console.log(service);
@@ -1739,22 +1739,22 @@ function checkMultipleFunding(code, counties){
 
 function toggleTab(tab){
     var id = tab.id.split('-')[0];
-    console.log(id);
+ // console.log(id);
     sidebar.open(id);
     info.update(currentProps);
 }
 
 function toggleStat(select){
-    console.log(select.value);
-    console.log(select.id.split('-')[0])
+ // console.log(select.value);
+ // console.log(select.id.split('-')[0])
     currentStat[select.id.split('-')[0]] = select.value;
     load = true;
     info.update(currentProps);
 }
 
 function toggleFormat(select){
-    console.log(select.value);
-    console.log(select.id.split('-')[0])
+ // console.log(select.value);
+ // console.log(select.id.split('-')[0])
     currentStat[select.id.split('-')[0]] = select.value;
     load = true;
     params = getParams();
@@ -1764,7 +1764,7 @@ function toggleFormat(select){
 }
 
 function getDataString(counties){
-    console.log("get funding string...")
+ // console.log("get funding string...")
     var serviceString = '';
     var fundingString = '';
     var agencies = [];
@@ -1850,7 +1850,7 @@ function getDataString(counties){
         //                         serviceString += "<b>" + name + "</b><br />";
         //                         // console.log(serviceString)
         //                         fundingString += "<b>" + name + "</b><br />";
-        //                         console.log(agenciesData.serviceCol);
+        //                      // console.log(agenciesData.serviceCol);
         //                         serviceString += currentStat.service + ": " + numberWithCommas(serviceData[stats.service[currentStat.service]]) + "<br />";
         //                         upt += +serviceData["Unlinked.Passenger.Trips"];
         //                         totalUpt += +serviceData[stats.service[currentStat.service]].replace(/,/g,'');
@@ -1881,7 +1881,7 @@ function getDataString(counties){
                             if(key.split(",").indexOf(counties[i]) > -1){
                                 // Loop through agencies
                                 for (var j = info[code][key].length - 1; j >= 0; j--) {
-                                    console.log(info[code][key][j]);
+                                 // console.log(info[code][key][j]);
                                     var data = info[code][key][j];
                                     var dataId = data[codeId[code].id];
                                     var fullName = data[codeId[code].name];
@@ -1921,14 +1921,14 @@ function getDataString(counties){
                                     totalUpt += serviceByAgency;
 
                                     // console.log(fundingData)
-                                    console.log(name)
+                                 // console.log(name)
                                     var fundingCode;
 
                                     // Handle funding data
                                     var capAndOp = currentStat.funding.split(" and ");
                                     var agencyFunding = {};
                                     for (var k = capAndOp.length - 1; k >= 0; k--) {
-                                        console.log(capAndOp[k])
+                                     // console.log(capAndOp[k])
                                         if(typeof fundingData !== "undefined"){
                                             if(code === "urban"){
                                                 for (var source in fundingData){
@@ -1943,7 +1943,7 @@ function getDataString(counties){
                                                     if (fundingData[source][codeId[code][capAndOp[k]].parent][0][codeId[code][source]] !== "NA"){
                                                         totalFunding += +fundingData[source][codeId[code][capAndOp[k]].parent][0][codeId[code][source]];
                                                         if (typeof agencyFunding[fundingKey] == "undefined"){
-                                                            console.log(fundingData[source][codeId[code][capAndOp[k]].parent][0])
+                                                         // console.log(fundingData[source][codeId[code][capAndOp[k]].parent][0])
                                                             agencyFunding[fundingKey] = +fundingData[source][codeId[code][capAndOp[k]].parent][0][codeId[code][source]].replace(/,/g,'');
                                                         }
                                                         else{
@@ -1993,7 +1993,7 @@ function getDataString(counties){
                                                     }
                                                 }
                                                 else{
-                                                    console.log("mocking data for " + name)
+                                                 // console.log("mocking data for " + name)
                                                     for (var source in codeId[code][currentStat.funding]){
                                                         var fundingKey;
                                                         if (source === "Dedicated to Transit at Source"){
@@ -2017,10 +2017,10 @@ function getDataString(counties){
                                         if (typeof fundingData !== "undefined"){
                                             totalFunding += fundingByAgency;
                                         }
-                                        console.log(agencyFunding);
+                                     // console.log(agencyFunding);
                                     }
                                     var agencyTotal = 0;
-                                    console.log(fullName);
+                                 // console.log(fullName);
                                     // fundingString += "<tr><td><b>" + name + "</b></td>";
                                     fundingString += '<b><span data-toggle="tooltip" class="dotted" data-placement="right" data-original-title="' + fullName + '">' + name + '</span></b> ('+code+')<br />';
                                     // Populate Funding string
@@ -2081,7 +2081,7 @@ function getDataString(counties){
     }
     // console.log(serviceString);
     agenciesData.agencies = agencies;
-    console.log(agenciesData.agencies);
+ // console.log(agenciesData.agencies);
     agenciesData.fundingString = fundingString;
     agenciesData.serviceString = serviceString;
     return agenciesData;
@@ -2193,7 +2193,7 @@ function makePDF(lorem) {
 //         else{
 //             title = 'Representative';
 //         }
-//         console.log(d)
+//      // console.log(d)
 //         $('.district-data').append(
 //             d.chamber !== 'house' ?
 //                 '<h4>District</h4>' +
@@ -2222,7 +2222,7 @@ function grabDistrictData(d){
     else{
         title = 'Representative';
     }
-    console.log(d);
+ // console.log(d);
     $('.district-data').html(
         currentLayer !== 'congress' ?
             '<h4>District</h4>' +
@@ -2401,7 +2401,7 @@ function populateTable(array, array2) {
 //         'key': key
 //     };
 //     $.getJSON(url, params, function(data){
-//         console.log(data);
+//      // console.log(data);
 //         var cat = data[0];
 //         var d = data[1];
 //         var carless = 0;
@@ -2417,7 +2417,7 @@ function populateTable(array, array2) {
 //                 $('.' + cat[i]).html(numberWithCommas(+d[i]));
 //             }
 //             if (i === 0){
-//                 console.log(carless)
+//              // console.log(carless)
 //                 $('.B08203').html(numberWithCommas(carless));
 //             }
 //             // var newRow = document.createElement('tr');
@@ -2487,41 +2487,51 @@ function getCensusData(id, layer){
         "B08301_010E" : "public transportation",
         "B01001" : "Millenials"
     }
-    var data;
-    var ids;
+    var data = [];
+    var ids = [];
     if(layer !== 'rc'){
       data = geoLayers[layer].census;
     }
     else{
       data = geoLayers.county.census;
       ids = getCountyIds(id);
+      console.log(ids.length);
     }
-    var d;
+    var d = [];
+    // Loop through layer census data and  match to id(s)
     for (var i = data.length - 1; i >= 0; i--) {
+        // console.log("hey"); 
         var row = data[i];
         var rowId = row[row.length - 1];
         if (layer === 'congress'){
           rowId = '0' + rowId;
+          if (rowId === id){
+            d = row;
+          }
         }
         else if (layer === 'county'){
           rowId = '13' + rowId;
+          if (rowId === id){
+            d = row;
+          }
         }
         else if (layer === 'rc'){
           rowId = '13' + rowId;
+          // console.log("rowId")
+          // console.log(ids)
           if(ids.indexOf(rowId) > -1){
-            if(typeof d === 'undefined'){
-              d = row;
+            console.log("rowId");
+            if(d.length === 0){
+              d = row.slice();
             }
             else{
-              for (var j = row.length - 1; j >= 0; j--) {
+              // Don't iterate over last two elements (state and district id)
+              for (var j = 0; j < row.length - 2; j++) {
+                // console.log(d[j])
                 d[j] = (+d[j]) + (+row[j]);
               }
             }
-            continue;
           }
-        }
-        if (rowId === id){
-            d = row;
         }
     };
     console.log(d);
@@ -2534,8 +2544,8 @@ function getCensusData(id, layer){
     var peopleTable = document.createElement('table');
     peopleTable.className = 'table';
     for (var i = cat.length - 2; i >= 0; i--) {
-        console.log(cat[i]);
-        console.log(dataCat[cat[i]]);
+     // console.log(cat[i]);
+     // console.log(dataCat[cat[i]]);
         var val = +d[i];
         var catClass = cat[i].split('_')[0];
         // Check if this is household car ownership data
@@ -2563,7 +2573,7 @@ function getCensusData(id, layer){
         }
         // If we're on the final iteration, we've counted all the households and can add to table
         if (i === 0){
-            console.log(carless)
+         // console.log(carless)
             $('.B08203').html(numberWithCommas(carless  + ' households (' + Math.round(carless/households*100) + '%)'));
             $('.B08203-label').html(dataCat["B08203"]);
             $('.B01001').html(numberWithCommas(millenial  + ' (' + Math.round(millenial/total*100) + '%)'));
@@ -2600,7 +2610,7 @@ function getCensusData(id, layer){
 }
 
 function test(data){
-    console.log(data);
+ // console.log(data);
 }
 
 function getParams(){
