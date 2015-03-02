@@ -1424,7 +1424,13 @@ function setHash(array){
     array = [];
   }
   array.splice(0, 0, 'Transit in GA');
-  history.pushState(null, null, hash);
+  if (history.pushState) {
+    history.pushState(null, null, hash);
+  }
+  else{
+    window.location.hash = hash;
+  }
+  
   document.title = array.join(' | ');
 }
 function zoomToFeature(e) {
