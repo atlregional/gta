@@ -6,7 +6,7 @@ $(function () {
   $('[data-toggle="tooltip"]').tooltip();
 });
 
-var params = window.location.hash.substring(1).split('/');
+var params = getParams();
 // setHash(params);
 // restoreFromHash()
 var geos = [
@@ -538,6 +538,8 @@ else{
     $('#pdf').hide();
 }
 
+
+
 if (typeof geoLayers[params[0]] !== "undefined"){
     currentLayer = params[0];
     // console.log()
@@ -648,6 +650,10 @@ var currentStat = {
     "funding": "Capital and Operations",
     "format": "Chart"
 };
+
+if(params[3] === 'table'){
+  currentStat.format = 'Table';
+}
 
 addGeographies(geos, map);
 
@@ -793,6 +799,8 @@ info.update = function (props) {
       urbanString.fundingString = '<table class="table table-condensed table-responsive" style="font-size:x-small;"><thead>' +
                                   '<tr><th>Agency</th><th class="text-right">' + urbanString.fundingCol[0].join('</th><th class="text-right">') + '</th><th class="text-right">Total</th></tr>' +
                                   '</thead><tbody>';
+      var totals = [];
+      // totals[0] = 'Total';
       for (var i = 1; i < urbanString.fundingCol.length; i++) {
         urbanString.fundingString += '<tr>';
         var row = urbanString.fundingCol[i];
@@ -802,14 +810,26 @@ info.update = function (props) {
           var dollar = '';
           if (!isNaN(row[j])){
             total += row[j];
+            if(typeof totals[j-1] !== 'undefined'){
+              totals[j-1] += row[j];
+            }
+            else{
+              totals[j-1] = row[j];
+            }
             textRight = 'text-right'
             dollar = '$';
           }
-          urbanString.fundingString += '<td class="'+ textRight +'">' + dollar + numberWithCommas(row[j]) + '</td>';
+          urbanString.fundingString += '<td class="'+ textRight +'">' + dollar + numberWithCommas(kFormatter(row[j])) + '</td>';
         }
-        urbanString.fundingString += '<td class="text-right">$' + numberWithCommas(total) + '</td></tr>';
+        urbanString.fundingString += '<td class="text-right">$' + numberWithCommas(kFormatter(total)) + '</td></tr>';
       }
-      urbanString.fundingString += '</tbody></table>'
+      urbanString.fundingString += '<tr><td><strong>Total</strong></td>';
+      var totalTotal = 0
+      for (var i = totals.length - 1; i >= 0; i--) {
+        totalTotal += totals[i]
+        urbanString.fundingString += '<td class="text-right"><strong>$' + numberWithCommas(kFormatter(totals[i])) + '</strong></td>';
+      };
+      urbanString.fundingString += '<td class="text-right"><strong>$' + numberWithCommas(kFormatter(totalTotal)) + '</strong></td></tr></tbody></table>'
     }
     var serviceTotal = 0;
     for (var i = urbanString.serviceCol.length - 1; i >= 0; i--) {
@@ -1073,8 +1093,12 @@ info.update = function (props) {
       // $('.agency-list-0').html(makeUL(urbanString.agencyNames.slice(0, Math.floor(urbanString.agencyNames.length/2)), urbanString.agencies.slice(0, Math.floor(urbanString.agencies.length/2))));
       // $('.agency-list-1').html(makeUL(urbanString.agencyNames.slice(Math.floor(urbanString.agencyNames.length/2), urbanString.agencies.length - 1), urbanString.agencies.slice(Math.floor(urbanString.agencies.length/2), urbanString.agencies.length - 1)));
       if (currentStat.format == "Table"){
-          $('#urban-funding-chart').html(urbanString.fundingString);
-          $('#urban-service-chart').html(urbanString.serviceString);
+          $('#urban-funding-table').html(urbanString.fundingString);
+          $('#urban-service-table').html(urbanString.serviceString);
+      }
+      else{
+        $('#urban-funding-table').empty();
+          $('#urban-service-table').empty();
       }
     }
     else{
@@ -1733,6 +1757,9 @@ function toggleFormat(select){
     console.log(select.id.split('-')[0])
     currentStat[select.id.split('-')[0]] = select.value;
     load = true;
+    params = getParams();
+    params[3] = select.value.toLowerCase();
+    setHash(params);
     info.update(currentProps);
 }
 
@@ -2574,4 +2601,12 @@ function getCensusData(id, layer){
 
 function test(data){
     console.log(data);
+}
+
+function getParams(){
+  return window.location.hash.substring(1).split('/');
+}
+function kFormatter(num) {
+    return num > 999999 ? (num/1000/1000).toFixed(1) + 'M' :
+      num > 999 ? (num/1000).toFixed(1) + 'k' : num
 }
