@@ -6,6 +6,23 @@ $(function () {
   $('[data-toggle="tooltip"]').tooltip();
 });
 
+// Clipboard javascript
+var client = new ZeroClipboard( document.getElementById("copy-button") );
+
+client.on( "copy", function(event) {
+  var clipboard = event.clipboardData;
+  clipboard.setData( "text/plain", window.location.href );
+
+  client.on( "aftercopy", function( event ) {
+    // `this` === `client`
+    // `event.target` === the element that was clicked
+    // event.target.style.display = "none";
+    $('#copy-alert-text').html("Copied text to clipboard: " + window.location.href );
+    $('#copy-alert').fadeIn('slow').delay(500).fadeOut('slow');
+  } );
+} );
+
+// Get Params
 var params = getParams();
 // setHash(params);
 // restoreFromHash()
@@ -466,7 +483,7 @@ var currentProps = "";
 
 var entity = "";
 var pdf = false;
-console.log(params);
+// console.log(params);
 var map;
 var ePrev = null;
 // $(".alert").alert()
@@ -2495,7 +2512,7 @@ function getCensusData(id, layer){
     else{
       data = geoLayers.county.census;
       ids = getCountyIds(id);
-      console.log(ids.length);
+      // console.log(ids.length);
     }
     var d = [];
     // Loop through layer census data and  match to id(s)
@@ -2520,7 +2537,7 @@ function getCensusData(id, layer){
           // console.log("rowId")
           // console.log(ids)
           if(ids.indexOf(rowId) > -1){
-            console.log("rowId");
+            // console.log("rowId");
             if(d.length === 0){
               d = row.slice();
             }
@@ -2534,7 +2551,7 @@ function getCensusData(id, layer){
           }
         }
     };
-    console.log(d);
+    // console.log(d);
     var cat = data[0];
     // var d = data[1];
     var carless = 0;

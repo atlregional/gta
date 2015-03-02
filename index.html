@@ -25,8 +25,7 @@
         <script src="javascripts/d3.min.js" charset="utf-8"></script>
         <script src="javascripts/topojson.min.js"></script>
         <script src="javascripts/c3.min.js" charset="utf-8"></script>
-        <script src="javascripts/pdfkit.js" charset="utf-8"></script>
-        <script src="javascripts/blob-stream.js" charset="utf-8"></script>
+        <script src="javascripts/ZeroClipboard.min.js" charset="utf-8"></script>
         <!-- <script src="javascripts/pdfkit.js.map" charset="utf-8"></script> -->
 
         <script src='https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-omnivore/v0.2.0/leaflet-omnivore.min.js'></script>
@@ -36,6 +35,10 @@
 
     </head>
     <body>
+        <div id="copy-alert" class="alert alert-info alert-dismissible" role="alert" style="display:none; z-index:3000; position:absolute;">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+            <div id="copy-alert-text"></div>
+        </div>
         <div id="sidebar" class="sidebar pdf-hide collapsed">
             <!-- Nav tabs -->
             <ul class="sidebar-tabs" role="tablist">
@@ -52,6 +55,8 @@
             <!-- Tab panes -->
             <div class="sidebar-content active">
             <a role="button" class="download-pdf btn btn-default pull-right" title="Download pdf summary" style="margin-top:22px; margin-right:20px;" href=""><i class="fa fa-file-pdf-o"></i></a>
+            <button id="copy-button" class="btn btn-default pull-right" title="Copy link to district" style="margin-top:22px;"><i class="fa fa-link"></i></button>
+
                 <div class="sidebar-pane" id="home">
                     <!-- <button role="button" style="position:relative; top:-50px;" class="download-pdf btn pull-right btn-default" onclick="sidebar.open('home')"><i class="fa fa-home"></i></button> -->
                     <h3>Transit in Georgia</h3>
