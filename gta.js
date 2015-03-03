@@ -2528,15 +2528,11 @@ function getCensusData(id, layer){
         var rowId = row[row.length - 1];
         if (layer === 'congress'){
           rowId = '0' + rowId;
-          if (rowId === id){
-            d = row;
-          }
+          
         }
         else if (layer === 'county'){
           rowId = '13' + rowId;
-          if (rowId === id){
-            d = row;
-          }
+
         }
         else if (layer === 'rc'){
           rowId = '13' + rowId;
@@ -2556,8 +2552,11 @@ function getCensusData(id, layer){
             }
           }
         }
+        if (rowId === id){
+          d = row;
+        }
     };
-    // console.log(d);
+    console.log(d);
     var cat = data[0];
     // var d = data[1];
     var carless = 0;
