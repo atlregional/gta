@@ -525,6 +525,10 @@ if (params[3] === "pdf"){
     //     .translate([width / 2, height / 2])
     //     .precision(.1);
     var layer = params[0];
+    if (layer === ''){
+        layer = 'county';
+    }
+
     var path = d3.geo.path()
         .projection(projection);
     var svg = d3.select(".pdf-map").append("svg")
@@ -1350,7 +1354,7 @@ function getName(props){
         return props.name;
     }
     else {
-    	return "name goes here";
+    	return "Georgia";
     }
 }
 function numberWithCommas(x) {
@@ -2249,6 +2253,9 @@ function getLongName(name){
     else {
         name = name + ' County';
     }
+    if (name === 'Georgia County'){
+        name = 'Georgia';
+    }
     return name;
 }
 function getLongNameTitle(name){
@@ -2260,6 +2267,9 @@ function getLongNameTitle(name){
     }
     else {
         name = name + ' County';
+    }
+    if (name === 'Georgia County'){
+        name = 'The State of Georgia';
     }
     return name;
 }
@@ -2471,7 +2481,7 @@ function getCensusData(id, layer){
         "B08203_027E" : "3 or more workers 1 vehicle",
         "B08203_028E" : "3 or more workers 2 vehicle",
         "B08301_010E" : "public transportation",
-        "B01001" : "Millenials"
+        "B01001" : "Millennials"
     }
     var data = [];
     var ids = [];
@@ -2523,7 +2533,7 @@ function getCensusData(id, layer){
     var cat = data[0];
     // var d = data[1];
     var carless = 0;
-    var millenial = 0;
+    var millennial = 0;
     var total = +d[4];
     var households;
     var peopleTable = document.createElement('table');
@@ -2542,9 +2552,9 @@ function getCensusData(id, layer){
             households = val;
           }
         }
-        // Check if millenial
+        // Check if millennial
         else if (/(B01001)\w+/.test(cat[i])){
-          millenial += val;
+          millennial += val;
         }
         // Check if this is the total pop
         else if (/(B01003)\w+/.test(cat[i])){
@@ -2561,7 +2571,7 @@ function getCensusData(id, layer){
          // console.log(carless)
             $('.B08203').html(numberWithCommas(carless  + ' households (' + Math.round(carless/households*100) + '%)'));
             $('.B08203-label').html(dataCat["B08203"]);
-            $('.B01001').html(numberWithCommas(millenial  + ' (' + Math.round(millenial/total*100) + '%)'));
+            $('.B01001').html(numberWithCommas(millennial  + ' (' + Math.round(millennial/total*100) + '%)'));
             $('.B01001-label').html(dataCat["B01001"]);
         }
         // var newRow = document.createElement('tr');
