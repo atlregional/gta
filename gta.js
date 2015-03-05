@@ -837,7 +837,7 @@ info.update = function (props) {
       }
       urbanString.fundingString += '<tr><td><strong>Total</strong></td>';
       var totalTotal = 0
-      console.log(totals);
+      // console.log(totals);
       for (var i = 0; i < totals.length; i++) {
         totalTotal += totals[i]
         urbanString.fundingString += '<td class="text-right"><strong>$' + numberWithCommas(kFormatter(totals[i])) + '</strong></td>';
@@ -858,6 +858,7 @@ info.update = function (props) {
         }
       }
     }
+    // console.log(urbanString)
     $('.total-trips').html(numberWithCommas(serviceTotal));
     if (typeof urbanString.fundingCol[0] !== 'undefined' && currentStat.format == "Chart"){
         urbanString.fundingCol[0].splice(0, 0, 'x');
@@ -865,6 +866,7 @@ info.update = function (props) {
      if (urbanString.agencies.length > 20){
         legendShow = false;
      }
+     // console.log('generating chart')
         var fundingChart = c3.generate({
             bindto: '#urban-funding-chart',
             data: {
@@ -1178,7 +1180,7 @@ function showFeature(select){
     // console.log(select);
     // console.log(select.id)
     if (select.value === "[Representative Name]" || select.value === "[" + geoLayers[currentLayer].name_sing + "]")
-        entity = '[blank]';
+        entity = 'statewide';
     else{
         if (typeof select.value !== "undefined"){
             entity = select.value;
@@ -1629,7 +1631,10 @@ function addGeographies(geos, map){
                 getSelect(geo.id, entity);
                 if (entity !== "")
                     window.setTimeout(function(){info.update(currentProps);}, 100);
-            }
+                }
+                else{
+                    window.setTimeout(function(){info.update();}, 100);
+                }
             
         });
      // console.log(geoLayers[geo.id].data);
@@ -1868,6 +1873,7 @@ function getDataString(counties){
         // // Loop through both codes
         for (var code in codeId){
             for (var i = counties.length - 1; i >= 0; i--) {
+
                 if (Object.keys(service[code]).length > 0){
                     // console.log(service[code]);
                     for (var key in info[code]) {
@@ -2025,23 +2031,8 @@ function getDataString(counties){
                                     
                                     // agenciesData.funding.columns = [];
                                     for(var source in agencyFunding){
-                                        // if (typeof agenciesData.funding.list[agencies.length] !== "undefined"){
-                                        //     agenciesData.funding.list[agencies.length].push(+agencyFunding[source]);
-                                        // }
-                                        // else{
-                                        //     agenciesData.funding.list[agencies.length] = [name, +agencyFunding[source]];
-                                        // }
-                                        // if (agencies.length === 1){
-                                        //     if (typeof agenciesData.funding.list[0] !== "undefined"){
-                                        //         agenciesData.funding.list[0].push(source);
-                                        //     }
-                                        //     else{
-                                        //         agenciesData.funding.list[0] = [source];
-                                        //     }
-                                        // }
                                         agencyTotal += +agencyFunding[source];
                                         fundingString += '<td>' + source + "$" + numberWithCommas(agencyFunding[source]) + '</td>';
-                                        // count++;
                                     }
                                     // console.log(agencyFunding);
                                     fundingString += "Total: $" + numberWithCommas(agencyTotal) + '<br />';
@@ -2076,16 +2067,10 @@ function getDataString(counties){
     }
     // console.log(serviceString);
     agenciesData.agencies = agencies;
- // console.log(agenciesData.agencies);
+    // console.log(agenciesData);
     agenciesData.fundingString = fundingString;
     agenciesData.serviceString = serviceString;
     return agenciesData;
-    // return {
-    //     "service": serviceString, 
-    //     "funding": fundingString,
-    //     "data": agenciesData
-    // };
-    
 }
 
 function isDistrict(id){
