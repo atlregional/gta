@@ -1113,8 +1113,13 @@ info.update = function (props) {
       $('#home-content').html();
       $('.info-content').empty();
       $('.counties').html(data);
-      if (typeof props !== 'undefined'){
+      if (entity != ''){
         $('.name-sing').html(geoLayers[currentLayer].name_sing);
+        $('.download-pdf').removeClass('disabled');
+        $('.download-pdf').attr('href', pdfUrl);
+      }
+      else{
+          $('.download-pdf').addClass('disabled');
       }
       $('.name').html(currentLayer === 'rc' ? id.toUpperCase() : getLongName(name));
       $('.name-title').html(getLongNameTitle(name));
@@ -1128,8 +1133,7 @@ info.update = function (props) {
       $('.url').attr('href', 'http://' + url);
       var serviceUrl = url + '/service';
       // $('.download-pdf').addClass('active');
-      $('.download-pdf').removeClass('disabled');
-      $('.download-pdf').attr('href', pdfUrl);
+      
       $('.service-url').html(serviceUrl);
       $('.service-url').attr('href', 'http://' + serviceUrl);
       $('.agency-list').html(populateTable(urbanString.agencyNames, urbanString.agencies));
@@ -1141,12 +1145,10 @@ info.update = function (props) {
       }
       else{
         $('#urban-funding-table').empty();
-          $('#urban-service-table').empty();
+        $('#urban-service-table').empty();
       }
     // }
-    // else{
-      $('.download-pdf').addClass('disabled');
-    // }
+    
     
 
     // Activate new tooltips
@@ -1285,6 +1287,46 @@ function toggleLayer(el, onload){
         // else{
         //     info.update();
         // }
+    }
+}
+
+function toggleStyle(el){
+    var elId;
+    if (el.id){
+        elId = el.id.split('-')[0];
+    }
+    else{
+        elId = el;
+    }
+
+    // Currently set up for radio button
+    if (!$(el).hasClass('active')){
+        if(elId === 'default'){
+            console.log(elId);
+            // geoLayers[currentLayer].data.setStyle(defaultStyle);
+            var count = 0;
+
+            geoLayers[currentLayer].data.eachLayer(function(layer){
+                count++;
+                geoLayers[currentLayer].data.resetStyle(layer);
+                if (typeof layer.options !== 'undefined'){
+                    if (count == 1){
+                        console.log(layer);
+                    }
+                    // layer.options.style = defaultStyle;
+
+                    
+                }
+                else{
+                    console.log(count);
+                    console.log(layer);
+                }
+            });
+        }
+        else{
+            geoLayers[currentLayer].data.setStyle(fancyStyle);
+        }
+        
     }
 }
 
@@ -1436,6 +1478,52 @@ function resetHighlight(e) {
             }
         }
 }
+function fancyStyle(feature) {
+    // console.log(sn);
+    if (getName(feature.properties) === 'Fulton') {
+        return {
+            weight: 2,
+            opacity: 0,
+            color: 'white',
+            dashArray: '3',
+            fillOpacity: 0.3,
+            fillColor: 'blue'
+        };
+    } else {
+        return {
+            weight: 2,
+            opacity: 0,
+            color: 'white',
+            dashArray: '3',
+            fillOpacity: 0.3,
+            fillColor: 'red'
+        };
+    }
+}
+function fancyStyler(feature) {
+    // console.log(sn);
+    
+    return {
+        weight: 2,
+        opacity: 1,
+        color: 'white',
+        dashArray: '3',
+        fillOpacity: 0.3,
+        fillColor: geoLayers[currentLayer].color
+    };
+}
+function defaultStyle(feature){
+    console.log(feature);
+    console.log(geoLayers[currentLayer].color);
+    return {
+        color: geoLayers[currentLayer].color,
+        weight: 2,
+        fillColor: geoLayers[currentLayer].color,
+        dashArray: '0',
+        opacity: 0.5,
+        fillOpacity: 0.5,
+    };
+}
 function setHash(array){
   var hash;
   var title;
@@ -1498,38 +1586,38 @@ function zoomToFeature(e) {
         // console.log(previous)
 }
 
-function addGeoJSONGeographies(geos, map){
-    // var county = L.GeoJSON().addTo(map);
-    $.each(geos, function(i, geo){
-        $.ajax({
-            type: "GET",
-            url: "data/" + geo.id + ".geojson", 
-            dataType: "json",
-            success: function(data){
-             // console.log(data);
-                    geoLayers[geo.id].data = L.geoJson(data, {
-                        style: function (feature) {
-                            return {
-                                color: geo.color,
-                                weight: 2,
-                                // dashArray: '3',
-                                opacity: 0.5
-                            };
+// function addGeoJSONGeographies(geos, map){
+//     // var county = L.GeoJSON().addTo(map);
+//     $.each(geos, function(i, geo){
+//         $.ajax({
+//             type: "GET",
+//             url: "data/" + geo.id + ".geojson", 
+//             dataType: "json",
+//             success: function(data){
+//              // console.log(data);
+//                     geoLayers[geo.id].data = L.geoJson(data, {
+//                         style: function (feature) {
+//                             return {
+//                                 color: geo.color,
+//                                 weight: 2,
+//                                 // dashArray: '3',
+//                                 opacity: 0.5
+//                             };
                             
-                        },
-                        onEachFeature: onEachFeature,
-                        pointToLayer: function (feature, latlng) {
+//                         },
+//                         onEachFeature: onEachFeature,
+//                         pointToLayer: function (feature, latlng) {
 
-                        }
-                    });
-                    if (geo.active == "active"){
-                        geoLayers[geo.id].data.addTo(map);
-                        geojson = geoLayers[geo.id].data;
-                    }
-            }
-        });
-    });
-}
+//                         }
+//                     });
+//                     if (geo.active == "active"){
+//                         geoLayers[geo.id].data.addTo(map);
+//                         geojson = geoLayers[geo.id].data;
+//                     }
+//             }
+//         });
+//     });
+// }
 
 function checkIntersect(district, set){
 	var arr = [];
@@ -1590,11 +1678,11 @@ function addGeographies(geos, map){
                                 var props = feature.properties;
                                 var id = getId(props);
                                 var name = getName(props);
+
+                                // Add data to option select arrays
                                 geoLayers[geo.id].select.geog.push([name, id]);
-                                // console.log([name, id]);
                                 if (geo.id === "senate" || geo.id === "house" || geo.id === "congress"){  //typeof props.DISTRICT !== "undefined" ){
                                     geoLayers[geo.id].select.name.push([toTitleCase(props.last_name) + ', ' + toTitleCase(props.first_name) + ' (' + props.party[0] + ')',props.DISTRICT]);
-                                    // geoLayers[geo.id].select.name.push("blue")
                                 }
                                 var e;
                                 if (typeof e == "undefined"){
@@ -1617,11 +1705,7 @@ function addGeographies(geos, map){
                                             dashArray: '',
                                             opacity: 0.3
                                         });
-                                    // geoLayers[currentLayer].data.resetStyle(ePrev.target)
-                                    // zoom = layer;
-                                    // previous = layer.feature.properties;
                                     ePrev.target = layer;
-                                    // click = true;
                                 }
                         },
             pointToLayer: function (feature, latlng) {
