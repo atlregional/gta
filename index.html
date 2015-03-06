@@ -78,14 +78,21 @@
                         <a role="button" class="download-pdf btn btn-default pull-right" title="Download pdf summary" href="">Download summary <i class="fa fa-file-pdf-o"></i></a>
                     <!-- </div> -->
                     <h4>Examples</h4>
-                    <div class="row">
-                        <button role="button" class="btn btn-default" onclick="window.location.hash='#senate/015/funding';location.reload();">View funding for Senate 15</button>
-                        <button role="button" class="btn btn-default" onclick="window.location.hash='#rc/arc/service';location.reload();">View service for ARC</button>
+                    <div class="col-md-12">
+                        <div class="row">
+                            <button role="button" class="btn btn-default" onclick="window.location.hash='#senate/015/funding';location.reload();">View funding for Senate 15</button>
+                            <button role="button" class="btn btn-default" onclick="window.location.hash='#rc/arc/service';location.reload();">View service for ARC</button>
+                        </div>
+                        <div class="row" style="margin-top:3px;">
+                            <button role="button" class="btn btn-default" onclick="window.location.hash='#congress/009/people';location.reload();">View people for Congress 9</button>
+                            <button role="button" class="btn btn-default" onclick="window.location.hash='#house/148/info';location.reload();">View info for House 148</button>
+                        </div>
                     </div>
-                    <div class="row" style="margin-top:3px;">
-                        <button role="button" class="btn btn-default" onclick="window.location.hash='#congress/009/people';location.reload();">View people for Congress 9</button>
-                        <button role="button" class="btn btn-default" onclick="window.location.hash='#house/148/info';location.reload();">View info for House 148</button>
-                    </div>
+                    <!-- <h4>Map Styles</h4>
+                    <div id="style-options" class="switches btn-group" data-toggle="buttons">
+                        <label type="button" id="default-style" onclick="toggleStyle(this)" class="layer-switch btn btn-default active" title=""><input type="radio" ><span>Default</span></label>
+                        <label type="button" id="avail-style" onclick="toggleStyle(this)" class="layer-switch btn btn-default" title=""><input type="radio" ><span>Test2</span></label>
+                    </div> -->
                 </div>
                 <div class="sidebar-pane" id="service">
                     <h3><span data-toggle="tooltip" class="dotted" data-placement="right" data-original-title="All data are for FY 2013">Service</span></h3>

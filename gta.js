@@ -1717,12 +1717,13 @@ function addGeographies(geos, map){
         .on('ready', function(){
             if (geo.active == "active"){
                 getSelect(geo.id, entity);
-                if (entity !== "")
+                if (entity !== ""){
                     window.setTimeout(function(){info.update(currentProps);}, 100);
                 }
                 else{
                     window.setTimeout(function(){info.update();}, 100);
                 }
+            }
             
         });
      // console.log(geoLayers[geo.id].data);
