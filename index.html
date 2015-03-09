@@ -74,7 +74,7 @@
                         <button id="service-button" role="button" class="btn btn-default" title="Service data" onclick="toggleTab(this)"><i class="fa fa-bar-chart"></i></button>
                         <button id="funding-button" role="button" class="btn btn-default" title="Funding data" onclick="toggleTab(this)"><i class="fa fa-usd"></i></button>
                         <button id="people-button" role="button" class="btn btn-default" title="Demographics data" onclick="toggleTab(this)"><i class="fa fa-users"></i></button>
-                        <button id="people-button" role="button" class="btn btn-default" title="District info" onclick="toggleTab(this)"><i class="fa fa-info"></i></button>
+                        <button id="info-button" role="button" class="btn btn-default" title="District info" onclick="toggleTab(this)"><i class="fa fa-info"></i></button>
                         <a role="button" class="download-pdf btn btn-default pull-right" title="Download pdf summary" href="">Download summary <i class="fa fa-file-pdf-o"></i></a>
                     <!-- </div> -->
                     <h4>Examples</h4>
@@ -212,6 +212,29 @@
                     <!-- <button id="back-button" role="button" style="position:relative; top:-50px;" class="btn visible-xs pdf-hide pull-right btn-default" onclick="sidebar.open('home')"><i class="fa fa-home"></i></button> -->
                     <!-- <button id="map-button" role="button" style="position:relative; top:-50px;" class="btn visible-xs pdf-hide btn-default pull-right" onclick="sidebar.close()"><i class="fa fa-globe"></i></button> -->
                     <div class="district-data"></div>
+                    <div class="transit-summary">
+                        <h4>Transit Summary</h4>
+                        <h5>Service <i class="fa fa-bar-chart"></i></h5>
+                        <p>
+                            Transit in Georgia serves hundreds of thousands of Georgians every day. 
+                            Transit agencies operating in <span class="name"></span> provide <strong><span class="total-trips"></span> trips per year.</strong>
+                        </p>
+                        <h5>Demographics <i class="fa fa-users"></i></h5>
+                        <p>
+                            Transit is especially important to the <strong><span class="B09020"></span> 
+                            elderly and <span class="B99181"></span> disabled riders</strong> that depend on transit
+                            in this district.  And the <strong><span class="B01001"></span> Millennials</strong> in this district are riding transit far more
+                            than any other generation.
+                        </p>
+                        <h5>Funding <i class="fa fa-usd"></i></h5>
+                        <p>
+                            Georgia pays $0.96 per person for public transit, <em>$46 less than the national average</em>.
+                            Agencies in this district receive <strong>$<span class="state-funding"></span> <span class="percent-state-funding"></span>
+                            in state funds</strong>, $<span class="local-funding"></span> from local taxes, $<span class="federal-funding"></span> in federal funds, and 
+                            $<span class="direct-funding"></span> from fares and other revenue. <!-- <span class="total-funding"></span> -->
+                        </p>
+
+                    </div>
                     <div class="counties"></div>
                     <h4>Transit agencies</h4>
                     <!-- <p>The following transit agencies operate in <span class="name"></span>:</p> -->

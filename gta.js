@@ -714,6 +714,7 @@ info.update = function (props) {
     var urbanService = '';
     var urbanData = '';
     var serviceData = '';
+    var totals = [];
     // console.log(name);
     
     data = "";
@@ -789,7 +790,6 @@ info.update = function (props) {
     }
     // this._div.innerHTML = 
  // console.log(urbanString);
-
     // Process Funding data into chart columns
     urbanString.fundingCol = [];
     urbanString.fundingString = '';
@@ -810,12 +810,11 @@ info.update = function (props) {
                 urbanString.fundingCol[i+1].push(urbanString.funding[urbanString.agencies[i]][fundingOrder[j]]);
         }
     }
-    if(typeof urbanString.fundingCol[0] !== 'undefined' && currentStat.format == "Table"){
+    if(typeof urbanString.fundingCol[0] !== 'undefined'){
       urbanString.fundingString = '<table class="table table-condensed table-responsive" style="font-size:x-small;"><thead>' +
                                   '<tr><th>Agency</th><th class="text-right">' + urbanString.fundingCol[0].join('</th><th class="text-right">') + '</th><th class="text-right">Total</th></tr>' +
                                   '</thead><tbody>';
-      var fundingTableBody = ''
-      var totals = [];
+      var fundingTableBody = '';
       // totals[0] = 'Total';
       for (var i = 1; i < urbanString.fundingCol.length; i++) {
         fundingTableBody += '<tr>';
@@ -832,7 +831,7 @@ info.update = function (props) {
             else{
               totals[j-1] = row[j];
             }
-            textRight = 'text-right'
+            textRight = 'text-right';
             dollar = '$';
           }
           fundingTableBody += '<td class="'+ textRight +'">' + dollar + numberWithCommas(kFormatter(row[j])) + '</td>';
@@ -842,6 +841,7 @@ info.update = function (props) {
       urbanString.fundingString += '<tr><td><strong>Total</strong></td>';
       var totalTotal = 0
       // console.log(totals);
+      // console.log("totals");
       for (var i = 0; i < totals.length; i++) {
         totalTotal += totals[i]
         urbanString.fundingString += '<td class="text-right"><strong>$' + numberWithCommas(kFormatter(totals[i])) + '</strong></td>';
@@ -850,7 +850,7 @@ info.update = function (props) {
                                     numberWithCommas(kFormatter(totalTotal)) + 
                                     '</strong></td></tr>' +
                                     fundingTableBody +
-                                    '</tbody></table>'
+                                    '</tbody></table>';
     }
     var serviceTotal = 0;
     var legendShow = true;
@@ -1107,20 +1107,20 @@ info.update = function (props) {
     $('#funding-select').html(statsOptions.funding);
     $('#service-select').html(statsOptions.service);
     // if (typeof props !== 'undefined'){
-      
-      
+    if(totals.length > 0){
+        var sum = totals.reduce(function(pv, cv) { return pv + cv; }, 0);
+        $('.total-funding').html(kFormatter(sum));
+        $('.percent-state-funding').html(' (' + (totals[1]/sum*100).toFixed(1) + '%)');
+        $('.state-funding').html(numberWithCommas(kFormatter(totals[1])));
+        $('.local-funding').html(numberWithCommas(kFormatter(totals[0])));
+        $('.federal-funding').html(numberWithCommas(kFormatter(totals[2])));
+        $('.direct-funding').html(numberWithCommas(kFormatter(totals[3])));
+    }
       
       $('#home-content').html();
       $('.info-content').empty();
       $('.counties').html(data);
-      if (entity != ''){
-        $('.name-sing').html(geoLayers[currentLayer].name_sing);
-        $('.download-pdf').removeClass('disabled');
-        $('.download-pdf').attr('href', pdfUrl);
-      }
-      else{
-          $('.download-pdf').addClass('disabled');
-      }
+      
       $('.name').html(currentLayer === 'rc' ? id.toUpperCase() : getLongName(name));
       $('.name-title').html(getLongNameTitle(name));
       var url = 'atlregional.github.io/gta/#' + currentLayer + '/' + id;
@@ -1133,7 +1133,14 @@ info.update = function (props) {
       $('.url').attr('href', 'http://' + url);
       var serviceUrl = url + '/service';
       // $('.download-pdf').addClass('active');
-      
+      if (entity !== ''){
+        $('.name-sing').html(geoLayers[currentLayer].name_sing);
+        $('.download-pdf').removeClass('disabled');
+        $('.download-pdf').attr('href', pdfUrl);
+      }
+      else{
+          $('.download-pdf').addClass('disabled');
+      }
       $('.service-url').html(serviceUrl);
       $('.service-url').attr('href', 'http://' + serviceUrl);
       $('.agency-list').html(populateTable(urbanString.agencyNames, urbanString.agencies));
@@ -2697,6 +2704,6 @@ function getParams(){
   return window.location.hash.substring(1).split('/');
 }
 function kFormatter(num) {
-    return num > 999999 ? (num/1000/1000).toFixed(1) + 'M' :
-      num > 999 ? (num/1000).toFixed(1) + 'k' : num
+    return num > 999999 ? parseFloat((num/1000/1000).toFixed(1)) + 'M' :
+      num > 999 ? parseFloat((num/1000).toFixed(1)) + 'k' : num;
 }
