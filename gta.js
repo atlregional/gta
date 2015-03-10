@@ -1108,11 +1108,20 @@ info.update = function (props) {
     $('#service-select').html(statsOptions.service);
     // if (typeof props !== 'undefined'){
     if(totals.length > 0){
+        // var summaryFunding = '<table class="table table-condensed table-responsive"><thead><tr><th>Source</th><th>Amount</th></tr><thead><tbody>';
+        // for (var i = 0; i < totals.length; i++) {
+        //     totalTotal += totals[i]
+        //     summaryFunding += '<tr><td class="text-right"><strong>$' + numberWithCommas(kFormatter(totals[i])) + '</strong></td></tr>';
+        // };
+        // summaryFunding +=                           '</tbody></table>';
         var sum = totals.reduce(function(pv, cv) { return pv + cv; }, 0);
-        $('.total-funding').html(kFormatter(sum));
-        $('.percent-state-funding').html(' (' + (totals[1]/sum*100).toFixed(1) + '%)');
+        // $('.summary-funding').html(summaryFunding);
+        $('.percent-state-funding').html(' (' + parseFloat((totals[1]/sum*100).toFixed(1)) + '%)');
+        $('.percent-federal-funding').html(' (' + parseFloat((totals[2]/sum*100).toFixed(1)) + '%)');
+        $('.percent-local-fare-funding').html(' (' + parseFloat(((totals[0] + totals[3])/sum*100).toFixed(1)) + '%)');
         $('.state-funding').html(numberWithCommas(kFormatter(totals[1])));
         $('.local-funding').html(numberWithCommas(kFormatter(totals[0])));
+        $('.local-fare-funding').html(numberWithCommas(kFormatter(totals[0] + totals[3])));
         $('.federal-funding').html(numberWithCommas(kFormatter(totals[2])));
         $('.direct-funding').html(numberWithCommas(kFormatter(totals[3])));
     }
@@ -2292,6 +2301,8 @@ function makePDF(lorem) {
 
 function grabDistrictData(d){
     var title;
+    var email, phone, web;
+    var webLink = 'website';
     if (currentLayer === "senate"){
         title = 'Senator';
     }
@@ -2303,22 +2314,41 @@ function grabDistrictData(d){
         $('.district-data').empty();
     }
     else{
+        if (pdf){
+            // console.log("pdf")
+            email = 'email:'
+            phone = 'phone:'
+            web = 'web:'
+            if (currentLayer !== 'congress'){
+                webLink = d.url;
+            }
+            else{
+                webLink = d.website;
+            }
+        }
+
+        else{
+            // console.log("not pdf")
+            email = '<i class="fa fa-envelope-o"></i>'
+            phone = '<i class="fa fa-phone"></i>'
+            web = '<i class="fa fa-link"></i>'
+        }
         $('.district-data').html(
             currentLayer !== 'congress' ?
                 '<h4>District</h4>' +
                 '<div class="row"><div class="col-xs-3"><img width="100" src="' + d.photo_url + '"></div>' +
                 '<div class="col-xs-9"><h5>' + title + ' ' + d.first_name + ' ' + d.last_name + ' (' + d.party[0] +')</h5>' +
-                '<p>email: <a href="mailto:' + d.email + '">'+d.email+'</a></p>' +
-                '<p>phone: <a href="tel:' + d.phone + '">'+toPhone(d.phone)+'</a></p>' +
-                '<p>web: <a href="' + d.url + '">'+d.url+'</a></p>' +
+                '<p>' + email +' <a href="mailto:' + d.email + '">'+d.email+'</a></p>' +
+                '<p>' + phone +' <a href="tel:' + d.phone + '">'+toPhone(d.phone)+'</a></p>' +
+                '<p>' + web +' <a href="' + d.url + '">' + webLink + '</a></p>' +
                 '</div></div>'
             :
                 '<h4>District</h4>' +
                 // '<img width="100" src="' + d.photo_url + '">' +
                 '<h5>' + title + ' ' + d.first_name + ' ' + d.last_name + ' (' + d.party[0] +')</h5>' +
-                '<p>email: <a href="mailto:' + d.oc_email + '">'+d.oc_email+'</a></p>' +
-                '<p>phone: <a href="tel:' + d.phone + '">'+toPhone(d.phone)+'</a></p>' +
-                '<p>web: <a href="' + d.website + '">'+d.website+'</a></p>' +
+                '<p>' + email + ' <a href="mailto:' + d.oc_email + '">'+d.oc_email+'</a></p>' +
+                '<p>' + phone + ' <a href="tel:' + d.phone + '">'+toPhone(d.phone)+'</a></p>' +
+                '<p>' + web + ' <a href="' + d.website + '">' + webLink + '</a></p>' +
                 ''
         );
     }
