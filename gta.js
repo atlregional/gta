@@ -703,8 +703,12 @@ info.update = function (props) {
     var statsOptions = {};
      formatsOptions = {};
     var disabled = '';
+    // console.log(id);
     if (typeof id == "undefined" ){
         id = entity;
+    }
+    else{
+      entity = id;
     }
     // console.log(id);
 
@@ -1177,6 +1181,7 @@ info.addTo(map);
 
 // Handles onload select change
 if (params[1]){
+  console.log(params)
     var id = params[1];
     if (id){
         entity = id;
