@@ -1137,9 +1137,7 @@ info.update = function (props) {
       $('.name').html(currentLayer === 'rc' ? id.toUpperCase() : getLongName(name));
       $('.name-title').html(getLongNameTitle(name));
       var url = 'atlregional.github.io/gta/#' + currentLayer + '/' + id;
-      var root = window.location.origin;
-      var rootPath = typeof window.location.pathname !== 'undefined' ? window.location.pathname : '/';
-      var pdfUrl = root + rootPath +  'pdf/' + currentLayer + '/' + id + '.pdf';
+      var pdfUrl = window.location.protocol + '//' + window.location.host + window.location.pathname +  'pdf/' + currentLayer + '/' + id + '.pdf';
    // console.log(pdfUrl);
       var fundingUrl = url + '/funding';
       $('.funding-url').html(fundingUrl);
